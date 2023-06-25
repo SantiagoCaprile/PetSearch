@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "meows";
+  src: url("./fonts/Meows.ttf");
+}
+
+/* define color palette */
+
+:root {
+  --color-background: #F3F6F6;
+  --color-primary: #30E3CA;
+  --color-secondary: #11999E;
+  --color-tertiary: #40514E;
+}
+
+/* define font palette */
+
+:root {
+  --font-primary: 'Roboto', sans-serif;
+  --font-secondary: 'Roboto Slab', serif;
+}
