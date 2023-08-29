@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import Pets from "../app/components/Pets/page";
+import PetsRandom from "./components/PetsRandom/page";
 
 export default function Page() {
   return (
@@ -30,15 +30,17 @@ export default function Page() {
                   <option value="Rosario">Rosario</option>
                 </select>
               </fieldset>
-              <button className=" bg-green-950 text-white border-2 border-green-500 px-16 py-2 rounded-full text-xl hover:bg-green-700 transition-all active:translate-y-1">
-                Buscar
-              </button>
+              <Link href="/pets">
+                <button className=" bg-green-950 text-white border-2 border-green-500 px-16 py-2 rounded-full text-xl hover:bg-green-700 transition-all active:translate-y-1">
+                  Buscar
+                </button>
+              </Link>
             </form>
           </div>
         </div>
       </div>
       <div className="flex flex-col items-center justify-center pt-1 pb-2 px-5 from-transparent to-green-900 bg-gradient-to-t">
-        <Pets />
+        <PetsRandom />
       </div>
     </div>
   );
