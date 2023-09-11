@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import PetsRandom from "./components/PetsRandom/page";
+import PetsRandom from "../components/PetsRandom/page";
 import { Search } from "lucide-react";
 
 export default function Page() {

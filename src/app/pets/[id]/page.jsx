@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { pets } from "../../utils/petListTest";
+import { pets } from "../../../utils/petListTest";
 import Link from "next/link";
 import { CheckCircle2, XCircle } from "lucide-react";
 

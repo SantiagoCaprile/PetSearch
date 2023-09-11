@@ -1,5 +1,5 @@
 "use client";
-import Nav from "./components/Nav/page";
+import Nav from "../components/Nav/page";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Provider } from "react-redux";

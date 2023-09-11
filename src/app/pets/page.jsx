@@ -1,6 +1,6 @@
 "use client";
-import PetCard from "../components/Pet";
-import { pets } from "../utils/petListTest";
+import PetCard from "../../components/Pet";
+import { pets } from "../../utils/petListTest";
 import { useState } from "react";
 
 export default function Page() {

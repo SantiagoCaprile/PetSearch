@@ -6,7 +6,7 @@ import {
   clearUser,
   setUserLoading,
   setUserError,
-} from "../../store/reducers/userSlice";
+} from "../../app/store/reducers/userSlice";
 
 export default function Nav() {
   const { user } = useSelector((state) => state.user);
