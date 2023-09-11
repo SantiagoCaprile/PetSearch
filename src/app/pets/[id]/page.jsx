@@ -1,5 +1,10 @@
 import Image from "next/image";
 import { pets } from "../../utils/petListTest";
+import Link from "next/link";
+import { CheckCircle2, XCircle } from "lucide-react";
+
+const greenCheck = <CheckCircle2 className="text-green-500" />;
+const redX = <XCircle className="text-red-500" />;
 
 export default function PetProfile({ params }) {
   const { id } = params;
@@ -36,9 +41,12 @@ export default function PetProfile({ params }) {
               <strong>Raza:</strong> {pet.breed}
             </p>
           </div>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-md w-2/3">
+          <Link
+            href="/adoptionform"
+            className="bg-blue-500 text-white px-4 py-2 rounded-md w-2/3 text-center"
+          >
             Adoptame
-          </button>
+          </Link>
         </div>
       </div>
       <div className="my-5">
@@ -46,50 +54,30 @@ export default function PetProfile({ params }) {
           <strong>Características:</strong>
         </p>
         <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          <li>
-            <span
-              className={`inline-block w-3 h-3 rounded-full mr-2 ${
-                pet.goodWithChildren ? "bg-green-500" : "bg-red-500"
-              }`}
-            />{" "}
+          <li className="flex gap-1">
+            {pet.goodWithChildren ? greenCheck : redX}
             {pet.goodWithChildren
               ? "Bueno con chicos"
               : "No es bueno con chicos"}
           </li>
-          <li>
-            <span
-              className={`inline-block w-3 h-3 rounded-full mr-2 ${
-                pet.goodWithDogs ? "bg-green-500" : "bg-red-500"
-              }`}
-            />{" "}
+          <li className="flex gap-1">
+            {pet.goodWithDogs ? greenCheck : redX}
             {pet.goodWithDogs ? "Bueno con perros" : "No es bueno con perros"}
           </li>
-          <li>
-            <span
-              className={`inline-block w-3 h-3 rounded-full mr-2 ${
-                pet.goodWithCats ? "bg-green-500" : "bg-red-500"
-              }`}
-            />{" "}
+          <li className="flex gap-1">
+            {pet.goodWithCats ? greenCheck : redX}
             {pet.goodWithCats ? "Bueno con gatos" : "No es bueno con gatos"}
           </li>
-          <li>
-            <span
-              className={`inline-block w-3 h-3 rounded-full mr-2 ${
-                pet.neutered ? "bg-green-500" : "bg-red-500"
-              }`}
-            />{" "}
+          <li className="flex gap-1">
+            {pet.neutered ? greenCheck : redX}
             {pet.neutered ? "Castrado" : "No está castrado"}
           </li>
-          <li>
-            <span
-              className={`inline-block w-3 h-3 rounded-full mr-2 ${
-                pet.vaccinated ? "bg-green-500" : "bg-red-500"
-              }`}
-            />{" "}
+          <li className="flex gap-1">
+            {pet.vaccinated ? greenCheck : redX}
             {pet.vaccinated ? "Vacunado" : "No está vacunado"}
           </li>
         </ul>
-        <div className="border-t border-black pt-2 items-center">
+        <div className="border-t border-black pt-2 items-center mt-2">
           <h2 className="text-lg font-semibold mb-4">Descripción</h2>
           <p className="text-gray-700">
             {/*pet.description*/}
