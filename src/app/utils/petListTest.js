@@ -4,7 +4,7 @@ export const pets = [
     name: "Cogote",
     href: "#",
     imageSrc:
-      "https://www.purina.com.ar/sites/default/files/styles/webp/public/2023-06/purina-juegos-mentales-perro-cachorro.png.webp?itok=i2FAaVxg",
+      "https://firebasestorage.googleapis.com/v0/b/petsearch-e0abe.appspot.com/o/pet1.webp?alt=media&token=cd4dd80f-89d3-4cd2-b123-0b615c07852a",
     imageAlt: "Pet image",
     sex: "Macho",
     age: "3 meses",
@@ -19,7 +19,7 @@ export const pets = [
     name: "Rita",
     href: "#",
     imageSrc:
-      "https://www.purina.com.ar/sites/default/files/styles/webp/public/2023-06/purina-como-hidratar-a-un-perro-3_0.png.webp?itok=ALWt1Mkn",
+      "https://firebasestorage.googleapis.com/v0/b/petsearch-e0abe.appspot.com/o/pet2.webp?alt=media&token=edbb0d6d-f49b-442b-9b7a-f0e3d2a0d9b1",
     imageAlt: "Pet image",
     sex: "Hembra",
     age: "6 meses",

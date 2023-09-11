@@ -1,60 +1,61 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { User, UserPlus, PawPrint, LogOut } from "lucide-react";
+import {
+  clearUser,
+  setUserLoading,
+  setUserError,
+} from "../../store/reducers/userSlice";
 
 export default function Nav() {
-  const [userName, setUserName] = useState("");
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const storedUserName = sessionStorage.getItem("userName");
-    if (storedUserName) {
-      setUserName(storedUserName);
+  const handleLogout = () => {
+    dispatch(setUserLoading());
+    try {
+      dispatch(clearUser());
+      window.location.href = "/";
+    } catch (error) {
+      dispatch(setUserError());
+      console.log(error);
     }
-
-    // Escuchar el evento "userLoggedIn" y actualizar userName
-    const handleUserLoggedIn = () => {
-      const updatedUserName = sessionStorage.getItem("userName");
-      if (updatedUserName) {
-        setUserName(updatedUserName);
-      }
-    };
-
-    window.addEventListener("userLoggedIn", handleUserLoggedIn);
-
-    return () => {
-      // Limpia el evento cuando el componente se desmonta
-      window.removeEventListener("userLoggedIn", handleUserLoggedIn);
-    };
-  }, []);
+  };
 
   //falta hacer un handle logout
   // y la ruta de profile
 
   return (
     <nav className="flex items-center justify-between bg-green-500 min-w-full pl-3 pr-3">
-      <p className=" text-white text-2xl font-bold p-4">
+      <p className=" text-white text-2xl font-bold p-4 flex gap-1 items-baseline">
+        <PawPrint />
         <Link href="/">PetSearch</Link>
         <span className="text-sm text-white font-normal"> hi</span>
       </p>
       <ul className="flex justify-around border-l-2 w-1/3">
         <li className="text-white font-bold hover:underline">
-          {userName ? (
-            <Link href="/profile">
-              <span>{userName}</span>
+          {user ? (
+            <Link href="/profile" className="flex gap-2">
+              <User />
+              <span>{user}</span>
             </Link>
           ) : (
-            <Link href="/login">
+            <Link href="/login" className="flex gap-2">
+              <User />
               <span>Iniciar Sesión</span>
             </Link>
           )}
         </li>
         <li className="text-white font-bold hover:underline">
-          {userName ? (
-            <Link href="/">
+          {user ? (
+            <button onClick={handleLogout} className="flex gap-2 items-center">
+              <LogOut height={18} />
               <span>Cerrar Sesión</span>
-            </Link>
+            </button>
           ) : (
-            <Link href="/register">
+            <Link href="/register" className="flex gap-1">
+              <UserPlus />
               <span>Registrarse</span>
             </Link>
           )}

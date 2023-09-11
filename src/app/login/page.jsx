@@ -3,7 +3,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Loader from "../components/Loader";
 
+import { useDispatch } from "react-redux";
+import {
+  setUser,
+  setUserLoading,
+  setUserError,
+} from "../../app/store/reducers/userSlice";
+
 const Login = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
@@ -26,6 +34,7 @@ const Login = () => {
     setErrorMessage("");
     if (isLoading) return null;
     setIsLoading(true);
+    dispatch(setUserLoading());
     try {
       const response = await fetch("http://localhost:4000/users/verify", {
         method: "POST",
@@ -36,18 +45,19 @@ const Login = () => {
           email: formData.email,
           password: formData.password,
         }),
-      }).catch((err) => console.log(err));
-
-      const userLoggedInEvent = new Event("userLoggedIn");
+      }).catch((err) => {
+        setErrorMessage("Error en la verificación");
+        dispatch(setUserError());
+        console.log(err);
+      });
 
       if (response.ok) {
         // Verificación exitosa, puedes hacer alguna acción aquí si lo deseas
         console.log("Verificación exitosa");
         response.json().then((data) => {
-          sessionStorage.setItem("userName", data.user);
+          dispatch(setUser(data.user));
         });
-        dispatchEvent(userLoggedInEvent);
-        router.push("/"); // Redirige a la página de dashboard
+        router.push(router.back() || "/");
       } else {
         setErrorMessage("Credenciales inválidas");
       }

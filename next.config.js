@@ -4,7 +4,12 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ["i.redd.it", "www.purina.com.ar", "lh3.googleusercontent.com"],
+    domains: [
+      "i.redd.it",
+      "firebasestorage.googleapis.com",
+      "www.purina.com.ar",
+      "lh3.googleusercontent.com",
+    ],
   },
 };
 
