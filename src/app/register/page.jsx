@@ -75,7 +75,7 @@ const Register = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex flex-1 justify-center items-center">
       <form
         className="bg-white shadow-md rounded px-8 pb-8 mb-4 max-w-[600px] w-2/3"
         onSubmit={handleSubmit}

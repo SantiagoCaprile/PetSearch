@@ -4,7 +4,7 @@ import { ChevronRight, Search } from "lucide-react";
 
 export default function RescuersPage() {
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex flex-1 justify-center items-center">
       <div className="shadow-md rounded px-8 pb-8 mb-4 max-w-[1000px] w-4/5">
         <h1 className="text-2xl font-bold mb-2">Rescatistas</h1>
         <div className="flex justify-between items-center py-3">
@@ -26,10 +26,12 @@ export default function RescuersPage() {
         </div>
         <table className="w-full text-m text-left text-gray-500 dark:text-gray-400">
           <thead className="text-m text-gray-700 p-1 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-            <th className={styles.th}>Organización</th>
-            <th className={styles.th}>Ubicación</th>
-            <th className={styles.th}>Contacto</th>
-            <th className={styles.th}>Ver Perfil</th>
+            <tr className={styles.tr}>
+              <th className={styles.th}>Organización</th>
+              <th className={styles.th}>Ubicación</th>
+              <th className={styles.th}>Contacto</th>
+              <th className={styles.th}>Ver Perfil</th>
+            </tr>
           </thead>
           <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
             <tr className={styles.tr}>
