@@ -52,7 +52,6 @@ const Login = () => {
       });
 
       if (response.ok) {
-        // Verificación exitosa, puedes hacer alguna acción aquí si lo deseas
         console.log("Verificación exitosa");
         response.json().then((data) => {
           dispatch(setUser(data.user));
