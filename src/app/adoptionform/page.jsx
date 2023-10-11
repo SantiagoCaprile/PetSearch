@@ -11,6 +11,7 @@ export default function App() {
   } = useForm();
   const onSubmit = (data) => console.log(data);
   const watchRazon = watch("Razon", "");
+  const watchInfoMascotas = watch("InfoMascotas", "");
   console.log(errors);
 
   return (
@@ -170,6 +171,30 @@ export default function App() {
         </fieldset>
         <fieldset className="mb-4">
           <label className={styles.label}>
+            Contanos un poquito mas de tus mascotas o las que has tenido
+          </label>
+          <textarea
+            className={styles.inputs + " h-24 resize-none"}
+            {...register("InfoMascotas", {
+              maxLength: {
+                value: 700,
+                message: "Limite de caracteres excedido",
+              },
+            })}
+          />
+          <span className="text-gray-500 text-xs">
+            Caracteres restantes:
+            {700 - watchInfoMascotas.length > 0
+              ? 700 - watchInfoMascotas.length
+              : 0}
+          </span>
+
+          {errors.InfoMascotas && (
+            <p className={styles.errors}>{errors.InfoMascotas.message}</p>
+          )}
+        </fieldset>
+        <fieldset className="mb-4">
+          <label className={styles.label}>
             En caso de no poder seguir teniendo a la mascota, ¿qué harías con
             ella?
           </label>
@@ -185,7 +210,7 @@ export default function App() {
         </fieldset>
         <fieldset className="mb-4">
           <label className={styles.label}>
-            ¿Por qué quieres adoptar a una mascota?
+            Contanos un poco de vos. ¿Por qué queres adoptar?
           </label>
           <textarea
             className={styles.inputs + " h-24 resize-none"}
