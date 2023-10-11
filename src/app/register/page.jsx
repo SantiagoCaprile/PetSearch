@@ -7,7 +7,7 @@ const Register = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
-    nombre: "",
+    name: "",
     password: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
@@ -34,7 +34,7 @@ const Register = () => {
       return;
     }
 
-    if (formData.nombre.trim() === "") {
+    if (formData.name.trim() === "") {
       setErrorMessage("Nombre completo requerido");
       return;
     }
@@ -56,7 +56,7 @@ const Register = () => {
         cors: true,
         body: JSON.stringify({
           email: formData.email,
-          nombre: formData.nombre,
+          name: formData.name,
           password: formData.password,
         }),
       });
@@ -101,18 +101,18 @@ const Register = () => {
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="nombre"
+            htmlFor="name"
           >
             Nombre Completo
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="nombre"
+            id="name"
             type="text"
-            name="nombre"
+            name="name"
             placeholder="Nombre Completo"
             onChange={handleFieldChange}
-            value={formData.nombre}
+            value={formData.name}
           />
         </div>
         <div className="mb-6">
