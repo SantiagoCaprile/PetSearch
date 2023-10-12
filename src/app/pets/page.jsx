@@ -1,19 +1,44 @@
 "use client";
 import PetCard from "../../components/Pet";
-import { pets } from "../../utils/petListTest";
-import { useState } from "react";
+//import { pets } from "../../utils/petListTest";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "@/components/Loader";
+import {
+  setPets,
+  setPetsLoading,
+  setPetsError,
+} from "../../app/store/reducers/petsSlice";
+
+const URLPETS = "http://localhost:4000/pets";
 
 export default function Page() {
   const [selectedAges, setSelectedAges] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
-
+  const dispatch = useDispatch();
+  const petsSelector = useSelector((state) => state.pets);
   // Obtener el índice inicial y final de los elementos a mostrar en la página actual
+  useEffect(() => {
+    dispatch(setPetsLoading());
+    fetch(URLPETS)
+      .then((response) => response.json())
+      .then((data) => {
+        dispatch(setPets(data));
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(setPetsError());
+      });
+  }, [dispatch]);
+
+  const itemsPerPage = 8;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = pets.slice(indexOfFirstItem, indexOfLastItem);
-
-  const totalPages = Math.ceil(pets.length / itemsPerPage);
+  const currentItems = petsSelector.pets.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+  const totalPages = Math.ceil(petsSelector.pets.length / itemsPerPage);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -143,11 +168,19 @@ export default function Page() {
           </button>
         </div>
         <div className="w-3/4 bg-white p-4 flex flex-col justify-between">
-          <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 mx-2">
-            {currentItems.map((pet) => (
-              <PetCard key={pet.id} pet={pet} />
-            ))}
-          </div>
+          {petsSelector.error && <p>Fallo en la carga de mascotas</p>}
+          {petsSelector.loading ? (
+            <div className="flex flex-1 flex-col justify-center items-center">
+              <Loader />
+              Buscando mascotas ...
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 mx-2">
+              {currentItems.map((pet, index) => (
+                <PetCard key={index} pet={pet} />
+              ))}
+            </div>
+          )}
           <div className="flex justify-center m-4">
             {Array.from({ length: totalPages }, (_, index) => (
               <button

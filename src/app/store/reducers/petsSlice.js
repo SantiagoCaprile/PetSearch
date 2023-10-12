@@ -10,13 +10,13 @@ const petsSlice = createSlice({
   },
   reducers: {
     setPets: (state, action) => {
-      state.pets.push(...action.payload);
+      state.pets = action.payload;
       state.loading = false;
-      state.error = null;
+      state.error = false;
     },
     setPetsLoading: (state) => {
       state.loading = true;
-      state.error = null;
+      state.error = false;
     },
     setPetsError: (state, action) => {
       state.loading = false;
@@ -25,7 +25,7 @@ const petsSlice = createSlice({
     clearPets: (state) => {
       state.pets = null;
       state.loading = false;
-      state.error = null;
+      state.error = false;
     },
   },
 });
