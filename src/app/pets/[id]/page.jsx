@@ -30,18 +30,20 @@ export default function PetProfile({ params }) {
     return state.pets.pets.find((pet) => pet._id == id);
   });
   useEffect(() => {
-    pet ? null : dispatch(setPetsLoading());
-    fetch(URLPETS).then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
-          dispatch(setPets(data));
-        });
-      } else {
-        dispatch(setPetsError());
-      }
-    }),
-      [dispatch];
-  });
+    console.log(pet);
+    if (pet === null) {
+      dispatch(setPetsLoading());
+      fetch(URLPETS).then((response) => {
+        if (response.ok) {
+          response.json().then((data) => {
+            dispatch(setPets(data));
+          });
+        } else {
+          dispatch(setPetsError());
+        }
+      });
+    }
+  }, [dispatch, pet]);
 
   if (!pet) {
     return <Loader />;
