@@ -3,7 +3,7 @@ import Link from "next/link";
 import PetsRandom from "../components/PetsRandom/page";
 import { Search } from "lucide-react";
 
-export default function Page() {
+export default async function Page() {
   return (
     <div className=" flex flex-col flex-1">
       <div className="flex flex-col flex-1 items-center justify-end bg-[url('../../public/images/dog.jpg')] bg-cover bg-center min-h-[450px] text-white">
@@ -35,6 +35,12 @@ export default function Page() {
                 <button className="flex gap-1 items-center bg-green-950 text-white border-2 border-green-500 px-16 py-2 rounded-full text-xl hover:bg-green-700 transition-all active:translate-y-1">
                   <Search />
                   Buscar
+                </button>
+              </Link>
+              <Link href="/discusion">
+                <button className="flex gap-1 items-center bg-green-950 text-white border-2 border-green-500 px-16 py-2 rounded-full text-xl hover:bg-green-700 transition-all active:translate-y-1">
+                  <Search />
+                  Chats BORRAR!!
                 </button>
               </Link>
             </form>
