@@ -1,30 +1,19 @@
-"use client";
 import Link from "next/link";
-import { useSelector, useDispatch } from "react-redux";
 import { User, UserPlus, PawPrint, LogOut } from "lucide-react";
-import {
-  clearUser,
-  setUserLoading,
-  setUserError,
-} from "../../app/store/reducers/userSlice";
+import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 export default function Nav() {
-  const { user } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const { data: session } = useSession();
 
-  const handleLogout = () => {
-    dispatch(setUserLoading());
+  console.log("session", session);
+  const handleLogout = async ({ userName }) => {
     try {
-      dispatch(clearUser());
-      window.location.href = "/";
+      await signOut();
     } catch (error) {
-      dispatch(setUserError());
       console.log(error);
     }
   };
-
-  //falta hacer un handle logout
-  // y la ruta de profile
 
   return (
     <nav className="flex items-center justify-between bg-green-500 min-w-full pl-3 pr-3">
@@ -35,10 +24,10 @@ export default function Nav() {
       </p>
       <ul className="flex justify-around border-l-2 w-1/3">
         <li className="text-white font-bold hover:underline">
-          {user ? (
+          {session ? (
             <Link href="/profile" className="flex gap-2">
               <User />
-              <span>{user}</span>
+              <span>{session.user.name}</span>
             </Link>
           ) : (
             <Link href="/login" className="flex gap-2">
@@ -48,7 +37,7 @@ export default function Nav() {
           )}
         </li>
         <li className="text-white font-bold hover:underline">
-          {user ? (
+          {session ? (
             <button onClick={handleLogout} className="flex gap-2 items-center">
               <LogOut height={18} />
               <span>Cerrar Sesión</span>

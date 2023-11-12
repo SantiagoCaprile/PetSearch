@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Loader from "../../components/Loader";
+import { signIn } from "next-auth/react";
 
 import { useDispatch } from "react-redux";
 import {
@@ -35,33 +36,27 @@ const Login = () => {
     if (isLoading) return null;
     setIsLoading(true);
     dispatch(setUserLoading());
-    try {
-      const response = await fetch("http://localhost:4000/users/verify", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
-      }).catch((err) => {
-        setErrorMessage("Error en la verificación");
-        dispatch(setUserError());
-        console.log(err);
-      });
 
-      if (response.ok) {
-        console.log("Verificación exitosa");
-        response.json().then((data) => {
-          dispatch(setUser(data.user));
-        });
-        router.push(router.back() || "/");
-      } else {
-        setErrorMessage("Credenciales inválidas");
-      }
-    } catch (error) {
-      console.error("Error en la verificación:", error);
+    const { email, password } = formData;
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    }).then((response) => {
+      console.log(response);
+      return response;
+    });
+    if (result.error) {
+      console.log(result.error);
+      setErrorMessage("Error en la verificación");
+      dispatch(setUserError());
+    } else {
+      console.log("Verificación exitosa");
+      // response.json().then((data) => {
+      //   dispatch(setUser(data.user));
+      // });
+      dispatch(setUser(result.user));
+      router.push(router.back() || "/");
     }
     setIsLoading(false);
   };

@@ -2,8 +2,19 @@ import Image from "next/image";
 import Link from "next/link";
 import userImage from "../../../public/images/user.jpg";
 import { Pencil } from "lucide-react";
+import { options } from "../api/auth/[...nextauth]/options";
+import { getServerSession } from "next-auth/next";
+import { redirect } from "next/navigation";
 
-export default function UserProfile() {
+export default async function UserProfile() {
+  const session = await getServerSession(options).then((session) => {
+    console.log("session", session);
+    return session;
+  });
+
+  if (!session) {
+    redirect("/login");
+  }
   return (
     <div className="w-1/2 mx-auto p-4 flex flex-1 flex-col justify-center">
       <div className="flex flex-col md:flex-row pb-2 items-center ">
@@ -21,7 +32,7 @@ export default function UserProfile() {
           </div>
         </div>
         <div className="w-full md:w-1/2 mb-6 md:pl-6 flex flex-col">
-          <h1 className="text-4xl mb-2">Nombre y apellido</h1>
+          <h1 className="text-4xl mb-2">{session.user.name}</h1>
           <div className="mb-4 flex flex-col h-1/2 justify-evenly">
             <p className="text-gray-700">
               Instagram: <span className="text-blue-500">@usuario</span>
