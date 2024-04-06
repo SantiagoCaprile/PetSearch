@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Message from "@/components/Message";
 import { Send } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { useSelector } from "react-redux";
 
 import io from "socket.io-client";
 
@@ -16,9 +16,7 @@ function formatTime(dateString) {
 }
 
 const Chat = () => {
-  const session = useSession();
-  const username = session?.data?.user?.name ?? "Anónimo";
-
+  const user = useSelector((state) => state.user);
   const [inputValue, setInputValue] = useState("");
   const [messages, setMessages] = useState([]);
   const chatBottomRef = useRef(null);
@@ -30,10 +28,7 @@ const Chat = () => {
   useEffect(() => {
     socket.emit(
       "join",
-      {
-        username: username ?? "Anónimo",
-        chatId: "652f0abed963dedc03e53686",
-      },
+      { username: user.user ?? "Anónimo", chatId: "652f0abed963dedc03e53686" },
       (error) => {
         if (error) {
           alert(error);
@@ -79,7 +74,7 @@ const Chat = () => {
       socket.off("error");
       socket.off("disconnect");
     };
-  }, [username]);
+  }, [user.user]);
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -90,7 +85,7 @@ const Chat = () => {
       const newMessage = {
         body: inputValue,
         time: formatTime(new Date()),
-        user: username ?? "Anónimo",
+        user: user.user,
       };
       console.log(newMessage);
       setMessages([...messages, newMessage]);
@@ -123,7 +118,7 @@ const Chat = () => {
               body={message.body}
               time={message.time}
               user={message.user ?? "Anónimo"}
-              alignRight={message.user == username ?? "Anónimo"}
+              alignRight={message.user == user.user ?? "Anónimo"}
             />
           ))
         )}
