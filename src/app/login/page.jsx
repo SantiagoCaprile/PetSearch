@@ -1,19 +1,9 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Loader from "../../components/Loader";
 import { signIn } from "next-auth/react";
 
-import { useDispatch } from "react-redux";
-import {
-  setUser,
-  setUserLoading,
-  setUserError,
-} from "../../app/store/reducers/userSlice";
-
 const Login = () => {
-  const dispatch = useDispatch();
-  const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -35,28 +25,21 @@ const Login = () => {
     setErrorMessage("");
     if (isLoading) return null;
     setIsLoading(true);
-    dispatch(setUserLoading());
 
     const { email, password } = formData;
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    }).then((response) => {
-      console.log(response);
-      return response;
-    });
-    if (result.error) {
-      console.log(result.error);
-      setErrorMessage("Error en la verificación");
-      dispatch(setUserError());
-    } else {
-      console.log("Verificación exitosa");
-      // response.json().then((data) => {
-      //   dispatch(setUser(data.user));
-      // });
-      dispatch(setUser(result.user));
-      router.push(router.back() || "/");
+    try {
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+      if (result?.error) {
+        setErrorMessage("Error en la verificación");
+      } else if (result?.ok) {
+        window.location.href = "/";
+      }
+    } catch (error) {
+      console.log(error);
     }
     setIsLoading(false);
   };

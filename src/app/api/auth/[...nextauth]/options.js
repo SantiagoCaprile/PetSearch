@@ -16,11 +16,6 @@ export const options = {
           type: "password",
           placeholder: "*****",
         },
-        username: {
-          label: "Username",
-          type: "text",
-          placeholder: "your-cool-username",
-        },
       },
       async authorize(credentials) {
         // Call the API to verify the credentials and get the user object
@@ -30,10 +25,11 @@ export const options = {
             console.log(user);
             // Return an object with the user's name, email, and role
             return {
+              ...user,
+              id: user.id ?? "777",
               name: user.user,
               email: credentials.email,
-              role: user.role,
-              ...user,
+              role: user.role ?? "user",
             };
           } else {
             return null;
@@ -47,5 +43,16 @@ export const options = {
   ],
   pages: {
     signIn: "/login",
+    error: "/login",
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) token.role = user.role;
+      return token;
+    },
+    async session({ session, token }) {
+      if (session?.user) session.user.role = token.role;
+      return session;
+    },
   },
 };
