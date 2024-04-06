@@ -7,7 +7,7 @@ import store from "./store/configureStore";
 import { SessionProvider } from "next-auth/react";
 const inter = Inter({ subsets: ["latin"] });
 
-export default async function RootLayout({ children }) {
+export default function RootLayout({ children }) {
   return (
     <SessionProvider>
       <Provider store={store}>

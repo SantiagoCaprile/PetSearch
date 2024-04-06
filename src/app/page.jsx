@@ -3,6 +3,11 @@ import Link from "next/link";
 import PetsRandom from "../components/PetsRandom/page";
 import { Search } from "lucide-react";
 
+export const metadata = {
+  title: "PetSearch",
+  description: "PetSearch es una aplicación para encontrar tu mascota ideal",
+};
+
 export default async function Page() {
   return (
     <div className=" flex flex-col flex-1">
