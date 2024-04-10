@@ -26,25 +26,25 @@ export default function Nav() {
           {session ? (
             <Link href="/profile" className="flex gap-2">
               <User />
-              <span>{session.user.name}</span>
+              <span className="hidden md:block">{session.user.name}</span>
             </Link>
           ) : (
             <Link href="/login" className="flex gap-2">
               <User />
-              <span>Iniciar Sesión</span>
+              <span className="hidden md:block">Iniciar Sesión</span>
             </Link>
           )}
         </li>
         <li className="text-white font-bold hover:underline">
           {session ? (
             <button onClick={handleLogout} className="flex gap-2 items-center">
-              <LogOut height={18} />
-              <span>Cerrar Sesión</span>
+              <LogOut height={24} />
+              <span className="hidden md:block">Cerrar Sesión</span>
             </button>
           ) : (
             <Link href="/register" className="flex gap-1">
               <UserPlus />
-              <span>Registrarse</span>
+              <span className="hidden md:block">Registrarse</span>
             </Link>
           )}
         </li>
