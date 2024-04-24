@@ -26,7 +26,11 @@ export default function Nav() {
           {session ? (
             <Link href="/profile" className="flex gap-2">
               <User />
-              <span className="hidden md:block">{session.user.name}</span>
+              <span className="hidden md:block">
+                {session.user.name}
+                {session.user.role === "rescuer" && " - Rescatista"}
+                {session.user.role === "admin" && " - Admin"}
+              </span>
             </Link>
           ) : (
             <Link href="/login" className="flex gap-2">
