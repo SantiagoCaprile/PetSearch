@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import userImage from "../../../public/images/user.jpg";
+import userImage from "../../../public/images/userProfile.svg";
+import rescuerImage from "../../../public/images/rescuerProfile.svg";
 import { Pencil } from "lucide-react";
 import { options } from "../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth/next";
@@ -22,7 +23,7 @@ export default async function UserProfile() {
           <div className="relative square-image-wrapper mb-6">
             <div className="flex justify-center min-h-full min-w-full rounded-md">
               <Image
-                src={userImage}
+                src={session.user.role === "rescuer" ? rescuerImage : userImage}
                 alt={"user"}
                 width={300}
                 className="rounded-lg min-h-full"
