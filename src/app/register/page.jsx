@@ -9,8 +9,13 @@ const Register = () => {
     email: "",
     name: "",
     password: "",
+    type: "user",
   });
   const [errorMessage, setErrorMessage] = useState("");
+
+  function isCreatingUser() {
+    return formData.type == "user";
+  }
 
   const handleFieldChange = (e) => {
     const { name, value } = e.target;
@@ -58,6 +63,7 @@ const Register = () => {
           email: formData.email,
           name: formData.name,
           password: formData.password,
+          role: formData.type,
         }),
       });
 
@@ -80,7 +86,30 @@ const Register = () => {
         className="bg-white shadow-md rounded px-8 pb-8 mb-4 max-w-[600px] w-2/3"
         onSubmit={handleSubmit}
       >
-        <h2 className="text-2xl font-bold mb-4">Registro</h2>
+        <h2 className="text-2xl font-bold mb-4">
+          Registro de{" "}
+          <span className="underline">
+            {isCreatingUser() ? "Usuario" : "Rescatista"}
+          </span>
+        </h2>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="type"
+          >
+            Tipo de cuenta
+          </label>
+          <select
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="type"
+            name="type"
+            onChange={handleFieldChange}
+            value={formData.type}
+          >
+            <option value="user">Usuario</option>
+            <option value="rescuer">Rescatista</option>
+          </select>
+        </div>
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -93,7 +122,7 @@ const Register = () => {
             id="email"
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder="eg. pet@gmail.com"
             onChange={handleFieldChange}
             value={formData.email}
           />
@@ -103,14 +132,16 @@ const Register = () => {
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="name"
           >
-            Nombre Completo
+            {isCreatingUser() ? "Nombre Completo" : "Nombre de la organización"}
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="name"
             type="text"
             name="name"
-            placeholder="Nombre Completo"
+            placeholder={
+              isCreatingUser() ? "eg. Juan Pérez" : "eg. Fundación Patitas"
+            }
             onChange={handleFieldChange}
             value={formData.name}
           />
@@ -127,7 +158,7 @@ const Register = () => {
             id="password"
             type="password"
             name="password"
-            placeholder="Contraseña"
+            placeholder="********"
             onChange={handleFieldChange}
             value={formData.password}
           />
