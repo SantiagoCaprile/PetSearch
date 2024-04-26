@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import PetsRandom from "../components/PetsRandom/page";
-import { Search } from "lucide-react";
+import { Search, Store } from "lucide-react";
 
 export const metadata = {
   title: "PetSearch",
@@ -42,9 +42,14 @@ export default async function Page() {
                   Buscar
                 </button>
               </Link>
+              <Link href="/rescuers">
+                <button className="flex gap-1 items-center bg-green-950 text-white border-2 border-green-500 px-16 py-2 rounded-full text-xl hover:bg-green-700 transition-all active:translate-y-1">
+                  <Store />
+                  Rescatistas
+                </button>
+              </Link>
               <Link href="/discusion">
                 <button className="flex gap-1 items-center bg-green-950 text-white border-2 border-green-500 px-16 py-2 rounded-full text-xl hover:bg-green-700 transition-all active:translate-y-1">
-                  <Search />
                   Chats BORRAR!!
                 </button>
               </Link>
