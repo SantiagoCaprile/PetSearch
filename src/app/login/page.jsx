@@ -47,7 +47,7 @@ const Login = () => {
   return (
     <div className="flex flex-1 justify-center items-center">
       <form
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-[600px] w-2/3"
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-[600px] md:w-2/3 w-full mx-2 md:mx-0"
         onSubmit={handleSubmit}
       >
         <h2 className="text-2xl font-bold mb-4">Inicio de Sesión</h2>
@@ -63,7 +63,7 @@ const Login = () => {
             id="email"
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder="firulais@gmail.com"
             onChange={handleFieldChange}
             value={formData.email}
           />
@@ -80,7 +80,7 @@ const Login = () => {
             id="password"
             type="password"
             name="password"
-            placeholder="Contraseña"
+            placeholder="*********"
             onChange={handleFieldChange}
             value={formData.password}
           />
