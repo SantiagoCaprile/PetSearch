@@ -47,7 +47,7 @@ export default function CreatePet() {
   };
 
   return (
-    <div className="md:w-3/5 mx-auto p-4 w-full">
+    <div className="md:w-3/5 mx-auto p-4 w-full bg-white md:my-4 md:shadow-sm md:rounded-sm flex flex-col items-center">
       <h1 className="text-4xl mb-4">Crear mascota</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-4">
@@ -101,7 +101,10 @@ export default function CreatePet() {
             <option value="dog">Perro</option>
           </select>
         </div>
-        <div className="grid md:grid-cols-2 gap-3 md:max-w-lg">
+        <div className="grid md:grid-cols-2 gap-3 md:max-w-lg mb-4">
+          <label className="block text-lg font-semibold">
+            Caracteristicas
+          </label>
           <label className="flex flex-1 items-center justify-between">
             Bueno con niños:
             <input
@@ -111,7 +114,6 @@ export default function CreatePet() {
               className="accent-green-500 cursor-pointer h-4 w-4"
             />
           </label>
-
           <label className="flex gap-1 items-center justify-between">
             Bueno con perros:
             <input
@@ -121,7 +123,6 @@ export default function CreatePet() {
               className="accent-green-500 cursor-pointer h-4 w-4"
             />
           </label>
-
           <label className="flex gap-1 items-center justify-between">
             Bueno con gatos:
             <input
@@ -131,7 +132,6 @@ export default function CreatePet() {
               className="accent-green-500 cursor-pointer h-4 w-4"
             />
           </label>
-
           <label className="flex gap-1 items-center justify-between">
             Castrado:
             <input
@@ -141,7 +141,6 @@ export default function CreatePet() {
               className="accent-green-500 cursor-pointer h-4 w-4"
             />
           </label>
-
           <label className="flex gap-1 items-center justify-between">
             Vacunado:
             <input
@@ -173,7 +172,7 @@ export default function CreatePet() {
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded-md"
         >
-          Create
+          Crear Mascota
         </button>
       </form>
     </div>

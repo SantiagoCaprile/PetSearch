@@ -17,7 +17,7 @@ export default function AdoptionFormComponent() {
   return (
     <div className="flex flex-1 justify-center items-center">
       <form
-        className="bg-white shadow-md rounded px-8 py-6 my-4 max-w-[600px] w-2/3"
+        className="bg-white shadow-md rounded px-8 py-6 md:my-4 max-w-[600px] md:w-2/3"
         onSubmit={handleSubmit(onSubmit)}
       >
         <h1 className="text-2xl font-bold mb-4 border-b-2 border-slate-500">

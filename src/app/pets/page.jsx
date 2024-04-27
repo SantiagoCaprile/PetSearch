@@ -62,101 +62,105 @@ export default function Page() {
 
   return (
     <div className="flex flex-col flex-1">
-      <div className="flex flex-row justify-center flex-1">
-        <div className="w-1/6 bg-gray-100 p-4 flex flex-col text-center">
+      <div className="flex flex-col items-center md:items-stretch md:flex-row justify-center flex-1">
+        <div className="md:w-1/6 w-full bg-gray-100 p-4 flex flex-col text-center">
           <h2 className="text-lg font-semibold mb-4 border-b border-black pb-2">
             Filtros
           </h2>
-          <div className="mb-4">
-            <label htmlFor="species" className="block font-medium">
-              Especie
-            </label>
-            <select
-              id="species"
-              className="border border-gray-300 rounded-md p-2"
-            >
-              <option default value="any">
-                Cualquiera
-              </option>
-              <option value="dog">Perro</option>
-              <option value="cat">Gato</option>
-              <option value="other">Otro</option>
-            </select>
-          </div>
-          <div className="mb-4">
-            <label htmlFor="breed" className="block font-medium">
-              Ubicación
-            </label>
-            <select
-              id="location"
-              className="border border-gray-300 rounded-md p-2 "
-            >
-              <option default value="any">
-                Cualquiera
-              </option>
-              <option value="CABA">CABA</option>
-              <option value="Parana">Paraná</option>
-              <option value="Santa Fe">Santa Fe</option>
-              <option value="Rosario">Rosario</option>
-            </select>
-          </div>
-          <div className="mb-4 flex flex-col items-center">
-            <label htmlFor="age" className="block font-medium ">
-              Edad
-            </label>
-            <div className="flex flex-col items-end border-t border-black pb-2 ">
-              <label
-                htmlFor="age-baby"
-                className="inline-flex items-center mt-2"
-              >
-                <span className="mr-2">Cachorro</span>
-                <input
-                  type="checkbox"
-                  id="age-baby"
-                  value="baby"
-                  checked={selectedAges.includes("baby")}
-                  onChange={handleAgeChange}
-                />
+          <div className="grid grid-cols-2 md:grid-cols-1">
+            <div className="flex flex-col">
+              <div className="mb-4">
+                <label htmlFor="species" className="block font-medium">
+                  Especie
+                </label>
+                <select
+                  id="species"
+                  className="border border-gray-300 rounded-md p-2"
+                >
+                  <option default value="any">
+                    Cualquiera
+                  </option>
+                  <option value="dog">Perro</option>
+                  <option value="cat">Gato</option>
+                  <option value="other">Otro</option>
+                </select>
+              </div>
+              <div className="mb-4">
+                <label htmlFor="breed" className="block font-medium">
+                  Ubicación
+                </label>
+                <select
+                  id="location"
+                  className="border border-gray-300 rounded-md p-2 "
+                >
+                  <option default value="any">
+                    Cualquiera
+                  </option>
+                  <option value="CABA">CABA</option>
+                  <option value="Parana">Paraná</option>
+                  <option value="Santa Fe">Santa Fe</option>
+                  <option value="Rosario">Rosario</option>
+                </select>
+              </div>
+            </div>
+            <div className="mb-4 flex flex-col items-center">
+              <label htmlFor="age" className="block font-medium ">
+                Edad
               </label>
-              <label
-                htmlFor="age-young"
-                className="inline-flex items-center mt-2"
-              >
-                <span className="mr-2">Joven</span>
-                <input
-                  type="checkbox"
-                  id="age-young"
-                  value="young"
-                  checked={selectedAges.includes("young")}
-                  onChange={handleAgeChange}
-                />
-              </label>
-              <label
-                htmlFor="age-adult"
-                className="inline-flex items-center mt-2"
-              >
-                <span className="mr-2">Adulto</span>
-                <input
-                  type="checkbox"
-                  id="age-adult"
-                  value="adult"
-                  checked={selectedAges.includes("adult")}
-                  onChange={handleAgeChange}
-                />
-              </label>
-              <label
-                htmlFor="age-senior"
-                className="inline-flex items-center mt-2"
-              >
-                <span className="mr-2">Senior</span>
-                <input
-                  type="checkbox"
-                  id="age-senior"
-                  value="senior"
-                  checked={selectedAges.includes("senior")}
-                  onChange={handleAgeChange}
-                />
-              </label>
+              <div className="flex flex-col items-end border-t border-black pb-2 ">
+                <label
+                  htmlFor="age-baby"
+                  className="inline-flex items-center mt-2"
+                >
+                  <span className="mr-2">Cachorro</span>
+                  <input
+                    type="checkbox"
+                    id="age-baby"
+                    value="baby"
+                    checked={selectedAges.includes("baby")}
+                    onChange={handleAgeChange}
+                  />
+                </label>
+                <label
+                  htmlFor="age-young"
+                  className="inline-flex items-center mt-2"
+                >
+                  <span className="mr-2">Joven</span>
+                  <input
+                    type="checkbox"
+                    id="age-young"
+                    value="young"
+                    checked={selectedAges.includes("young")}
+                    onChange={handleAgeChange}
+                  />
+                </label>
+                <label
+                  htmlFor="age-adult"
+                  className="inline-flex items-center mt-2"
+                >
+                  <span className="mr-2">Adulto</span>
+                  <input
+                    type="checkbox"
+                    id="age-adult"
+                    value="adult"
+                    checked={selectedAges.includes("adult")}
+                    onChange={handleAgeChange}
+                  />
+                </label>
+                <label
+                  htmlFor="age-senior"
+                  className="inline-flex items-center mt-2"
+                >
+                  <span className="mr-2">Senior</span>
+                  <input
+                    type="checkbox"
+                    id="age-senior"
+                    value="senior"
+                    checked={selectedAges.includes("senior")}
+                    onChange={handleAgeChange}
+                  />
+                </label>
+              </div>
             </div>
           </div>
           <button
@@ -166,7 +170,7 @@ export default function Page() {
             Buscar
           </button>
         </div>
-        <div className="w-3/4 bg-white p-4 flex flex-col justify-between">
+        <div className="md:w-3/4 bg-white p-4 flex flex-col justify-between">
           {petsSelector.error && <p>Fallo en la carga de mascotas</p>}
           {petsSelector.loading ? (
             <div className="flex flex-1 flex-col justify-center items-center">
@@ -174,7 +178,7 @@ export default function Page() {
               Buscando mascotas ...
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 mx-2">
+            <div className="grid gap-x-6 gap-y-10 md:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 mx-2">
               {currentItems.map((pet, index) => (
                 <PetCard key={index} pet={pet} />
               ))}
@@ -184,11 +188,10 @@ export default function Page() {
             {Array.from({ length: totalPages }, (_, index) => (
               <button
                 key={index}
-                className={`px-2 py-1 mx-1 rounded ${
-                  index + 1 === currentPage
-                    ? " bg-slate-500 text-white"
-                    : "bg-gray-300"
-                }`}
+                className={`px-2 py-1 mx-1 rounded ${index + 1 === currentPage
+                  ? " bg-slate-500 text-white"
+                  : "bg-gray-300"
+                  }`}
                 onClick={() => handlePageChange(index + 1)}
               >
                 {index + 1}

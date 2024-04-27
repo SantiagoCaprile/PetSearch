@@ -13,7 +13,7 @@ export default function App() {
   return (
     <div className="flex flex-1 justify-center items-center">
       <form
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-[600px] w-2/3"
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-[600px] md:w-2/3"
         onSubmit={handleSubmit(onSubmit)}
       >
         <h1 className="text-2xl font-bold mb-4">Datos Personales</h1>

@@ -57,7 +57,7 @@ export default function PetProfile({ params }) {
   };
 
   return (
-    <div className="w-3/5 mx-auto p-4">
+    <div className="md:w-3/5 mx-auto p-4">
       <div className="flex flex-col md:flex-row border-b border-black pb-2 items-center">
         <div className="w-full md:w-1/2 mb-6">
           <div className="relative square-image-wrapper mb-6">
