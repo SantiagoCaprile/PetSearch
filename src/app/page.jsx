@@ -11,7 +11,7 @@ export const metadata = {
 export default async function HomePage() {
   return (
     <div className=" flex flex-col flex-1">
-      <div className="flex flex-col flex-1 items-center justify-end bg-[url('../../public/images/dog.jpg')] bg-cover md:bg-center bg-right min-h-[450px] text-white">
+      <div className="flex flex-col flex-1 items-center justify-end bg-[url('../../public/images/dog.webp')] bg-cover md:bg-center bg-right min-h-[450px] text-white">
         <div className="flex flex-col justify-start ">
           <div className="text-3xl text-center md:text-8xl md:text-left font-[meows] font-medium z-10">
             <p>Somos PetSearch</p>

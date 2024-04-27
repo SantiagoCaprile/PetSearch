@@ -25,7 +25,7 @@ export default function App() {
             className={styles.inputs}
             type="text"
             id="nombre"
-            placeholder="Nombre y apellido"
+            placeholder="eg. Firulais Pérez"
             {...register("Nombre", {
               required: {
                 value: true,
@@ -45,7 +45,7 @@ export default function App() {
             className={styles.inputs}
             type="tel"
             id="cel"
-            placeholder="Celular"
+            placeholder="eg. 11 1234 5678"
             {...register("Celular", {
               required: { value: true, message: "Celular es requerido" },
             })}
@@ -62,7 +62,9 @@ export default function App() {
             className={styles.inputs}
             type="number"
             id="edad"
-            placeholder="Edad"
+            min={1}
+            max={100}
+            placeholder="eg. 25"
             {...register("Edad", {
               required: { value: true, message: "La edad es requerida" },
               max: 100,
@@ -98,7 +100,7 @@ export default function App() {
             className={styles.inputs}
             type="text"
             id="localidad"
-            placeholder="Localidad"
+            placeholder="eg. CABA, Rosario, Paraná"
             {...register("Localidad", {
               required: { value: true, message: "La localidad es requerida" },
             })}
