@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { CheckCircle2, XCircle } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "@/components/Loader";
+import Carousel from "@/components/Carousel/page";
 
 const imageExample =
   "https://firebasestorage.googleapis.com/v0/b/petsearch-e0abe.appspot.com/o/pet1.webp?alt=media&token=cd4dd80f-89d3-4cd2-b123-0b615c07852a";
@@ -57,21 +58,16 @@ export default function PetProfile({ params }) {
   };
 
   return (
-    <div className="md:w-3/5 mx-auto p-4">
+    <div className="md:w-4/5 mx-auto p-4">
       <div className="flex flex-col md:flex-row border-b border-black pb-2 items-center">
-        <div className="w-full md:w-1/2 mb-6">
-          <div className="relative square-image-wrapper mb-6">
-            <div style={{ width: "100%", height: 0, paddingBottom: "100%" }}>
-              <Image
-                src={imageExample}
-                alt={imageAlt}
-                fill="responsive"
-                style={{ objectFit: "cover" }}
-              />
+        <div className="w-full md:w-3/5">
+          <div className="relative square-image-wrapper">
+            <div className="flex flex-1 items-center">
+              <Carousel slides={[imageExample, imageExample, imageExample]} options={{ "loop": true }} />
             </div>
           </div>
         </div>
-        <div className="w-full md:w-1/2 mb-6 md:pl-6 flex flex-col">
+        <div className="w-full md:w-2/5 mb-6 md:pl-6 flex flex-col">
           <h1 className="text-4xl mb-2">
             Hola, me llamo <strong>{pet.name}</strong>
           </h1>
