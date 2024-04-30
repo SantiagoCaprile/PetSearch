@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { User, UserPlus, PawPrint, LogOut } from "lucide-react";
+import { User, UserPlus, PawPrint, LogOut, Cat, FileHeart } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 
@@ -21,6 +21,23 @@ export default function Nav() {
         <Link href="/">PetSearch</Link>
         <span className="text-sm text-white font-normal"> hi</span>
       </p>
+      {session && session.user.role === "rescuer" && (
+        <ul className="flex flex-1 justify-end gap-4 border-l-2 mr-8">
+          <li className="text-white font-bold hover:underline">
+            <Link href="/myadoptions" className="flex gap-2">
+              <FileHeart />
+              <span className="hidden md:block">Mis adopciones</span>
+            </Link>
+          </li>
+          <li className="text-white font-bold hover:underline">
+            <Link href="/mypets" className="flex gap-2">
+              <Cat />
+              <span className="hidden md:block">Mis Mascotas</span>
+            </Link>
+          </li>
+        </ul>
+      )
+      }
       <ul className="flex justify-around border-l-2 w-1/3">
         <li className="text-white font-bold hover:underline">
           {session ? (
