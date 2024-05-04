@@ -43,7 +43,7 @@ export default function HelpForm() {
         <div className="flex md:flex-1 overflow-auto flex-col md:flex-row gap-2 justify-center items-start p-4">
             <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-[600px] md:w-2/3">
                 <h2 className="text-2xl font-bold mb-4">
-                    Crear anuncio en el Mapa
+                    Crear anuncio
                 </h2>
                 <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
                     <fieldset className={styles.fieldset + (errors.tipo && " text-red-500")}>
@@ -51,18 +51,20 @@ export default function HelpForm() {
                         >
                             Tipo *
                         </label>
-                        <input type="radio" name="tipo" id="lost" value="lost" {...register("tipo", {
-                            required: {
-                                value: true,
-                                message: "Tipo es requerido",
-                            }
-                        })
-                        } />
-                        <label htmlFor="lost" className="mr-2">
-                            Perdido
-                        </label>
-                        <input type="radio" name="tipo" id="found" value="found" {...register("tipo")} />
-                        <label htmlFor="found">Encontrado</label>
+                        <div className="flex justify-center items-center gap-2">
+                            <input type="radio" name="tipo" id="lost" value="lost" {...register("tipo", {
+                                required: {
+                                    value: true,
+                                    message: "Tipo es requerido",
+                                }
+                            })
+                            } />
+                            <label htmlFor="lost" className="mr-2">
+                                Perdido
+                            </label>
+                            <input type="radio" name="tipo" id="found" value="found" {...register("tipo")} />
+                            <label htmlFor="found">Encontrado</label>
+                        </div>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
                         <label htmlFor="fecha" className={styles.label}>
@@ -195,7 +197,7 @@ export default function HelpForm() {
 
 const styles = {
     inputError: "border border-red-500 text-red-500",
-    fieldset: "flex justify-center items-center mb-4",
+    fieldset: "flex justify-even items-center mb-4 ",
     label: "block text-gray-700 text-sm font-bold mr-2 w-1/3 text-nowrap",
     inputs:
         "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
