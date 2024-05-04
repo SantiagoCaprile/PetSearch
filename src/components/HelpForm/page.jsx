@@ -5,6 +5,7 @@ import Map from "@/components/Map";
 import LOCATIONS from "@utils/ar.json";
 import { MapPin, Save } from "lucide-react"
 
+
 export default function HelpForm() {
     const [mapa, setMapa] = useState(false);
     const [ubicacion, setUbicacion] = useState({});

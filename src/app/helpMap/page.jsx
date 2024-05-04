@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import Map from "@/components/Map";
 import LOCATIONS from "@utils/ar.json"
+import Link from "next/link";
+import { PlusSquare } from "lucide-react";
 
 //will display a map with lost and fount pets
 const lostAndFoundPets = [
@@ -38,18 +40,24 @@ export default function HelpMap() {
 
     return (
         <div className="flex flex-col justify-center items-center">
-            <select name="city" id="city" className="w-[200px]"
-                onChange={handleSetCity}
-            >
-                {
-                    LOCATIONS &&
-                    Object.values(LOCATIONS).map((city, index) => (
-                        <option key={index} value={index}>
-                            {city.city}
-                        </option>
-                    ))
-                }
-            </select>
+            <div className="flex justify-around items-center my-2 gap-2">
+                <select name="city" id="city" className="w-[200px] p-2 rounded-md border border-gray-300"
+                    onChange={handleSetCity}
+                >
+                    {
+                        LOCATIONS &&
+                        Object.values(LOCATIONS).map((city, index) => (
+                            <option key={index} value={index}>
+                                {city.city}
+                            </option>
+                        ))
+                    }
+                </select>
+                <Link href="/helpMap/create" className="flex gap-1 text-nowrap bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    Crear Anuncio
+                    <PlusSquare />
+                </Link>
+            </div>
             <div className="md:w-2/3 md:h-[600px] h-svh w-full bg-slate-400 rounded-md">
                 {city && map ? (
                     <Map
