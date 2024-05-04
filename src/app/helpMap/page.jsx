@@ -44,6 +44,9 @@ export default function HelpMap() {
                 <select name="city" id="city" className="w-[200px] p-2 rounded-md border border-gray-300"
                     onChange={handleSetCity}
                 >
+                    <option value="" defaultChecked>
+                        Seleccione localidad
+                    </option>
                     {
                         LOCATIONS &&
                         Object.values(LOCATIONS).map((city, index) => (
@@ -58,7 +61,7 @@ export default function HelpMap() {
                     <PlusSquare />
                 </Link>
             </div>
-            <div className="md:w-2/3 md:h-[600px] h-svh w-full bg-slate-400 rounded-md">
+            <div className="md:w-2/3 md:h-[600px] h-svh w-full rounded-md overflow-hidden">
                 {city && map ? (
                     <Map
                         center={[city.lat, city.lng]}
@@ -96,7 +99,7 @@ export default function HelpMap() {
                         )}
                     </Map>
                 ) : (
-                    <div className="flex justify-center items-center h-full">
+                    <div className="flex justify-center items-center bg-slate-400 animate-pulse rounded-lg h-full">
                         <h2 className="text-2xl font-bold text-white">Cargando Mapa...</h2>
                     </div>
                 )}
