@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import Map from "@/components/Map";
 import LOCATIONS from "@utils/ar.json"
-import { set } from "react-hook-form";
 
 //will display a map with lost and fount pets
 const lostAndFoundPets = [
@@ -51,7 +50,7 @@ export default function HelpMap() {
                     ))
                 }
             </select>
-            <div className="md:w-2/3 md:h-[600px] h-svh w-full bg-black">
+            <div className="md:w-2/3 md:h-[600px] h-svh w-full bg-slate-400 rounded-md">
                 {city && map ? (
                     <Map
                         center={[city.lat, city.lng]}
