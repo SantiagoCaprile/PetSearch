@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Pet from "@/components/Pet";
+import Link from "next/link";
 
-export default function PetViewer({ petList = [] }) {
+export default function PetViewer({ petList = [], admitNewPet = false }) {
     const [selectedAges, setSelectedAges] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -147,6 +148,25 @@ export default function PetViewer({ petList = [] }) {
                 <div className="md:w-3/4 bg-white p-4 flex flex-col justify-between">
                     {!currentItems.length && <p>Fallo en la carga de mascotas</p>}
                     <div className="grid gap-x-6 gap-y-10 md:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 mx-2">
+                        {admitNewPet && (
+                            <Link href="/createPet" className="flex flex-col items-center justify-center bg-gray-200 rounded-md p-4 border border-gray-300 hover:border-gray-500 hover:bg-gray-300 transition-colors duration-150">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-12 w-12 text-gray-500"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                    />
+                                </svg>
+                                <span className="text-gray-500">Agregar mascota</span>
+                            </Link>
+                        )}
                         {currentItems.map((pet, index) => (
                             <Pet key={index} pet={pet} />
                         ))}

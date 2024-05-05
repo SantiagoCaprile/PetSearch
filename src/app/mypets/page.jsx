@@ -29,6 +29,6 @@ export default function MyPets() {
     }, [dispatch]);
 
     return (
-        <PetViewer petList={petsSelector.pets} />
+        <PetViewer petList={petsSelector.pets} admitNewPet={true} />
     );
 }
