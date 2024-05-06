@@ -3,7 +3,7 @@ import React from "react";
 
 export default function NotFound() {
 	return (
-		<div className="flex flex-col flex-1 justify-center items-center">
+		<div className="flex flex-col flex-1 justify-center items-center bg-white">
 			<h2 className="text-5xl font-mono font-medium z-10">Page not found :C</h2>
 			<Image src={"/images/cat404.webp"} alt="404" width={500} height={500} />
 			<a
