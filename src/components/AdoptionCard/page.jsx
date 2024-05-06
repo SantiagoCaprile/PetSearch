@@ -11,7 +11,7 @@ export default function AdoptionCard({ pet, user, adoption }) {
 
     return (
         <div className="w-fit bg-slate-300 rounded-md p-2 hover:transform hover:scale-105 hover:bg-slate-200 border-2 hover:border-slate-500 transition-all">
-            <Link href={`/adoption/${adoption._id}`}>
+            <Link href={`/myadoptions/${adoption._id}`}>
                 <div className="min-h-5 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-52">
                     <Image
                         src={imageExample}
