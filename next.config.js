@@ -9,6 +9,7 @@ const nextConfig = {
       "firebasestorage.googleapis.com",
       "www.purina.com.ar",
       "lh3.googleusercontent.com",
+      "res.cloudinary.com",
     ],
   },
 };
