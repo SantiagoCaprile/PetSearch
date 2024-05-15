@@ -6,10 +6,8 @@ import { CheckCircle2, XCircle } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "@/components/Loader";
 import Carousel from "@/components/Carousel/page";
+import { getAge } from "@/utils/dateFunctions";
 
-const imageExample =
-  "https://firebasestorage.googleapis.com/v0/b/petsearch-e0abe.appspot.com/o/pet1.webp?alt=media&token=cd4dd80f-89d3-4cd2-b123-0b615c07852a";
-const imageAlt = "Pet image";
 
 import {
   setPets,
@@ -50,6 +48,8 @@ export default function PetProfile({ params }) {
     return <Loader />;
   }
 
+  const petAge = getAge(pet);
+
   const findCharacteristic = (char) => {
     let founded = pet.characteristics.find((c) => c.key === char);
     if (founded) {
@@ -63,7 +63,9 @@ export default function PetProfile({ params }) {
         <div className="w-full md:w-3/5">
           <div className="relative square-image-wrapper">
             <div className="flex flex-1 items-center">
-              <Carousel slides={[imageExample, imageExample, imageExample]} options={{ "loop": true }} />
+              <Carousel slides={pet.images} options={{
+                "loop": true,
+              }} />
             </div>
           </div>
         </div>
@@ -79,7 +81,7 @@ export default function PetProfile({ params }) {
               }
             </p>
             <p className="text-gray-700">
-              <strong>Edad:</strong> {pet.age.number} {pet.age.unit}
+              <strong>Edad:</strong> {petAge.number} {petAge.unit}
             </p>
             <p className="text-gray-700">
               <strong>Raza:</strong> {pet.breed}
