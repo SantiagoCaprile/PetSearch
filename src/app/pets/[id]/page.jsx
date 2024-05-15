@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
 import { CheckCircle2, XCircle } from "lucide-react";
@@ -8,12 +7,19 @@ import Loader from "@/components/Loader";
 import Carousel from "@/components/Carousel/page";
 import { getAge } from "@/utils/dateFunctions";
 
-
 import {
   setPets,
   setPetsLoading,
   setPetsError,
 } from "../../../app/store/reducers/petsSlice";
+
+const CHARACTERISTICS = {
+  KIDS: "goodWithKids",
+  DOGS: "goodWithDogs",
+  CATS: "goodWithCats",
+  NEUTERED: "neutered",
+  VACCINATED: "vaccinated",
+};
 
 const URLPETS = "http://localhost:4000/pets";
 
@@ -101,30 +107,34 @@ export default function PetProfile({ params }) {
         </p>
         <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
           <li className="flex gap-1">
-            {findCharacteristic("good with kids") ? greenCheck : redX}
-            {findCharacteristic("good with kids")
+            {findCharacteristic(CHARACTERISTICS.KIDS) ? greenCheck : redX}
+            {findCharacteristic(CHARACTERISTICS.KIDS)
               ? "Bueno con chicos"
               : "No es bueno con chicos"}
           </li>
           <li className="flex gap-1">
-            {findCharacteristic("good with dogs") ? greenCheck : redX}
-            {findCharacteristic("good with dogs")
+            {findCharacteristic(CHARACTERISTICS.DOGS) ? greenCheck : redX}
+            {findCharacteristic(CHARACTERISTICS.DOGS)
               ? "Bueno con perros"
               : "No es bueno con perros"}
           </li>
           <li className="flex gap-1">
-            {findCharacteristic("good with cats") ? greenCheck : redX}
-            {findCharacteristic("good with cats")
+            {findCharacteristic(CHARACTERISTICS.CATS) ? greenCheck : redX}
+            {findCharacteristic(CHARACTERISTICS.CATS)
               ? "Bueno con gatos"
               : "No es bueno con gatos"}
           </li>
           <li className="flex gap-1">
-            {findCharacteristic("neutered") ? greenCheck : redX}
-            {findCharacteristic("neutered") ? "Castrado" : "No está castrado"}
+            {findCharacteristic(CHARACTERISTICS.NEUTERED) ? greenCheck : redX}
+            {findCharacteristic(CHARACTERISTICS.NEUTERED)
+              ? "Castrado"
+              : "No está castrado"}
           </li>
           <li className="flex gap-1">
-            {findCharacteristic("neutered") ? greenCheck : redX}
-            {findCharacteristic("neutered") ? "Vacunado" : "No está vacunado"}
+            {findCharacteristic(CHARACTERISTICS.VACCINATED) ? greenCheck : redX}
+            {findCharacteristic(CHARACTERISTICS.VACCINATED)
+              ? "Vacunado"
+              : "No está vacunado"}
           </li>
         </ul>
         <div className="border-t border-black pt-2 items-center mt-2">

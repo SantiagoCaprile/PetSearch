@@ -3,6 +3,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import CalendarComponent from "@components/Calendar/page.jsx";
+import { useSession } from "next-auth/react";
 
 const createPet = async (data) => {
   try {
@@ -19,6 +20,10 @@ const createPet = async (data) => {
 };
 
 export default function CreatePet() {
+  const { data: session } = useSession();
+  //tengo que pasar el id para mandarlo a la base de datos con la mascota
+  // console.log(session.user);
+
   const [images, setImages] = useState([]);
   const [date, setDate] = useState(new Date());
 
@@ -70,17 +75,35 @@ export default function CreatePet() {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log({
-      ...data,
+    const pet = {
       images,
       birthDate: date.toISOString(),
-    });
-
-    await createPet({
+      characteristics: [
+        {
+          key: "goodWithKids",
+          value: data.goodWithKids,
+        },
+        {
+          key: "goodWithDogs",
+          value: data.goodWithDogs,
+        },
+        {
+          key: "goodWithCats",
+          value: data.goodWithCats,
+        },
+        {
+          key: "neutered",
+          value: data.neutered,
+        },
+        {
+          key: "vaccinated",
+          value: data.vaccinated,
+        },
+      ],
       ...data,
-      images,
-      birthDate: date.toISOString(),
-    });
+    };
+    console.log(pet);
+    await createPet(pet);
   };
 
   return (
