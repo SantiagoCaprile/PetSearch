@@ -2,17 +2,65 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import Router from "next/router";
 import CalendarComponent from "@components/Calendar/page.jsx";
+
+const createPet = async (data) => {
+  try {
+    const response = await fetch("http://localhost:4000/pets", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+};
 
 export default function CreatePet() {
   const [images, setImages] = useState([]);
   const [date, setDate] = useState(new Date());
 
-  const handleImagesChange = (e) => {
+  //should optimize the images
+  const handleImagesChange = async (e) => {
     const files = Array.from(e.target.files);
-    const images = files.map((file) => URL.createObjectURL(file));
-    setImages(images);
+    const base64Images = await Promise.all(files.map(file => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          const img = new Image();
+          img.src = reader.result;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 1280;
+            const MAX_HEIGHT = 720;
+            let width = img.width;
+            let height = img.height;
+            if (width > height) {
+              if (width > MAX_WIDTH) {
+                height *= MAX_WIDTH / width;
+                width = MAX_WIDTH;
+              }
+            } else {
+              if (height > MAX_HEIGHT) {
+                width *= MAX_HEIGHT / height;
+                height = MAX_HEIGHT;
+              }
+            }
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            const optimizedImage = canvas.toDataURL('image/jpeg', 0.8);
+            resolve(optimizedImage);
+          };
+        };
+        reader.onerror = error => reject(error);
+      });
+    }));
+    setImages(base64Images);
   };
 
   const {
@@ -25,25 +73,14 @@ export default function CreatePet() {
     console.log({
       ...data,
       images,
+      birthDate: date.toISOString(),
     });
-    try {
-      const response = await fetch("http://localhost:4000/pets", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
 
-      if (response.ok) {
-        console.log("Pet created successfully");
-        Router.push("/pets");
-      } else {
-        console.log("Failed to create pet");
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
+    await createPet({
+      ...data,
+      images,
+      birthDate: date.toISOString(),
+    });
   };
 
   return (
