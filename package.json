@@ -1,5 +1,5 @@
 {
-  "name": "PetSearch",
+  "name": "pet-search",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -19,7 +19,7 @@
     "leaflet": "^1.9.4",
     "lucide-react": "^0.378.0",
     "next": "13.4.0",
-    "next-auth": "^4.24.5",
+    "next-auth": "^4.24.7",
     "postcss": "8.4.23",
     "react": "18.2.0",
     "react-calendar": "^4.8.0",
