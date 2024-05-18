@@ -1,5 +1,5 @@
 export async function verifyCredentials(user) {
-  const response = await fetch("http://localhost:4000/users/verify", {
+  const response = await fetch(`${process.env.API_URL}/users/verify`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
