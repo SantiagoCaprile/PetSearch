@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-const url = "http://localhost:4000/users";
+const url = `${process.env.API_URL}/users`;
 
 const Register = () => {
   const router = useRouter();

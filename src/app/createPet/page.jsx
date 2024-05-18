@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 
 const createPet = async (data) => {
   try {
-    const response = await fetch("http://localhost:4000/pets", {
+    const response = await fetch(`${process.env.API_URL}/pets`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

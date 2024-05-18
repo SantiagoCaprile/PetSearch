@@ -9,8 +9,7 @@ import {
   setPetsLoading,
   setPetsError,
 } from "../../app/store/reducers/petsSlice";
-
-const URLPETS = "http://localhost:4000/pets";
+const URLPETS = `${process.env.API_URL || "http://localhost:4000"}/pets`;
 
 export default function Page() {
   const [selectedAges, setSelectedAges] = useState([]);

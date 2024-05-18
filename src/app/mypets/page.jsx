@@ -9,7 +9,7 @@ import {
 } from "../../app/store/reducers/petsSlice";
 import PetViewer from "@/components/PetViewer/page";
 
-const URLPETS = "http://localhost:4000/pets";
+const URLPETS = `${process.env.API_URL}/pets`;
 
 export default function MyPets() {
     const dispatch = useDispatch();

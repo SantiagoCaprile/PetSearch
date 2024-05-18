@@ -21,7 +21,7 @@ const CHARACTERISTICS = {
   VACCINATED: "vaccinated",
 };
 
-const URLPETS = "http://localhost:4000/pets";
+const URLPETS = `${process.env.API_URL}/pets`;
 
 const greenCheck = <CheckCircle2 className="text-green-500" />;
 const redX = <XCircle className="text-red-500" />;
