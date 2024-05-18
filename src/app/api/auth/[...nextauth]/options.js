@@ -2,6 +2,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { verifyCredentials } from "../../../../lib/auth";
 
 export const options = {
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -61,5 +62,4 @@ export const options = {
     // 5 minutes
     maxAge: 5 * 60,
   },
-  secret: process.env.NEXTAUTH_SECRET,
 };
