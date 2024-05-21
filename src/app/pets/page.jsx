@@ -1,6 +1,5 @@
 "use client";
 import PetCard from "../../components/Pet";
-//import { pets } from "../../utils/petListTest";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "@/components/Loader";
