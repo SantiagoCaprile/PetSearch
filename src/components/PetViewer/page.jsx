@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Pet from "@/components/Pet";
 import Link from "next/link";
+import Loader from "@/components/Loader";
 
-export default function PetViewer({ petList = [], admitNewPet = false }) {
+export default function PetViewer({ petList = [], admitNewPet = false, loading = true }) {
     const [selectedAges, setSelectedAges] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -146,7 +147,11 @@ export default function PetViewer({ petList = [], admitNewPet = false }) {
                     </button>
                 </div>
                 <div className="md:w-3/4 bg-white p-4 flex flex-col justify-between">
-                    {!currentItems.length && <p>Fallo en la carga de mascotas</p>}
+                    {!loading && !currentItems.length && <p>No se encontró ninguna mascota</p>}
+                    {loading && <div className="flex flex-1 flex-col justify-center items-center">
+                        <Loader />
+                        Buscando mascotas ...
+                    </div>}
                     <div className="grid gap-x-6 gap-y-10 md:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 mx-2">
                         {admitNewPet && (
                             <Link href="/createPet" className="flex flex-col items-center justify-center bg-gray-200 rounded-md p-4 border border-gray-300 hover:border-gray-500 hover:bg-gray-300 transition-colors duration-150">
