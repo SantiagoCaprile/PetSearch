@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import CalendarComponent from "@components/Calendar/page.jsx";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const createPet = async (data) => {
   try {
@@ -14,6 +15,10 @@ const createPet = async (data) => {
       },
       body: JSON.stringify(data),
     });
+    if (response.ok) {
+      console.log("Pet created successfully");
+      return true;
+    }
   } catch (error) {
     console.error("An error occurred:", error);
   }
@@ -21,6 +26,7 @@ const createPet = async (data) => {
 
 export default function CreatePet() {
   const { data: session } = useSession();
+  const router = useRouter();
 
   const [images, setImages] = useState([]);
   const [date, setDate] = useState(new Date());
@@ -102,7 +108,14 @@ export default function CreatePet() {
       ...data,
     };
     console.log(pet);
-    await createPet(pet);
+    try {
+      const response = await createPet(pet);
+      if (response) {
+        router.push("/mypets");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
