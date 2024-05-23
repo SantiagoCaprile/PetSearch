@@ -21,8 +21,6 @@ const createPet = async (data) => {
 
 export default function CreatePet() {
   const { data: session } = useSession();
-  //tengo que pasar el id para mandarlo a la base de datos con la mascota
-  // console.log(session.user);
 
   const [images, setImages] = useState([]);
   const [date, setDate] = useState(new Date());
@@ -100,6 +98,7 @@ export default function CreatePet() {
           value: data.vaccinated,
         },
       ],
+      rescuer: session.user._id,
       ...data,
     };
     console.log(pet);
