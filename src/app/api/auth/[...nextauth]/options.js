@@ -27,7 +27,6 @@ export const options = {
             // Return an object with the user's name, email, and role
             return {
               ...user,
-              id: user.id ?? "777",
               name: user.user,
               email: credentials.email,
               role: user.role ?? "user",
@@ -52,7 +51,10 @@ export const options = {
       return token;
     },
     async session({ session, token }) {
-      if (session?.user) session.user.role = token.role;
+      if (session?.user) {
+        session.user.role = token.role;
+        session.user._id = token.sub;
+      }
       return session;
     },
   },
