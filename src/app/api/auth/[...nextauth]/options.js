@@ -61,7 +61,7 @@ export const options = {
   session: {
     strategy: "jwt",
     // Seconds - How long until an idle session expires and is no longer valid.
-    // 5 minutes
-    maxAge: 5 * 60,
+    //maxAge is set to 24 hours
+    maxAge: 24 * 60 * 60,
   },
 };
