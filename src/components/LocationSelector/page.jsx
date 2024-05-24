@@ -21,7 +21,7 @@ export default function LocationSelector() {
         <div className="flex items-center justify-center px-2">
             <MapPin color="white" size="24" />
             <select
-                className="text-white bg-inherit bg-opacity-55 rounded-md p-2 focus:outline-none w-4 md:w-60"
+                className="text-white bg-inherit bg-opacity-55 rounded-md md:p-2 focus:outline-none w-full"
                 name="location"
                 id="location"
                 defaultValue={typeof window !== "undefined" ? window.localStorage.getItem("location") : "Buenos Aires"}
