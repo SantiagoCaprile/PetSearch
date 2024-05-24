@@ -24,17 +24,17 @@ export default function Nav() {
       </p>
       <LocationSelector />
       {session && session.user.role === "rescuer" && (
-        <ul className="flex flex-1 justify-end gap-4 border-l-2 px-2 md:px-8">
+        <ul className="flex-1 justify-end gap-4 border-l-2 px-2 md:px-8 hidden md:flex">
           <li className="text-white font-bold hover:underline">
-            <Link href="/myadoptions" className="flex gap-2">
+            <Link href="/myadoptions" className="gap-2 flex">
               <FileHeart />
-              <span className="hidden md:block">Mis adopciones</span>
+              <span>Mis adopciones</span>
             </Link>
           </li>
           <li className="text-white font-bold hover:underline">
-            <Link href="/mypets" className="flex gap-2">
+            <Link href="/mypets" className="gap-2 flex">
               <Cat />
-              <span className="hidden md:block">Mis Mascotas</span>
+              <span>Mis Mascotas</span>
             </Link>
           </li>
         </ul>
@@ -43,18 +43,18 @@ export default function Nav() {
       <ul className="flex gap-4 px-2 md:px-8 border-l-2">
         <li className="text-white font-bold hover:underline">
           {session ? (
-            <Link href="/profile" className="flex gap-2">
+            <Link href="/profile" className="gap-2 hidden md:flex">
               <User />
-              <span className="hidden md:block">
+              <span>
                 {session.user.name}
                 {session.user.role === "rescuer" && " - Rescatista"}
                 {session.user.role === "admin" && " - Admin"}
               </span>
             </Link>
           ) : (
-            <Link href="/login" className="flex gap-2">
+            <Link href="/login" className="gap-2 hidden md:flex">
               <User />
-              <span className="hidden md:block">Iniciar Sesión</span>
+              <span>Iniciar Sesión</span>
             </Link>
           )}
         </li>

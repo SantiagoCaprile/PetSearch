@@ -1,5 +1,6 @@
 "use client";
 import Nav from "../components/Nav/page";
+import BottomNavMobile from "@/components/BottomNavMobile/page";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Provider } from "react-redux";
@@ -20,6 +21,7 @@ export default function RootLayout({ children }) {
                 &copy;{new Date().getFullYear()} PetSearch - All Rights Reserved
               </p>
             </footer>
+            <BottomNavMobile />
           </body>
         </html>
       </Provider>
