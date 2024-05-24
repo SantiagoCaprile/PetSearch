@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import LOCATIONS from "@utils/ar.json";
 import { MapPin } from "lucide-react";
@@ -6,10 +7,12 @@ import { useEffect } from "react";
 //this will be a dropdown menu to select the location. When it is selected, it will be stored in the session
 export default function LocationSelector() {
     useEffect(() => {
-        if (localStorage.getItem("location") === null) {
-            localStorage.setItem("location", "Buenos Aires");
-        } else {
-            document.getElementById("location").value = localStorage.getItem("location");
+        if (typeof window !== "undefined") {
+            if (window.localStorage.getItem("location") === null) {
+                window.localStorage.setItem("location", "Buenos Aires");
+            } else {
+                document.getElementById("location").value = window.localStorage.getItem("location");
+            }
         }
     }, []);
 
