@@ -23,6 +23,22 @@ class Pet {
             return [];
         }
     }
+
+    static async getPetById(petId) {
+        try {
+            const response = await fetch(`${Pet.#URL}/${petId}`);
+            if (response.ok) {
+                const pet = await response.json();
+                return pet;
+            } else {
+                console.log("Failed to get pet");
+                return null;
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return null;
+        }
+    }
 }
 
 export default Pet;

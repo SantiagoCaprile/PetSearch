@@ -6,8 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "@/components/Loader";
 import Carousel from "@/components/Carousel/page";
 import { getAge } from "@/utils/dateFunctions";
+import Pet from "@classes/Pet";
 
 import {
+  addPet,
   setPets,
   setPetsLoading,
   setPetsError,
@@ -34,6 +36,7 @@ export default function PetProfile({ params }) {
   const pet = useSelector((state) => {
     return state.pets.pets.find((pet) => pet._id == id);
   });
+  const loading = useSelector((state) => state.pets.loading);
   useEffect(() => {
     console.log(pet);
     if (pet === null) {
@@ -48,9 +51,22 @@ export default function PetProfile({ params }) {
         }
       });
     }
-  }, [dispatch, pet]);
 
-  if (!pet) {
+    if (!pet) {
+      // Si no se encuentra el pet tendría que hacer el fetch
+      dispatch(setPetsLoading());
+      Pet.getPetById(id).then((pet) => {
+        if (pet) {
+          dispatch(addPet(pet));
+        } else {
+          dispatch(setPetsError());
+        }
+      });
+    }
+
+  }, [dispatch, pet, id]);
+
+  if (!pet || loading) {
     return <Loader />;
   }
 

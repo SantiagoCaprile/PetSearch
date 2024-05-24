@@ -27,10 +27,15 @@ const petsSlice = createSlice({
       state.loading = false;
       state.error = false;
     },
+    addPet: (state, action) => {
+      state.pets.push(action.payload);
+      state.loading = false;
+      state.error = false;
+    },
   },
 });
 
-export const { setPets, setPetsLoading, setPetsError, clearPets } =
+export const { setPets, setPetsLoading, setPetsError, clearPets, addPet } =
   petsSlice.actions;
 
 export default petsSlice.reducer;
