@@ -15,13 +15,7 @@ import {
   setPetsError,
 } from "../../../app/store/reducers/petsSlice";
 
-const CHARACTERISTICS = {
-  KIDS: "goodWithKids",
-  DOGS: "goodWithDogs",
-  CATS: "goodWithCats",
-  NEUTERED: "neutered",
-  VACCINATED: "vaccinated",
-};
+const CHARACTERISTICS = Pet.CHARACTERISTICS;
 
 const URLPETS = `${process.env.API_URL}/pets`;
 
@@ -37,6 +31,7 @@ export default function PetProfile({ params }) {
     return state.pets.pets.find((pet) => pet._id == id);
   });
   const loading = useSelector((state) => state.pets.loading);
+  const error = useSelector((state) => state.pets.error);
   useEffect(() => {
     console.log(pet);
     if (pet === null) {
@@ -53,7 +48,7 @@ export default function PetProfile({ params }) {
     }
 
     if (!pet) {
-      // Si no se encuentra el pet tendría que hacer el fetch
+      // Si no se encuentra el pet tendría que hacer el fetch y luego agregarlo al store
       dispatch(setPetsLoading());
       Pet.getPetById(id).then((pet) => {
         if (pet) {
@@ -68,6 +63,10 @@ export default function PetProfile({ params }) {
 
   if (!pet || loading) {
     return <Loader />;
+  }
+
+  if (!pet && error) {
+    return <div>Error al cargar la mascota</div>;
   }
 
   const petAge = getAge(pet);
