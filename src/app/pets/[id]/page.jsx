@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect } from "react";
-import { CheckCircle2, XCircle } from "lucide-react";
+import { CheckCircle2, XCircle, Store, BookHeartIcon } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "@/components/Loader";
 import Carousel from "@/components/Carousel/page";
@@ -110,10 +110,20 @@ export default function PetProfile({ params }) {
           </div>
           <Link
             href="/adoptionform"
-            className="bg-blue-500 text-white px-4 py-2 rounded-md w-2/3 text-center"
+            className="flex flex-row gap-2 justify-center align-middle bg-blue-500 text-white px-4 py-2 rounded-md w-2/3 text-center hover:bg-blue-700"
           >
+            <BookHeartIcon className="inline-block" />
             Adoptame
           </Link>
+          {pet.rescuer && (
+            <Link
+              href={`/rescuers/${pet.rescuer?._id}`}
+              className="flex flex-row gap-2 justify-center align-middle bg-slate-100 border-blue-500 border-2 text-black px-4 py-2 rounded-md w-2/3 text-center mt-2 hover:bg-slate-200 hover:border-blue-700"
+            >
+              <Store className="inline-block" />
+              <span className="font-bold text-nowrap"> {pet.rescuer.name}</span>
+            </Link>
+          )}
         </div>
       </div>
       <div className="my-5">
