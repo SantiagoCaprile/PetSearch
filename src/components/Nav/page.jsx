@@ -2,6 +2,7 @@ import Link from "next/link";
 import { User, UserPlus, PawPrint, LogOut, Cat, FileHeart } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
+import LocationSelector from "../LocationSelector/page";
 
 export default function Nav() {
   const { data: session } = useSession();
@@ -16,13 +17,14 @@ export default function Nav() {
 
   return (
     <nav className="flex items-center justify-between bg-green-500 min-w-full">
-      <p className="text-white text-lg md:text-2xl font-bold p-4 flex gap-1 items-baseline">
+      <p className="text-white text-lg md:text-2xl font-bold p-4 flex gap-1 items-baseline border-r-2">
         <PawPrint />
         <Link href="/">PetSearch</Link>
         <span className="text-sm text-white font-normal"> hi</span>
       </p>
+      <LocationSelector />
       {session && session.user.role === "rescuer" && (
-        <ul className="flex flex-1 justify-end gap-4 border-l-2 px-4 md:px-8">
+        <ul className="flex flex-1 justify-end gap-4 border-l-2 px-2 md:px-8">
           <li className="text-white font-bold hover:underline">
             <Link href="/myadoptions" className="flex gap-2">
               <FileHeart />
@@ -38,7 +40,7 @@ export default function Nav() {
         </ul>
       )
       }
-      <ul className="flex gap-4 px-4 md:px-8 border-l-2">
+      <ul className="flex gap-4 px-2 md:px-8 border-l-2">
         <li className="text-white font-bold hover:underline">
           {session ? (
             <Link href="/profile" className="flex gap-2">
