@@ -6,7 +6,7 @@ export default function Pet({ pet }) {
   let age = getAge(pet);
   return (
     <div key={pet._id} className="group relative">
-      <div className="min-h-5 aspect-video w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-52">
+      <div className="min-h-5 aspect-video w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:scale-105 transition-all lg:h-52 shadow-sm">
         {
           pet.images && pet.images.length > 0 &&
           <Image
