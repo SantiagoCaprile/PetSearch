@@ -11,6 +11,7 @@ import {
 } from "../../app/store/reducers/petsSlice";
 const URLPETS = `${process.env.API_URL || "http://localhost:4000"}/pets`;
 import { useForm } from "react-hook-form";
+import Pet from "@/classes/Pet";
 
 export default function Page() {
   const { register, handleSubmit } = useForm();
@@ -71,9 +72,9 @@ export default function Page() {
                   <option default value="any">
                     Cualquiera
                   </option>
-                  <option value="dog">Perro</option>
-                  <option value="cat">Gato</option>
-                  <option value="other">Otro</option>
+                  <option value={Pet.SPECIES.DOG}>Perro</option>
+                  <option value={Pet.SPECIES.CAT}>Gato</option>
+                  <option value={Pet.SPECIES.OTHER}>Otro</option>
                 </select>
               </div>
             </div>
@@ -90,9 +91,9 @@ export default function Page() {
                   <option default value="any">
                     Cualquiera
                   </option>
-                  <option value="small">Pequeño</option>
-                  <option value="medium">Mediano</option>
-                  <option value="big">Grande</option>
+                  <option value={Pet.SIZES.SMALL}>Pequeño</option>
+                  <option value={Pet.SIZES.MEDIUM}>Mediano</option>
+                  <option value={Pet.SIZES.LARGE}>Grande</option>
                 </select>
               </div>
             </div>
@@ -104,7 +105,7 @@ export default function Page() {
                 <input
                   type="radio"
                   id="sex-male"
-                  value="male"
+                  value={Pet.SEXS.MALE}
                   name="sex"
                   {...register("sex")}
                 />
@@ -117,7 +118,7 @@ export default function Page() {
                   type="radio"
                   id="sex-female"
                   name="sex"
-                  value="female"
+                  value={Pet.SEXS.FEMALE}
                   {...register("sex")}
                 />
               </div>
@@ -133,10 +134,6 @@ export default function Page() {
                 <X size={16} color="red" />
               </button>
             </div>
-
-
-
-
             <div className="mb-4 flex flex-col items-center">
               <label htmlFor="age" className="block font-medium ">
                 Edad
@@ -150,7 +147,7 @@ export default function Page() {
                   <input
                     type="checkbox"
                     id="age-baby"
-                    value="baby"
+                    value={Pet.AGES.BABY}
                     {...register("age")}
                   />
                 </label>
@@ -162,7 +159,7 @@ export default function Page() {
                   <input
                     type="checkbox"
                     id="age-young"
-                    value="young"
+                    value={Pet.AGES.YOUNG}
                     {...register("age")}
                   />
                 </label>
@@ -174,7 +171,7 @@ export default function Page() {
                   <input
                     type="checkbox"
                     id="age-adult"
-                    value="adult"
+                    value={Pet.AGES.ADULT}
                     {...register("age")}
                   />
                 </label>
@@ -186,7 +183,7 @@ export default function Page() {
                   <input
                     type="checkbox"
                     id="age-senior"
-                    value="senior"
+                    value={Pet.AGES.SENIOR}
                     {...register("age")}
                   />
                 </label>

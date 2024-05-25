@@ -7,6 +7,26 @@ class Pet {
         NEUTERED: "neutered",
         VACCINATED: "vaccinated",
     };
+    static SPECIES = {
+        DOG: "dog",
+        CAT: "cat",
+        OTHER: "other",
+    };
+    static SIZES = {
+        SMALL: "small",
+        MEDIUM: "medium",
+        LARGE: "large",
+    };
+    static SEXS = {
+        MALE: "male",
+        FEMALE: "female",
+    };
+    static AGES = {
+        BABY: "baby",
+        YOUNG: "young",
+        ADULT: "adult",
+        SENIOR: "senior",
+    };
 
     constructor(name, age, breed, description, specie) {
         this.name = name;
