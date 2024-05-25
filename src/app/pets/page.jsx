@@ -3,15 +3,17 @@ import PetCard from "../../components/Pet";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "@/components/Loader";
+import { X } from "lucide-react";
 import {
   setPets,
   setPetsLoading,
   setPetsError,
 } from "../../app/store/reducers/petsSlice";
 const URLPETS = `${process.env.API_URL || "http://localhost:4000"}/pets`;
+import { useForm } from "react-hook-form";
 
 export default function Page() {
-  const [selectedAges, setSelectedAges] = useState([]);
+  const { register, handleSubmit } = useForm();
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
   const petsSelector = useSelector((state) => state.pets);
@@ -35,27 +37,17 @@ export default function Page() {
   const currentItems = Array.isArray(petsSelector.pets)
     ? petsSelector.pets.slice(indexOfFirstItem, indexOfLastItem)
     : [];
-  const totalPages = Math.ceil(currentItems.length / itemsPerPage);
+  const totalPages = Math.ceil(Array.isArray(petsSelector.pets) ? petsSelector.pets.length / itemsPerPage : 0);
+  console.log(totalPages);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const handleSearch = () => {
+  const handleSearch = (data) => {
     // Lógica de búsqueda según los filtros seleccionados
     console.log("Realizar búsqueda...");
-  };
-
-  const handleAgeChange = (event) => {
-    const { value, checked } = event.target;
-
-    setSelectedAges((prevSelectedAges) => {
-      if (checked) {
-        return [...prevSelectedAges, value];
-      } else {
-        return prevSelectedAges.filter((age) => age !== value);
-      }
-    });
+    console.log(data);
   };
 
   return (
@@ -74,6 +66,7 @@ export default function Page() {
                 <select
                   id="species"
                   className="border border-gray-300 rounded-md p-2"
+                  {...register("species")}
                 >
                   <option default value="any">
                     Cualquiera
@@ -83,24 +76,67 @@ export default function Page() {
                   <option value="other">Otro</option>
                 </select>
               </div>
+            </div>
+            <div className="flex flex-col">
               <div className="mb-4">
-                <label htmlFor="breed" className="block font-medium">
-                  Ubicación
+                <label htmlFor="size" className="block font-medium">
+                  Tamaño
                 </label>
                 <select
-                  id="location"
-                  className="border border-gray-300 rounded-md p-2 "
+                  id="size"
+                  className="border border-gray-300 rounded-md p-2"
+                  {...register("size")}
                 >
                   <option default value="any">
                     Cualquiera
                   </option>
-                  <option value="CABA">CABA</option>
-                  <option value="Parana">Paraná</option>
-                  <option value="Santa Fe">Santa Fe</option>
-                  <option value="Rosario">Rosario</option>
+                  <option value="small">Pequeño</option>
+                  <option value="medium">Mediano</option>
+                  <option value="big">Grande</option>
                 </select>
               </div>
             </div>
+            <div className="flex justify-around items-center">
+              <div className="mb-4">
+                <label htmlFor="sex-male" className="block font-medium">
+                  Macho
+                </label>
+                <input
+                  type="radio"
+                  id="sex-male"
+                  value="male"
+                  name="sex"
+                  {...register("sex")}
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="sex-male" className="block font-medium">
+                  Hembra
+                </label>
+                <input
+                  type="radio"
+                  id="sex-female"
+                  name="sex"
+                  value="female"
+                  {...register("sex")}
+                />
+              </div>
+              <button className="bg-gray-800 text-white p-1 rounded-full h-fit"
+                onClick={() => {
+                  // Limpiar sex radio buttons
+                  document.getElementsByName("sex").forEach((el) => {
+                    el.checked = false;
+                  }
+                  );
+                }}
+              >
+                <X size={16} color="red" />
+              </button>
+            </div>
+
+
+
+
             <div className="mb-4 flex flex-col items-center">
               <label htmlFor="age" className="block font-medium ">
                 Edad
@@ -110,60 +146,56 @@ export default function Page() {
                   htmlFor="age-baby"
                   className="inline-flex items-center mt-2"
                 >
-                  <span className="mr-2">Cachorro</span>
+                  <span className="mr-2 text-nowrap">Cachorro {"(< 6 meses)"}</span>
                   <input
                     type="checkbox"
                     id="age-baby"
                     value="baby"
-                    checked={selectedAges.includes("baby")}
-                    onChange={handleAgeChange}
+                    {...register("age")}
                   />
                 </label>
                 <label
                   htmlFor="age-young"
                   className="inline-flex items-center mt-2"
                 >
-                  <span className="mr-2">Joven</span>
+                  <span className="mr-2">Joven {"(< 3 años)"}</span>
                   <input
                     type="checkbox"
                     id="age-young"
                     value="young"
-                    checked={selectedAges.includes("young")}
-                    onChange={handleAgeChange}
+                    {...register("age")}
                   />
                 </label>
                 <label
                   htmlFor="age-adult"
                   className="inline-flex items-center mt-2"
                 >
-                  <span className="mr-2">Adulto</span>
+                  <span className="mr-2">Adulto {"(< 10 años)"}</span>
                   <input
                     type="checkbox"
                     id="age-adult"
                     value="adult"
-                    checked={selectedAges.includes("adult")}
-                    onChange={handleAgeChange}
+                    {...register("age")}
                   />
                 </label>
                 <label
                   htmlFor="age-senior"
                   className="inline-flex items-center mt-2"
                 >
-                  <span className="mr-2">Senior</span>
+                  <span className="mr-2">Senior {"(> 10 años)"}</span>
                   <input
                     type="checkbox"
                     id="age-senior"
                     value="senior"
-                    checked={selectedAges.includes("senior")}
-                    onChange={handleAgeChange}
+                    {...register("age")}
                   />
                 </label>
               </div>
             </div>
           </div>
           <button
-            className=" bg-gray-800 text-white px-4 py-2 rounded-md"
-            onClick={handleSearch}
+            className=" bg-gray-800 text-white px-4 py-2 rounded-md hover:translate-y-0.5 transition-all active:translate-y-1"
+            onClick={handleSubmit(handleSearch)}
           >
             Buscar
           </button>
