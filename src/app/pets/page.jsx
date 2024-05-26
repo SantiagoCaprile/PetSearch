@@ -9,7 +9,6 @@ import {
   setPetsLoading,
   setPetsError,
 } from "../../app/store/reducers/petsSlice";
-const URLPETS = `${process.env.API_URL || "http://localhost:4000"}/pets`;
 import { useForm } from "react-hook-form";
 import Pet from "@/classes/Pet";
 
@@ -22,8 +21,7 @@ export default function Page() {
   // Obtener el índice inicial y final de los elementos a mostrar en la página actual
   useEffect(() => {
     dispatch(setPetsLoading());
-    fetch(URLPETS)
-      .then((response) => response.json())
+    Pet.getAllPets()
       .then((data) => {
         dispatch(setPets(data));
         setCurrentItems(data.slice(indexOfFirstItem, indexOfLastItem));
