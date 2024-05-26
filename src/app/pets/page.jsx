@@ -46,12 +46,14 @@ export default function Page() {
   }, [petsSelector.pets, currentPage]);
 
   const handleSearch = async (data) => {
+
     // Lógica de búsqueda según los filtros seleccionados
     const specie = data.species === "any" ? null : data.species;
     const size = data.size === "any" ? null : data.size
     const filtrados = await Pet.getAllPets(specie, size, data.sex, data.age);
     dispatch(setPets(filtrados));
     setCurrentItems(filtrados);
+    setCurrentPage(1);
   };
 
   return (
