@@ -1,7 +1,27 @@
+"use client"
 import Image from "next/image";
 import rescuerImage from "@public/images/rescuerProfile.svg";
+import { useEffect, useState } from "react";
+import Rescuer from "@/classes/Rescuer";
 
-export default async function RescuerPublicProfile() {
+export default function RescuerPublicProfile({ params }) {
+    const { id } = params;
+    const [rescuer, setRescuer] = useState({});
+
+    useEffect(() => {
+        Rescuer.getRescuerById(id)
+            .then((res) => {
+                setRescuer(res.rescuer);
+                console.log(res.rescuer);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [id]);
+
+    if (!rescuer) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="md:w-3/5 md:m-auto p-4 md:p-8 bg-white shadow-md rounded-md">
@@ -18,15 +38,22 @@ export default async function RescuerPublicProfile() {
                     </div>
                 </div>
                 <div className="w-full md:w-1/2 mb-6 md:pl-6 flex flex-col">
-                    <h1 className="text-3xl mb-2">{
-                        "Pepitos Rescuer"
-                    }</h1>
+                    <h1 className="text-3xl mb-2">{rescuer.user?.name}</h1>
                     <div className="mb-4 flex flex-col h-1/2 justify-evenly">
+                        <p className="text-gray-700">
+                            <strong>Email:</strong> <a href={`mailto:${rescuer.user?.email}`} className="text-blue-500 underline">{rescuer.user?.email}</a>
+                        </p>
                         <p className="text-gray-700">
                             Instagram: <span className="text-blue-500">@usuario</span>
                         </p>
                         <p className="text-gray-700">
                             Facebook: <span className="text-blue-500">@usuario</span>
+                        </p>
+                        <p className="text-gray-700">
+                            {rescuer.city}
+                        </p>
+                        <p className="text-gray-700">
+                            {rescuer.contactPhone}
                         </p>
                     </div>
                 </div>
@@ -35,8 +62,7 @@ export default async function RescuerPublicProfile() {
                 <div className="border-t border-black pt-2 items-center">
                     <h2 className="text-lg font-semibold mb-4">Biografía</h2>
                     <p className="text-gray-700 text-pretty">
-                        En Pichichos, nuestro compromiso es rescatar y rehabilitar perros y gatos en situación de abandono en las calles de Capital Federal. Trabajamos para proporcionarles cuidado veterinario, alimentación y amor, con el objetivo de encontrarles hogares amorosos y responsables. Únete a nuestra misión de salvar vidas y hacer del mundo un lugar mejor para nuestros amigos peludos.
-                        ¡Gracias por tu apoyo!
+                        {rescuer && rescuer?.bio}
                     </p>
                 </div>
             </div>
