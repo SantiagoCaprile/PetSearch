@@ -30,11 +30,19 @@ export default function CreatePet() {
   const router = useRouter();
 
   const [images, setImages] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
   const [date, setDate] = useState(new Date());
 
   //should optimize the images
   const handleImagesChange = async (e) => {
     const files = Array.from(e.target.files);
+    if (files.length > 3) {
+      toast.error("No se pueden subir más de 3 imágenes");
+      e.target.value = null;
+      return;
+    }
+    const imagePreviews = files.map(file => URL.createObjectURL(file));
+    setImagePreviews(imagePreviews);
     const base64Images = await Promise.all(files.map(file => {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -247,6 +255,13 @@ export default function CreatePet() {
       file:cursor-pointer file:transition file:duration-150 file:ease-in-out file:transform file:hover:scale-105
       hover:file:bg-green-300 md:max-w-lg"
           />
+        </div>
+        <div className="image-preview flex gap-1 h-fit mb-2">
+          {imagePreviews.map((image, index) => (
+            <div key={index} className="image-container w-24 md:w-36 overflow-hidden">
+              <img src={image} alt={`Preview ${index}`} className="thumbnail" />
+            </div>
+          ))}
         </div>
         <button
           id="submitButton"
