@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import { Provider } from "react-redux";
 import store from "./store/configureStore";
 import { SessionProvider } from "next-auth/react";
+import { Toaster } from "react-hot-toast";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
@@ -14,6 +15,7 @@ export default function RootLayout({ children }) {
       <Provider store={store}>
         <html lang="en">
           <body className={inter.className + " flex flex-col min-h-lvh"}>
+            <Toaster position="bottom-center" />
             <Nav />
             <main className="flex flex-col flex-1 bg-[#EFEEF1]">{children}</main>
             <footer className="flex flex-col  justify-evenly mt-auto bg-slate-700">

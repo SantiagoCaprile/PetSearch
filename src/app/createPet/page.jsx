@@ -5,6 +5,7 @@ import { useState } from "react";
 import CalendarComponent from "@components/Calendar/page.jsx";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { toast } from 'react-hot-toast';
 
 const createPet = async (data) => {
   try {
@@ -79,6 +80,8 @@ export default function CreatePet() {
   } = useForm();
 
   const onSubmit = async (data) => {
+    document.getElementById("submitButton").disabled = true;
+    const toastId = toast.loading("Creando mascota...");
     const pet = {
       images,
       birthDate: date.toISOString(),
@@ -111,9 +114,14 @@ export default function CreatePet() {
     try {
       const response = await createPet(pet);
       if (response) {
-        router.push("/mypets");
+        toast.success("Mascota creada exitosamente", { id: toastId });
+        setTimeout(() => {
+          router.push("/mypets");
+        }, 3000);
       }
     } catch (error) {
+      toast.error("Error al crear mascota", { id: toastId });
+      document.getElementById("submitButton").disabled = false;
       console.error("Error:", error);
     }
   };
@@ -241,6 +249,7 @@ export default function CreatePet() {
           />
         </div>
         <button
+          id="submitButton"
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded-md"
         >
