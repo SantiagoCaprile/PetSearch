@@ -96,32 +96,37 @@ export default function Page() {
                 </select>
               </div>
             </div>
-            <div className="flex justify-around items-center">
-              <div className="mb-4">
-                <label htmlFor="sex-male" className="block font-medium">
-                  Macho
-                </label>
-                <input
-                  type="radio"
-                  id="sex-male"
-                  value={Pet.SEXS.MALE}
-                  name="sex"
-                  {...register("sex")}
-                />
+            <div className="grid h-fit items-center justify-items-center">
+              <label htmlFor="age" className="w-full font-medium border-b border-black">
+                Sexo
+              </label>
+              <div className="grid gap-2 justify-items-center py-2 md:grid-cols-2">
+                <div className="flex gap-1">
+                  <label htmlFor="sex-male" className="block font-medium">
+                    Macho
+                  </label>
+                  <input
+                    type="radio"
+                    id="sex-male"
+                    value={Pet.SEXS.MALE}
+                    name="sex"
+                    {...register("sex")}
+                  />
+                </div>
+                <div className="flex gap-1">
+                  <label htmlFor="sex-male" className="block font-medium">
+                    Hembra
+                  </label>
+                  <input
+                    type="radio"
+                    id="sex-female"
+                    name="sex"
+                    value={Pet.SEXS.FEMALE}
+                    {...register("sex")}
+                  />
+                </div>
               </div>
-              <div className="mb-4">
-                <label htmlFor="sex-male" className="block font-medium">
-                  Hembra
-                </label>
-                <input
-                  type="radio"
-                  id="sex-female"
-                  name="sex"
-                  value={Pet.SEXS.FEMALE}
-                  {...register("sex")}
-                />
-              </div>
-              <button className="bg-gray-800 text-white p-1 rounded-full h-fit"
+              <button className="bg-gray-200 text-white p-1 rounded-full h-fit w-fit border-2 border-gray-300 hover:scale-105 transition-all mb-1"
                 onClick={() => {
                   // Limpiar sex radio buttons
                   document.getElementsByName("sex").forEach((el) => {
@@ -131,14 +136,14 @@ export default function Page() {
                   );
                 }}
               >
-                <X size={16} color="red" />
+                <X size={14} color="red" />
               </button>
             </div>
             <div className="mb-4 flex flex-col items-center">
               <label htmlFor="age" className="block font-medium ">
                 Edad
               </label>
-              <div className="flex flex-col items-end border-t border-black pb-2 ">
+              <div className="flex flex-col items-end border-t border-black md:pb-2 ">
                 <label
                   htmlFor="age-baby"
                   className="inline-flex items-center mt-2"
