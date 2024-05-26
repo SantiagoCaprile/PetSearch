@@ -38,6 +38,7 @@ export default function CreatePet() {
     const files = Array.from(e.target.files);
     if (files.length > 3) {
       toast.error("No se pueden subir más de 3 imágenes");
+      setImagePreviews([]);
       e.target.value = null;
       return;
     }
