@@ -6,6 +6,7 @@ import CalendarComponent from "@components/Calendar/page.jsx";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from 'react-hot-toast';
+import Pet from "@classes/Pet.js";
 
 const createPet = async (data) => {
   try {
@@ -146,9 +147,9 @@ export default function CreatePet() {
   }
 
   return (
-    <div className="md:w-3/5 mx-auto p-4 w-full bg-white md:my-4 md:shadow-sm md:rounded-sm flex flex-col items-center">
+    <div className="md:w-3/5 mx-auto p-6 w-full bg-white md:my-4 md:shadow-sm md:rounded-sm flex flex-col items-center">
       <h1 className="text-4xl mb-4">Crear mascota</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="pb-5">
         <div className="mb-4">
           <label htmlFor="name" className="block text-lg font-semibold">
             Nombre
@@ -191,6 +192,47 @@ export default function CreatePet() {
           </div>
         </div>
         <div className="mb-4">
+          <label htmlFor="size" className="block text-lg font-semibold">
+            Tamaño
+          </label>
+          <select
+            id="size"
+            {...register("size")}
+            className="border border-gray-300 px-3 py-2 rounded-md w-full md:max-w-lg"
+          >
+            <option value={Pet.SIZES.SMALL}>Pequeño</option>
+            <option value={Pet.SIZES.MEDIUM}>Mediano</option>
+            <option value={Pet.SIZES.LARGE}>Grande</option>
+          </select>
+        </div>
+        <div className="mb-4">
+          <label className="text-lg font-semibold">
+            Sexo
+          </label>
+          <div className="flex justify-center gap-2">
+            <label htmlFor="sex-male" className="font-medium">
+              Macho
+            </label>
+            <input
+              type="radio"
+              id="sex-male"
+              value={Pet.SEXS.MALE}
+              name="sex"
+              {...register("sex")}
+            />
+            <label htmlFor="sex-male" className="font-medium">
+              Hembra
+            </label>
+            <input
+              type="radio"
+              id="sex-female"
+              name="sex"
+              value={Pet.SEXS.FEMALE}
+              {...register("sex")}
+            />
+          </div>
+        </div>
+        <div className="mb-4">
           <label htmlFor="description" className="block text-lg font-semibold">
             Descripción
           </label>
@@ -201,7 +243,7 @@ export default function CreatePet() {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="type" className="block text-lg font-semibold">
+          <label htmlFor="specie" className="block text-lg font-semibold">
             Especie
           </label>
           <select
