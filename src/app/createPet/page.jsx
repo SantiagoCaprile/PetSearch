@@ -135,6 +135,16 @@ export default function CreatePet() {
     }
   };
 
+  const handleMixedChange = (e) => {
+    if (e.target.checked) {
+      document.getElementById("breed").value = "Mestizo";
+      document.getElementById("breed").disabled = true;
+    } else {
+      document.getElementById("breed").value = "";
+      document.getElementById("breed").disabled = false;
+    }
+  }
+
   return (
     <div className="md:w-3/5 mx-auto p-4 w-full bg-white md:my-4 md:shadow-sm md:rounded-sm flex flex-col items-center">
       <h1 className="text-4xl mb-4">Crear mascota</h1>
@@ -160,12 +170,25 @@ export default function CreatePet() {
           <label htmlFor="breed" className="block text-lg font-semibold">
             Raza
           </label>
-          <input
-            type="text"
-            id="breed"
-            {...register("breed")}
-            className="border border-gray-300 px-3 py-2 rounded-md w-full md:max-w-lg"
-          />
+          <div className="flex justify-around items-center gap-2">
+            <input
+              type="text"
+              id="breed"
+              {...register("breed")}
+              className="border border-gray-300 px-3 py-2 rounded-md w-full md:max-w-lg"
+            />
+            <label htmlFor="mixed">
+              Mestizo:
+            </label>
+            <input
+              type='checkbox'
+              id='mixed'
+              {...register('breed')}
+              value='mestizo'
+              className='cursor-pointer'
+              onChange={handleMixedChange}
+            />
+          </div>
         </div>
         <div className="mb-4">
           <label htmlFor="description" className="block text-lg font-semibold">
