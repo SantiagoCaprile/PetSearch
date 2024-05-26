@@ -14,8 +14,9 @@ import { useForm } from "react-hook-form";
 import Pet from "@/classes/Pet";
 
 export default function Page() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentItems, setCurrentItems] = useState([]);
   const dispatch = useDispatch();
   const petsSelector = useSelector((state) => state.pets);
   // Obtener el índice inicial y final de los elementos a mostrar en la página actual
@@ -25,6 +26,7 @@ export default function Page() {
       .then((response) => response.json())
       .then((data) => {
         dispatch(setPets(data));
+        setCurrentItems(data.slice(indexOfFirstItem, indexOfLastItem));
       })
       .catch((err) => {
         console.log(err);
@@ -35,20 +37,19 @@ export default function Page() {
   const itemsPerPage = 8;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = Array.isArray(petsSelector.pets)
-    ? petsSelector.pets.slice(indexOfFirstItem, indexOfLastItem)
-    : [];
   const totalPages = Math.ceil(Array.isArray(petsSelector.pets) ? petsSelector.pets.length / itemsPerPage : 0);
-  console.log(totalPages);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const handleSearch = (data) => {
+  const handleSearch = async (data) => {
     // Lógica de búsqueda según los filtros seleccionados
-    console.log("Realizar búsqueda...");
-    console.log(data);
+    const specie = data.species === "any" ? null : data.species;
+    const size = data.size === "any" ? null : data.size
+    const filtrados = await Pet.getAllPets(specie, size, data.sex, data.age);
+    dispatch(setPets(filtrados));
+    setCurrentItems(filtrados);
   };
 
   return (
@@ -127,6 +128,7 @@ export default function Page() {
                   // Limpiar sex radio buttons
                   document.getElementsByName("sex").forEach((el) => {
                     el.checked = false;
+                    setValue("sex", null)
                   }
                   );
                 }}
@@ -206,7 +208,7 @@ export default function Page() {
             </div>
           ) : (
             <div className="grid gap-x-6 gap-y-10 md:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 mx-2">
-              {currentItems.map((pet, index) => (
+              {currentItems && currentItems.map((pet, index) => (
                 <PetCard key={index} pet={pet} />
               ))}
             </div>

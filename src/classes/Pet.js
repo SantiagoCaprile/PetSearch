@@ -36,14 +36,22 @@ class Pet {
         this.specie = specie;
     }
 
-    static async getAllPets() {
+    static async getAllPets(specie, size, sex, age) {
+        const params = new URLSearchParams(
+            Object.entries({
+                specie,
+                size,
+                sex,
+            }).filter(([key, value]) => value).map(([key, value]) => [key, Array.isArray(value) ? value.join(",") : value])
+        );
+        age ? age.forEach(ageValue => params.append('age', ageValue)) : null;
         try {
-            const response = await fetch(Pet.#URL);
+            const response = await fetch(`${Pet.#URL}?${params}`);
+
             if (response.ok) {
                 const pets = await response.json();
                 return pets;
             } else {
-                console.log("Failed to get pets");
                 return [];
             }
         } catch (error) {
