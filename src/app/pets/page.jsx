@@ -41,6 +41,10 @@ export default function Page() {
     setCurrentPage(pageNumber);
   };
 
+  useEffect(() => {
+    setCurrentItems(petsSelector.pets.slice(indexOfFirstItem, indexOfLastItem));
+  }, [petsSelector.pets, currentPage]);
+
   const handleSearch = async (data) => {
     // Lógica de búsqueda según los filtros seleccionados
     const specie = data.species === "any" ? null : data.species;
