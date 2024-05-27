@@ -42,6 +42,38 @@ class Adoption {
         }
     }
 
+    static async getAdoptionsForUser(userId) {
+        try {
+            const response = await fetch(`${Adoption.#URL}/user/${userId}`);
+            if (response.ok) {
+                const adoptions = await response.json();
+                return adoptions;
+            } else {
+                console.log("Failed to get adoptions for rescuer");
+                return null;
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return null;
+        }
+    }
+
+    static async getAdoptionsForRescuer(rescuerId) {
+        try {
+            const response = await fetch(`${Adoption.#URL}/rescuer/${rescuerId}`);
+            if (response.ok) {
+                const adoptions = await response.json();
+                return adoptions;
+            } else {
+                console.log("Failed to get adoptions for rescuer");
+                return null;
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return null;
+        }
+    }
+
 }
 
 export default Adoption;
