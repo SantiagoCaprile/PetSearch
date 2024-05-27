@@ -109,7 +109,7 @@ export default function PetProfile({ params }) {
             </p>
           </div>
           <Link
-            href="/adoptionform"
+            href={`/adoptionform/${pet._id}`}
             className="flex flex-row gap-2 justify-center align-middle bg-blue-500 text-white px-4 py-2 rounded-md w-2/3 text-center hover:bg-blue-700"
           >
             <BookHeartIcon className="inline-block" />

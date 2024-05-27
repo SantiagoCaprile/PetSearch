@@ -2,7 +2,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-export default function AdoptionFormComponent() {
+export default function AdoptionFormComponent({ petId }) {
   const {
     register,
     watch,
