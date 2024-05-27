@@ -1,18 +1,22 @@
 "use client";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useSession } from "next-auth/react";
 
 export default function AdoptionFormComponent({ petId }) {
+  const { data: session } = useSession();
   const {
     register,
     watch,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
   const watchRazon = watch("Razon", "");
   const watchInfoMascotas = watch("InfoMascotas", "");
-  console.log(errors);
+  const onSubmit = (data) => {
+    data = { ...data, petId, userId: session.user._id };
+    console.log(data);
+  }
 
   return (
     <div className="flex flex-1 justify-center items-center">
@@ -30,23 +34,23 @@ export default function AdoptionFormComponent({ petId }) {
           <div className="flex gap-1 items-center">
             <label>Si </label>
             <input
-              {...register("Responsable", {
+              {...register("responsable", {
                 required: { value: true, message: "Campo requerido" },
               })}
               type="radio"
-              value="Si"
+              value={true}
               className={styles.radio}
             />
             <label>No </label>
             <input
-              {...register("Responsable")}
+              {...register("responsable")}
               type="radio"
-              value=" No"
+              value={false}
               className={styles.radio}
             />
           </div>
-          {errors.Responsable && (
-            <p className={styles.errors}>{errors.Responsable.message}</p>
+          {errors.responsable && (
+            <p className={styles.errors}>{errors.responsable.message}</p>
           )}
         </fieldset>
         <fieldset className="mb-4">
@@ -56,30 +60,30 @@ export default function AdoptionFormComponent({ petId }) {
           <div className="flex gap-1 items-center">
             <label>Si </label>
             <input
-              {...register("Ingresos", {
+              {...register("incomeMoney", {
                 required: { value: true, message: "Campo requerido" },
               })}
               type="radio"
-              value="Si"
+              value={true}
               className={styles.radio}
             />
             <label>No </label>
             <input
-              {...register("Ingresos")}
+              {...register("incomeMoney")}
               type="radio"
-              value=" No"
+              value={false}
               className={styles.radio}
             />
           </div>
-          {errors.Ingresos && (
-            <p className={styles.errors}>{errors.Ingresos.message}</p>
+          {errors.incomeMoney && (
+            <p className={styles.errors}>{errors.incomeMoney.message}</p>
           )}
         </fieldset>
         <fieldset className="mb-4">
           <label className={styles.label}>
             Seleccione el tipo de vivienda donde vivirá la mascota
           </label>
-          <select {...register("Tipo vivienda")} className={styles.select}>
+          <select {...register("homeType")} className={styles.select}>
             <option value="Casa con patio">Casa con patio</option>
             <option value=" Casa sin patio"> Casa sin patio</option>
             <option value=" Dpto"> Dpto</option>
@@ -93,23 +97,23 @@ export default function AdoptionFormComponent({ petId }) {
           <div className="flex gap-1 items-center">
             <label>Si </label>
             <input
-              {...register("Permiso", {
+              {...register("allowed", {
                 required: { value: true, message: "Campo requerido" },
               })}
               type="radio"
-              value="Si"
+              value={true}
               className={styles.radio}
             />
             <label>No </label>
             <input
-              {...register("Permiso")}
+              {...register("allowed")}
               type="radio"
-              value=" No"
+              value={false}
               className={styles.radio}
             />
           </div>
-          {errors.Permiso && (
-            <p className={styles.errors}>{errors.Permiso.message}</p>
+          {errors.allowed && (
+            <p className={styles.errors}>{errors.allowed.message}</p>
           )}
         </fieldset>
         <fieldset className="mb-4">
@@ -119,30 +123,30 @@ export default function AdoptionFormComponent({ petId }) {
           <div className="flex gap-1 items-center">
             <label>Si </label>
             <input
-              {...register("Alergias", {
+              {...register("alergies", {
                 required: { value: true, message: "Campo requerido" },
               })}
               type="radio"
-              value="Si"
+              value={true}
               className={styles.radio}
             />
             <label>No </label>
             <input
-              {...register("Alergias")}
+              {...register("alergies")}
               type="radio"
-              value=" No"
+              value={false}
               className={styles.radio}
             />
           </div>
-          {errors.Alergias && (
-            <p className={styles.errors}>{errors.Alergias.message}</p>
+          {errors.alergies && (
+            <p className={styles.errors}>{errors.alergies.message}</p>
           )}
         </fieldset>
         <fieldset className="mb-4">
           <label className={styles.label}>
             ¿Tienes o tuviste otras mascotas?
           </label>
-          <select {...register("Otras mascotas")} className={styles.select}>
+          <select {...register("hadPets")} className={styles.select}>
             <option value="Si, tengo">Si, tengo</option>
             <option value=" Si, tuve"> Si, tuve</option>
             <option value=" Nunca tuve"> Nunca tuve</option>
@@ -155,16 +159,16 @@ export default function AdoptionFormComponent({ petId }) {
           <div className="flex gap-1 items-center">
             <label>Si </label>
             <input
-              {...register("Castrados")}
+              {...register("areSterilized")}
               type="radio"
-              value="Si"
+              value={true}
               className={styles.radio}
             />
             <label>No </label>
             <input
-              {...register("Castrados")}
+              {...register("areSterilized")}
               type="radio"
-              value=" No"
+              value={false}
               className={styles.radio}
             />
           </div>
@@ -175,7 +179,7 @@ export default function AdoptionFormComponent({ petId }) {
           </label>
           <textarea
             className={styles.inputs + " h-24 resize-none"}
-            {...register("InfoMascotas", {
+            {...register("tellMoreAboutPets", {
               maxLength: {
                 value: 700,
                 message: "Limite de caracteres excedido",
@@ -198,12 +202,12 @@ export default function AdoptionFormComponent({ petId }) {
             En caso de no poder seguir teniendo a la mascota, ¿qué harías con
             ella?
           </label>
-          <select className={styles.select} {...register("Caso final")}>
-            <option value=" Me contacto con la rescatista">
+          <select className={styles.select} {...register("inWorstCase")}>
+            <option value="Me contacto con la rescatista">
               Me contacto con la rescatista
             </option>
             <option value="La regalo">La regalo</option>
-            <option value=" Busco un familiar/amigo responsable">
+            <option value="Busco un familiar/amigo responsable">
               Busco un familiar/amigo responsable
             </option>
           </select>
@@ -214,7 +218,7 @@ export default function AdoptionFormComponent({ petId }) {
           </label>
           <textarea
             className={styles.inputs + " h-24 resize-none"}
-            {...register("Razon", {
+            {...register("whyAdopt", {
               required: {
                 value: true,
                 message: "Por favor completa la razón para adoptar",
