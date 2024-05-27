@@ -2,8 +2,13 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
+import Adoption from "@/classes/Adoption";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+
 
 export default function AdoptionFormComponent({ petId }) {
+  const router = useRouter();
   const { data: session } = useSession();
   const {
     register,
@@ -13,9 +18,20 @@ export default function AdoptionFormComponent({ petId }) {
   } = useForm();
   const watchRazon = watch("Razon", "");
   const watchInfoMascotas = watch("InfoMascotas", "");
-  const onSubmit = (data) => {
-    data = { ...data, petId, userId: session.user._id };
-    console.log(data);
+  const onSubmit = async (data) => {
+    const toastId = toast.loading("Enviando solicitud...", { duration: 5000 });
+    data = { ...data, pet: petId, user: session.user._id };
+    const response = await Adoption.createAdoptionForm(data);
+    if (response) {
+      toast.remove(toastId);
+      toast.success("Solicitud enviada correctamente");
+      setTimeout(() => {
+        router.push("/");
+      }, 3000);
+    } else {
+      toast.remove(toastId);
+      toast.error("Error al enviar la solicitud");
+    }
   }
 
   return (
