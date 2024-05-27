@@ -19,6 +19,19 @@ class Adoption {
         this.result = result;
     }
 
+    static translateResult(result) {
+        switch (result) {
+            case 'pending':
+                return 'Pendiente';
+            case 'approved':
+                return 'Aprobada';
+            case 'rejected':
+                return 'Rechazada';
+            default:
+                return 'Desconocido';
+        }
+    }
+
     //this method will be used to create a new adoption form and send it to the server
     static async createAdoptionForm(adoption) {
         try {
@@ -66,6 +79,22 @@ class Adoption {
                 return adoptions;
             } else {
                 console.log("Failed to get adoptions for rescuer");
+                return null;
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return null;
+        }
+    }
+
+    static async getAdoptionById(id) {
+        try {
+            const response = await fetch(`${Adoption.#URL}/${id}`);
+            if (response.ok) {
+                const adoption = await response.json().then((res) => res.adoption);
+                return adoption;
+            } else {
+                console.log("Failed to get adoption");
                 return null;
             }
         } catch (error) {
