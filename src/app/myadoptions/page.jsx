@@ -1,79 +1,34 @@
 "use client"
 import React from "react";
 import AdoptionCard from "@/components/AdoptionCard/page";
-
-const sampleData = [
-    {
-        pet: {
-            _id: "1",
-            name: "Max",
-            breed: "Labrador",
-        },
-        user: {
-            _id: "1",
-            name: "John Doe",
-        },
-        adoption: {
-            _id: "1",
-            status: "approved",
-            date: "2021-09-01",
-        },
-    },
-    {
-        pet: {
-            _id: "2",
-            name: "Luna",
-            breed: "Golden Retriever",
-        },
-        user: {
-            _id: "2",
-            name: "Jane Doe",
-        },
-        adoption: {
-            _id: "2",
-            status: "on review",
-            date: "2021-09-01",
-        },
-    },
-    {
-        pet: {
-            _id: "3",
-            name: "Rocky",
-            breed: "German Shepherd",
-        },
-        user: {
-            _id: "3",
-            name: "John Smith",
-        },
-        adoption: {
-            _id: "3",
-            status: "pending",
-            date: "2021-09-01",
-        },
-    },
-    {
-        pet: {
-            _id: "4",
-            name: "Bella",
-            breed: "Poodle",
-        },
-        user: {
-            _id: "4",
-            name: "Jane Smith",
-        },
-        adoption: {
-            _id: "4",
-            status: "denied",
-            date: "2021-09-01",
-        },
-    },
-];
+import Adoption from "@/classes/Adoption";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 export default function MyAdoptions() {
+    const { data: session } = useSession();
+    const id = session?.user?._id;
+    const [adoptions, setAdoptions] = useState([]);
+
+    useEffect(() => {
+        const response = Adoption.getAdoptionsForRescuer(id)
+            .then((response) => {
+                setAdoptions(response);
+                console.log("Adoptions for user:", response);
+            }
+            ).catch((error) => {
+                console.error("An error occurred:", error);
+            });
+        if (!response) {
+            console.log("Failed to get adoptions for user");
+        }
+    }
+        , [id]);
+
     return (
         <div className="grid grid-cols-1 place-items-center gap-4 align-middle md:grid-cols-2 lg:grid-cols-3 my-4">
-            {sampleData.map((adoption) => (
-                <AdoptionCard key={adoption.pet._id} {...adoption} />
+            {adoptions && adoptions.map((adoption) => (
+                <AdoptionCard key={adoption.pet._id} adoption={adoption} pet={adoption.pet} user={adoption.user} />
             ))}
         </div>
     );
