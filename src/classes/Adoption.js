@@ -1,7 +1,7 @@
 
 //this class will be used to create new Adoption objects
 class Adoption {
-    static #URL = `${process.env.API_URL || "http://localhost:4000"}/adoptions-forms`;
+    static #URL = `${process.env.API_URL || "http://localhost:4000"}/adoption-forms`;
     constructor(pet, user, rescuer, responsable, incomeMoney, homeType, allowed, alergies, hadPets, areSterilized, tellMoreAboutPets, inWorstCase, whyAdopt, result) {
         this.pet = pet;
         this.user = user;
