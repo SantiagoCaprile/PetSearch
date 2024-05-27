@@ -96,16 +96,16 @@ export default function PetProfile({ params }) {
           </h1>
           <div className="mb-4 flex flex-col h-1/2 justify-evenly">
             <p className="text-gray-700">
-              <strong>Sexo:</strong> macho
-              {
-                //pet sex
-              }
+              <strong>Sexo:</strong> {pet.sex === 'male' ? 'Macho' : 'Hembra'}
             </p>
             <p className="text-gray-700">
               <strong>Edad:</strong> {petAge.number} {petAge.unit}
             </p>
             <p className="text-gray-700">
               <strong>Raza:</strong> {pet.breed}
+            </p>
+            <p className="text-gray-700">
+              <strong>Tamaño:</strong> {pet.size === 'small' ? 'Pequeño' : pet.size === 'medium' ? 'Mediano' : 'Grande'}
             </p>
           </div>
           <Link
