@@ -17,12 +17,13 @@ export default function RootLayout({ children }) {
           <body className={inter.className + " flex flex-col min-h-lvh"}>
             <Toaster position="bottom-center" />
             <Nav />
-            <main className="flex flex-col flex-1 bg-[#EFEEF1]">{children}</main>
-            <footer className="flex flex-col  justify-evenly mt-auto bg-slate-700">
-              <p className="text-center text-gray-500 text-xs p-1">
-                &copy;{new Date().getFullYear()} PetSearch - All Rights Reserved
-              </p>
-            </footer>
+            <main className="flex flex-col flex-1 bg-[#EFEEF1] mb-14 md:mb-0">{children}
+              <footer className="flex flex-col  justify-evenly mt-auto bg-slate-700">
+                <p className="text-center text-gray-500 text-xs p-1">
+                  &copy;{new Date().getFullYear()} PetSearch - All Rights Reserved
+                </p>
+              </footer>
+            </main>
             <BottomNavMobile />
           </body>
         </html>
