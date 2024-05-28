@@ -7,6 +7,7 @@ import Adoption from "@/classes/Adoption";
 import Loader from "@/components/Loader";
 import { getAge, formatDateToDDMMYYYY } from "@/utils/dateFunctions";
 import { useSession } from "next-auth/react";
+import ConfirmButton from "@/components/ConfirmButton/page";
 
 import { CheckCircle2, XCircle } from "lucide-react";
 const checkCrossPill = (value, message) => {
@@ -31,7 +32,7 @@ export default function AdoptionPage({ params: { id } }) {
         if (!session) return;
         Adoption.getAdoptionById(id)
             .then((adoption) => {
-                adoption.result = Adoption.translateResult(adoption.result);
+                adoption.status = Adoption.translateResult(adoption.result);
                 const pet = adoption.pet;
                 const user = adoption.user;
                 pet.image = pet.images[0];
@@ -58,7 +59,6 @@ export default function AdoptionPage({ params: { id } }) {
             Intentelo mas tarde
         </div>;
     }
-
 
 
     return (
@@ -100,7 +100,7 @@ export default function AdoptionPage({ params: { id } }) {
                     </label>
                     <p>{formatDateToDDMMYYYY(adoption.createdAt)}</p>
                     <label className='font-bold text-center'>Estado:</label>
-                    <p>{adoption.result}</p>
+                    <p>{adoption.status}</p>
                     <label className='font-bold text-center'>Tipo propiedad: </label>
                     <p>{adoption.homeType}</p>
                 </div>
@@ -115,6 +115,33 @@ export default function AdoptionPage({ params: { id } }) {
                     <label className={styles.label}>¿Por que queres adoptar a este animal?</label>
                     <p>{adoption.whyAdopt}</p>
                 </div>
+                {session && session.user.role === 'user' &&
+                    <ConfirmButton
+                        onClick={() => console.log("Adoption retired")}
+                        text="Retirar Adopción"
+                        disabledIf={!(adoption.result === Adoption.result.ON_REVIEW || adoption.result === Adoption.result.PENDING)}
+                        finalText="Esta seguro de retirar la adopción?"
+                        bgColor="bg-red-500"
+                    />
+                }
+                {session && session.user.role === 'rescuer' &&
+                    <div className="flex flex-col gap-2 md:flex-row w-full md:w-fit">
+                        <ConfirmButton
+                            onClick={() => console.log("Adoption accepted")}
+                            text="Aprobar"
+                            disabledIf={!(adoption.result === Adoption.result.ON_REVIEW || adoption.result === Adoption.result.PENDING)}
+                            finalText="Esta seguro de aceptar la adopción?"
+                            bgColor="bg-green-500"
+                        />
+                        <ConfirmButton
+                            onClick={() => console.log("Adoption denied")}
+                            text="Rechazar adopción"
+                            disabledIf={!(adoption.result === Adoption.result.ON_REVIEW || adoption.result === Adoption.result.PENDING)}
+                            finalText="Esta seguro de rechazar la adopción?"
+                            bgColor="bg-red-500"
+                        />
+                    </div>
+                }
             </div>
             <div className="w-full md:w-1/3 p-2 ">
                 <Chat />
