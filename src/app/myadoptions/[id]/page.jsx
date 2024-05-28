@@ -60,7 +60,6 @@ export default function AdoptionPage({ params: { id } }) {
         </div>;
     }
 
-
     return (
         <div className="flex flex-col md:flex-row justify-evenly items-center">
             <div className="flex flex-col items-center justify-center p-2 gap-2">

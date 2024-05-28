@@ -39,8 +39,7 @@ export default function MyAdoptions() {
                 console.log("Failed to get adoptions");
             }
         }
-    }
-        , [id]);
+    }, [id]);
 
     if (adoptions === 'error') {
         return <div className="text-center text-red-500">
@@ -58,7 +57,7 @@ export default function MyAdoptions() {
 
     return (
         <div className="grid grid-cols-1 place-items-center gap-4 align-middle md:grid-cols-2 lg:grid-cols-3 my-4">
-            {adoptions === 'loading' ? <div className=" col-span-3"><Loader /></div>
+            {adoptions === 'loading' ? <div className="col-span-3"><Loader /></div>
                 : adoptions?.map((adoption) => (
                     <AdoptionCard key={adoption.pet._id} adoption={adoption} pet={adoption.pet} user={adoption.user} />
                 ))}
