@@ -2,6 +2,13 @@
 //this class will be used to create new Adoption objects
 class Adoption {
     static #URL = `${process.env.API_URL || "http://localhost:4000"}/adoption-forms`;
+    static result = {
+        PENDING: 'pending',
+        ON_REVIEW: 'on review',
+        APPROVED: 'approved',
+        DENIED: 'denied',
+        RETIRED: 'retired',
+    }
     constructor(pet, user, rescuer, responsable, incomeMoney, homeType, allowed, alergies, hadPets, areSterilized, tellMoreAboutPets, inWorstCase, whyAdopt, result) {
         this.pet = pet;
         this.user = user;
@@ -119,6 +126,32 @@ class Adoption {
         }
     }
 
+    static async changeAdoptionStatus(adoptionId, status, role) {
+        //Verify that the rescuer cant change the status of an adoption to retired
+        //only the user can do that
+        if (role !== 'rescuer' && status === this.result.RETIRED) {
+            return null;
+        }
+        try {
+            const response = await fetch(`${Adoption.#URL}/${adoptionId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ result }),
+            });
+            if (response.ok) {
+                const adoption = await response.json();
+                return adoption;
+            } else {
+                console.log("Failed to change adoption status");
+                return null;
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return null;
+        }
+    }
 }
 
 export default Adoption;
