@@ -13,16 +13,19 @@ export default function BottomNavMobile() {
                 <span className="text-white text-xs">Inicio</span>
             </Link>
             {
-                session && session.user.role === "rescuer" && (
+                session && (session.user.role === "rescuer" || session.user.role === "user") && (
                     <>
                         <Link href="/myadoptions" className="flex flex-col items-center">
                             <FileHeart color="white" />
                             <span className="text-white text-xs">Mis adopciones</span>
                         </Link>
-                        <Link href="/mypets" className="flex flex-col items-center">
-                            <Cat color="white" />
-                            <span className="text-white text-xs">Mis Mascotas</span>
-                        </Link>
+                        {
+                            session && session.user.role === "rescuer" &&
+                            <Link href="/mypets" className="flex flex-col items-center">
+                                <Cat color="white" />
+                                <span className="text-white text-xs">Mis Mascotas</span>
+                            </Link>
+                        }
                     </>
                 )
             }
