@@ -12,16 +12,32 @@ export default function MyAdoptions() {
     const [adoptions, setAdoptions] = useState('loading');
 
     useEffect(() => {
-        const response = Adoption.getAdoptionsForRescuer(id)
-            .then((response) => {
-                setAdoptions(response);
+        if (!session) return;
+        if (session.user.role === 'rescuer') {
+            const response = Adoption.getAdoptionsForRescuer(id)
+                .then((response) => {
+                    setAdoptions(response);
+                }
+                ).catch((error) => {
+                    setAdoptions('error');
+                    console.error("An error occurred:", error);
+                });
+            if (!response) {
+                console.log("Failed to get adoptions");
             }
-            ).catch((error) => {
-                setAdoptions('error');
-                console.error("An error occurred:", error);
-            });
-        if (!response) {
-            console.log("Failed to get adoptions");
+        } else if (session.user.role === 'user') {
+            const response = Adoption.getAdoptionsForUser(id)
+                .then((response) => {
+                    setAdoptions(response);
+                    console.log(response);
+                }
+                ).catch((error) => {
+                    setAdoptions('error');
+                    console.error("An error occurred:", error);
+                });
+            if (!response) {
+                console.log("Failed to get adoptions");
+            }
         }
     }
         , [id]);
@@ -31,6 +47,12 @@ export default function MyAdoptions() {
             Error al cargar las adopciones
             <br />
             Intentelo mas tarde
+        </div>;
+    }
+
+    if (adoptions && adoptions.length === 0) {
+        return <div className="text-center text-gray-500 pt-4">
+            No tienes adopciones
         </div>;
     }
 

@@ -6,7 +6,7 @@ import Link from "next/link";
 import Adoption from "@/classes/Adoption";
 import Loader from "@/components/Loader";
 import { getAge, formatDateToDDMMYYYY } from "@/utils/dateFunctions";
-
+import { useSession } from "next-auth/react";
 
 import { CheckCircle2, XCircle } from "lucide-react";
 const checkCrossPill = (value, message) => {
@@ -21,12 +21,14 @@ const checkCrossPill = (value, message) => {
 }
 
 export default function AdoptionPage({ params: { id } }) {
+    const { data: session } = useSession();
 
     const [adoption, setAdoption] = useState('loading');
     const [pet, setPet] = useState(null);
     const [user, setUser] = useState(null);
 
     useEffect(() => {
+        if (!session) return;
         Adoption.getAdoptionById(id)
             .then((adoption) => {
                 adoption.result = Adoption.translateResult(adoption.result);
