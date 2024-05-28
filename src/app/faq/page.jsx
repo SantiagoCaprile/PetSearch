@@ -49,7 +49,7 @@ export default function Faq() {
                             <div
                                 className={`duration-300 ease-in-out overflow-hidden ${isFaqSelected ? 'max-h-screen' : 'max-h-0'}`}
                             >
-                                <div className="p-4">
+                                <div className="p-4 text-pretty">
                                     <p>{faq.A}</p>
                                 </div>
                             </div>
