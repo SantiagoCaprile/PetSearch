@@ -23,7 +23,7 @@ export default function Nav() {
         <span className="text-sm text-white font-normal"> hi</span>
       </p>
       <LocationSelector />
-      {session && (session.user.role === "rescuer" || session.user.role) === "user" && (
+      {session && (session.user.role === "rescuer" || session.user.role === "user") && (
         <ul className="flex-1 justify-end gap-4 border-l-2 px-2 md:px-8 hidden md:flex">
           <li className="text-white font-bold hover:underline">
             <Link href="/myadoptions" className="gap-2 flex">
