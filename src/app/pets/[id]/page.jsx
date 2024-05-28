@@ -7,6 +7,10 @@ import Loader from "@/components/Loader";
 import Carousel from "@/components/Carousel/page";
 import { getAge } from "@/utils/dateFunctions";
 import Pet from "@classes/Pet";
+import { useSession } from "next-auth/react";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import Adoption from "@classes/Adoption";
 
 import {
   addPet,
@@ -23,9 +27,9 @@ const greenCheck = <CheckCircle2 className="text-green-500" />;
 const redX = <XCircle className="text-red-500" />;
 
 export default function PetProfile({ params }) {
+  const { data: session } = useSession();
+  const router = useRouter();
   const { id } = params;
-  // Esto luego se cambia cuando se obtiene la data de la base de datos
-  //const pet = pets.find((pet) => pet.id == id);
   const dispatch = useDispatch();
   const pet = useSelector((state) => {
     return state.pets.pets.find((pet) => pet._id == id);
@@ -33,7 +37,6 @@ export default function PetProfile({ params }) {
   const loading = useSelector((state) => state.pets.loading);
   const error = useSelector((state) => state.pets.error);
   useEffect(() => {
-    console.log(pet);
     if (pet === null) {
       dispatch(setPetsLoading());
       fetch(URLPETS).then((response) => {
@@ -58,7 +61,6 @@ export default function PetProfile({ params }) {
         }
       });
     }
-
   }, [dispatch, pet, id]);
 
   if (!pet || loading) {
@@ -77,6 +79,22 @@ export default function PetProfile({ params }) {
       return founded.value;
     }
   };
+
+  const handleAdopt = async () => {
+    if (session && session.user.role === "user") {
+      const res = await Adoption.verifyIfAdoptionExists(pet._id, session.user._id);
+      if (res) {
+        toast.error("Ya has solicitado la adopción de esta mascota");
+      } else {
+        router.push(`/adoptionform/${pet._id}`);
+      }
+    } else {
+      toast.error("Debes iniciar sesión para poder adoptar una mascota");
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000);
+    }
+  }
 
   return (
     <div className="md:w-4/5 mx-auto p-4">
@@ -108,13 +126,13 @@ export default function PetProfile({ params }) {
               <strong>Tamaño:</strong> {pet.size === 'small' ? 'Pequeño' : pet.size === 'medium' ? 'Mediano' : 'Grande'}
             </p>
           </div>
-          <Link
-            href={`/adoptionform/${pet._id}`}
+          <button
+            onClick={() => handleAdopt()}
             className="flex flex-row gap-2 justify-center align-middle bg-blue-500 text-white px-4 py-2 rounded-md w-2/3 text-center hover:bg-blue-700"
           >
             <BookHeartIcon className="inline-block" />
             Adoptame
-          </Link>
+          </button>
           {pet.rescuer && (
             <Link
               href={`/rescuers/${pet.rescuer?._id}`}

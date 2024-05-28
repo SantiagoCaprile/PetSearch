@@ -103,6 +103,22 @@ class Adoption {
         }
     }
 
+    static async verifyIfAdoptionExists(petId, userId) {
+        try {
+            const response = await fetch(`${Adoption.#URL}/${userId}/${petId}`);
+            if (response.ok) {
+                const adoption = await response.json();
+                return adoption;
+            } else {
+                console.log("Failed to get adoption");
+                return null;
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return null;
+        }
+    }
+
 }
 
 export default Adoption;
