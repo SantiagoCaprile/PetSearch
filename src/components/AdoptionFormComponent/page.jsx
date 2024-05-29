@@ -101,9 +101,9 @@ export default function AdoptionFormComponent({ petId }) {
           </label>
           <select {...register("homeType")} className={styles.select}>
             <option value="Casa con patio">Casa con patio</option>
-            <option value=" Casa sin patio"> Casa sin patio</option>
-            <option value=" Dpto"> Dpto</option>
-            <option value=" Campo"> Campo</option>
+            <option value="Casa sin patio"> Casa sin patio</option>
+            <option value="Dpto"> Dpto</option>
+            <option value="Campo"> Campo</option>
           </select>
         </fieldset>
         <fieldset className="mb-4">
@@ -164,8 +164,8 @@ export default function AdoptionFormComponent({ petId }) {
           </label>
           <select {...register("hadPets")} className={styles.select}>
             <option value="Si, tengo">Si, tengo</option>
-            <option value=" Si, tuve"> Si, tuve</option>
-            <option value=" Nunca tuve"> Nunca tuve</option>
+            <option value="Si, tuve"> Si, tuve</option>
+            <option value="Nunca tuve"> Nunca tuve</option>
           </select>
         </fieldset>
         <fieldset className="mb-4">
