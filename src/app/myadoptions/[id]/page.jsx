@@ -8,6 +8,7 @@ import Loader from "@/components/Loader";
 import { getAge, formatDateToDDMMYYYY } from "@/utils/dateFunctions";
 import { useSession } from "next-auth/react";
 import ConfirmButton from "@/components/ConfirmButton/page";
+import { toast } from "react-hot-toast"
 
 import { CheckCircle2, XCircle } from "lucide-react";
 const checkCrossPill = (value, message) => {
@@ -27,6 +28,7 @@ export default function AdoptionPage({ params: { id } }) {
     const [adoption, setAdoption] = useState('loading');
     const [pet, setPet] = useState(null);
     const [user, setUser] = useState(null);
+    const [actualResult, setActualResult] = useState(null);
 
     useEffect(() => {
         if (!session) return;
@@ -40,11 +42,12 @@ export default function AdoptionPage({ params: { id } }) {
                 setPet(pet);
                 setUser(user);
                 setAdoption(adoption);
+                setActualResult(adoption.result);
             }).catch((error) => {
                 setAdoption(null);
                 console.error("An error occurred:", error);
             });
-    }, [id]);
+    }, [id, actualResult]);
 
     if (adoption == 'loading') {
         return <div className="flex flex-1 items-center justify-center">
@@ -58,6 +61,19 @@ export default function AdoptionPage({ params: { id } }) {
             <br />
             Intentelo mas tarde
         </div>;
+    }
+
+    const handleConfirmChange = (status) => {
+        const toastId = toast.loading("Cargando...");
+        Adoption.changeAdoptionStatus(adoption._id, status, session.user.role)
+            .then((response) => {
+                console.log(response);
+                setActualResult(status);
+                toast.success("Acción realizada exitosamente", { id: toastId });
+            }).catch((error) => {
+                toast.error("Error al realizar la acción", { id: toastId });
+                console.error("An error occurred:", error);
+            });
     }
 
     return (
@@ -108,15 +124,15 @@ export default function AdoptionPage({ params: { id } }) {
                     <label className={styles.label}>¿Experiencia con mascotas o que van a convivir con el animal?</label>
                     <p>{adoption.tellMoreAboutPets}</p>
                     <hr className="w-full border border-gray-300" />
-                    <label className={styles.label}>¿Que harias en el caso de que no puedas tener mas el animal?</label>
+                    <label className={styles.label}>¿Que harías en el caso de que no puedas tener mas el animal?</label>
                     <p>{adoption.inWorstCase}</p>
                     <hr className="w-full border border-gray-300" />
-                    <label className={styles.label}>¿Por que queres adoptar a este animal?</label>
+                    <label className={styles.label}>¿Por qué queres adoptar?</label>
                     <p>{adoption.whyAdopt}</p>
                 </div>
                 {session && session.user.role === 'user' &&
                     <ConfirmButton
-                        onClick={() => console.log("Adoption retired")}
+                        click={() => handleConfirmChange(Adoption.result.CANCELLED)}
                         text="Retirar Adopción"
                         disabledIf={!(adoption.result === Adoption.result.ON_REVIEW || adoption.result === Adoption.result.PENDING)}
                         finalText="Esta seguro de retirar la adopción?"

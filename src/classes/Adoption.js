@@ -7,7 +7,7 @@ class Adoption {
         ON_REVIEW: 'on review',
         APPROVED: 'approved',
         DENIED: 'denied',
-        RETIRED: 'retired',
+        CANCELLED: 'cancelled',
     }
     constructor(pet, user, rescuer, responsable, incomeMoney, homeType, allowed, alergies, hadPets, areSterilized, tellMoreAboutPets, inWorstCase, whyAdopt, result) {
         this.pet = pet;
@@ -34,6 +34,10 @@ class Adoption {
                 return 'Aprobada';
             case 'rejected':
                 return 'Rechazada';
+            case 'cancelled':
+                return 'Cancelada';
+            case 'on review':
+                return 'En revisión';
             default:
                 return 'Desconocido';
         }
@@ -126,10 +130,10 @@ class Adoption {
         }
     }
 
-    static async changeAdoptionStatus(adoptionId, status, role) {
-        //Verify that the rescuer cant change the status of an adoption to retired
+    static async changeAdoptionStatus(adoptionId, result, role) {
+        //Verify that the rescuer cant change the status of an adoption to cancelled
         //only the user can do that
-        if (role !== 'rescuer' && status === this.result.RETIRED) {
+        if (role === 'rescuer' && result === this.result.CANCELLED) {
             return null;
         }
         try {
