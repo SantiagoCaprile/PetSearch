@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CheckCircle, Ban, Timer, CircleDotDashed } from "lucide-react";
 import { formatDateToDDMMYYYY } from "@/utils/dateFunctions";
+import Adoption from "@/classes/Adoption";
 
 export default function AdoptionCard({ adoption, pet, user }) {
 
@@ -39,10 +40,11 @@ export default function AdoptionCard({ adoption, pet, user }) {
                         formatDateToDDMMYYYY(adoption.createdAt)
                     }</p>
                     <p className="text-sm font-medium text-gray-900">
-                        {adoption.result === "approved" && (<span className={styles.statusSpan}><CheckCircle color="LightGreen" strokeWidth={3} /> Adoptado</span>)}
-                        {adoption.result === "denied" && (<span className={styles.statusSpan}><Ban color="Red" strokeWidth={3} /> Rechazado</span>)}
-                        {adoption.result === "pending" && (<span className={styles.statusSpan}><Timer color="Yellow" strokeWidth={3} /> Pendiente</span>)}
-                        {adoption.result === "on review" && (<span className={styles.statusSpan}><CircleDotDashed color="Blue" strokeWidth={3} /> En Revisión</span>)}
+                        {adoption.result === Adoption.result.APPROVED && (<span className={styles.statusSpan}><CheckCircle color="LightGreen" strokeWidth={3} /> Adoptado</span>)}
+                        {adoption.result === Adoption.result.DENIED && (<span className={styles.statusSpan}><Ban color="Red" strokeWidth={3} /> Rechazado</span>)}
+                        {adoption.result === Adoption.result.PENDING && (<span className={styles.statusSpan}><Timer color="Yellow" strokeWidth={3} /> Pendiente</span>)}
+                        {adoption.result === Adoption.result.ON_REVIEW && (<span className={styles.statusSpan}><CircleDotDashed color="Blue" strokeWidth={3} /> En Revisión</span>)}
+                        {adoption.result === Adoption.result.CANCELLED && (<span className={styles.statusSpan}><Ban color="Red" strokeWidth={3} /> Cancelado</span>)}
                     </p>
                 </div>
             </Link>
