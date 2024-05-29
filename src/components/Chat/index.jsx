@@ -24,7 +24,12 @@ const Chat = ({ chatId }) => {
 	const chatBottomRef = useRef(null);
 
 	useEffect(() => {
-		chatBottomRef.current.scrollIntoView({ behavior: "smooth" });
+		if (window.innerWidth >= 768) {
+			chatBottomRef.current.scrollIntoView({
+				behavior: "smooth",
+				block: "end",
+			});
+		}
 	}, [messages]);
 
 	useEffect(() => {
@@ -115,7 +120,7 @@ const Chat = ({ chatId }) => {
 	};
 
 	return (
-		<div className="bg-gray-100 flex flex-col justify-end min-h-80 max-h-[700px] p-1 rounded-sm border border-black">
+		<div className="bg-gray-100 flex flex-col justify-end min-h-80 max-h-[500px] md:max-h-[700px] p-1 rounded-sm border border-black">
 			<div className="flex-1 overflow-y-auto scroll-smooth">
 				{messages.length === 0 ? (
 					<p className="text-center text-black">Aún no hay mensajes</p>
