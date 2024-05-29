@@ -15,7 +15,7 @@ function formatTime(dateString) {
 	return `${hours}:${minutes}`;
 }
 
-const Chat = () => {
+const Chat = ({ chatId }) => {
 	const session = useSession();
 	const username = session?.data?.user?.name ?? "Anónimo";
 
@@ -32,7 +32,7 @@ const Chat = () => {
 			"join",
 			{
 				username: username ?? "Anónimo",
-				chatId: "652f0abed963dedc03e53686",
+				chatId: chatId,
 			},
 			(error) => {
 				if (error) {
@@ -44,6 +44,7 @@ const Chat = () => {
 		socket.on("allMessages", (messages) => {
 			const formattedMessages = messages.map((message) => {
 				return {
+					chat: message.chatId,
 					body: message.body,
 					time: formatTime(message.time),
 					user: message.username,
@@ -56,6 +57,7 @@ const Chat = () => {
 			setMessages((messages) => [
 				...messages,
 				{
+					chat: data.chatId,
 					body: data.body,
 					time: formatTime(data.time),
 					user: data.username,
@@ -88,6 +90,7 @@ const Chat = () => {
 	const handleSendMessage = () => {
 		if (inputValue.trim() !== "") {
 			const newMessage = {
+				chatId: chatId,
 				body: inputValue,
 				time: formatTime(new Date()),
 				user: username ?? "Anónimo",
@@ -112,7 +115,7 @@ const Chat = () => {
 	};
 
 	return (
-		<div className="bg-gray-100 flex flex-col justify-end max-h-[700px] p-1 rounded-sm border border-black">
+		<div className="bg-gray-100 flex flex-col justify-end min-h-80 max-h-[700px] p-1 rounded-sm border border-black">
 			<div className="flex-1 overflow-y-auto scroll-smooth">
 				{messages.length === 0 ? (
 					<p className="text-center text-black">Aún no hay mensajes</p>

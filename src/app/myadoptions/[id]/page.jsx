@@ -127,7 +127,7 @@ export default function AdoptionPage({ params: { id } }) {
                     <label className='font-bold text-center'>Estado:</label>
                     <p>{adoption.status}</p>
                     <label className='font-bold text-center'>Tipo propiedad: </label>
-                    <p>{adoption.homeType}</p>
+                    <p>{adoption.homeType === "Dpto" ? "Departamento" : adoption.homeType}</p>
                 </div>
                 <div className="flex flex-col gap-2">
                     <hr className="w-full border border-gray-300" />
@@ -169,7 +169,7 @@ export default function AdoptionPage({ params: { id } }) {
                 }
             </div>
             <div className="w-full md:w-1/3 p-2 ">
-                <Chat />
+                <Chat chatId={adoption.chat} />
             </div>
         </div>
     )
