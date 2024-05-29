@@ -27,6 +27,7 @@ export default function AdoptionPage({ params }) {
     const [adoption, setAdoption] = useState('loading');
     const [pet, setPet] = useState(null);
     const [user, setUser] = useState(null);
+    const [rescuer, setRescuer] = useState(null);
     const [actualResult, setActualResult] = useState(null);
 
     useEffect(() => {
@@ -50,6 +51,7 @@ export default function AdoptionPage({ params }) {
                 pet.age = pet.birthDate ? getAge(pet) : "Desconocida";
                 setPet(pet);
                 setUser(user);
+                setRescuer(adoption.rescuer)
                 setAdoption(adoption);
                 setActualResult(adoption.result);
             }).catch((error) => {
@@ -88,25 +90,38 @@ export default function AdoptionPage({ params }) {
     return (
         <div className="flex flex-col md:flex-row justify-evenly items-center">
             <div className="flex flex-col items-center justify-center p-2 gap-2">
-                <div className="grid grid-cols-2">
+                <div className="grid md:grid-cols-2 md:gap-4 md:mb-2">
                     <Link href={`/pets/${pet._id}`} className={styles.cards}>
-                        <div className="w-fit h-fit">
-                            <p>{pet.name}</p>
+                        <p className="col-span-2 text-center text-lg md:text-xl"
+                        ><b>{pet.name}</b></p>
+                        <div className="flex justify-center items-center h-[150px] w-[200px] md:h-[200px] md:w-[250px]">
+                            <Image src={pet.image} alt="Pet image" width={200} height={200} className="w-full h-full object-center object-cover rounded-md" />
+                        </div>
+                        <div className="flex w-full justify-around">
                             <p>{pet.breed}</p>
                             <p>{pet.age.number}{" "}{pet.age.unit}</p>
                         </div>
-                        <div className="h-full flex justify-center items-center md:h-[200px] md:w-[200px]">
-                            <Image src={pet.image} alt="Pet image" width={200} height={200} className="w-full h-full object-center object-cover rounded-md" />
-                        </div>
                     </Link>
-                    <div className={styles.cards}>
-                        <div>
-                            <p>{user.name}</p>
-                            <p>{user?.phone}</p>
-                            <p>{user.email}</p>
+                    <div className="flex flex-col items-center justify-center">
+                        <div className={styles.heros}>
+                            <div className="text-wrap">
+                                <p><b>{user.name}</b></p>
+                                <p>{user?.phone}</p>
+                                <p className="text-xs md:text-base">{user.email}</p>
+                            </div>
+                            <div className="flex justify-center items-center h-[50px] w-[50px]">
+                                <Image src={user.image || "/images/userProfile.svg"} alt="User image" width={200} height={200} priority className="w-full h-full object-center object-cover rounded-md" />
+                            </div>
                         </div>
-                        <div className="w-full h-full flex justify-center items-center md:h-[200px] md:w-[200px]">
-                            <Image src={user.image || "/images/userProfile.svg"} alt="User image" width={150} height={150} className="w-full h-full object-center object-cover rounded-md" />
+                        <div className={styles.heros}>
+                            <div className="text-wrap">
+                                <p><b>{rescuer.user.name}</b></p>
+                                <p>{rescuer?.user.phone}</p>
+                                <p className="text-xs md:text-base">{rescuer.user.email}</p>
+                            </div>
+                            <div className="flex justify-center items-center h-[50px] w-[50px]">
+                                <Image src={rescuer.image || "/images/rescuerProfile.svg"} alt="User image" width={100} height={100} priority className="w-full h-full object-center object-cover rounded-md" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -175,6 +190,7 @@ export default function AdoptionPage({ params }) {
 }
 
 const styles = {
-    cards: "flex flex-col items-center justify-evenly border-2 p-2 m-2 hover:transform hover:scale-105 hover:bg-slate-200 transition-all rounded-md bg-slate-300",
+    cards: "flex flex-col items-center justify-evenly border-2 p-2 hover:transform hover:scale-105 hover:bg-slate-200 transition-all rounded-md bg-slate-300 w-full gap-2",
+    heros: "flex justify-center items-center gap-2 p-2 m-2 hover:transform hover:scale-105 hover:bg-slate-200 transition-all rounded-md bg-slate-300 w-full",
     label: "text-lg font-semibold",
 }
