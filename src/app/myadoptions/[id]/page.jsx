@@ -34,7 +34,7 @@ export default function AdoptionPage({ params: { id } }) {
         if (!session) return;
         Adoption.getAdoptionById(id)
             .then((adoption) => {
-                if (adoption.result === Adoption.result.PENDING) {
+                if (session.user.role === "rescuer" && adoption.result === Adoption.result.PENDING) {
                     Adoption.changeAdoptionStatus(adoption._id, Adoption.result.ON_REVIEW, session.user.role)
                         .then((response) => {
                             console.log(response);
