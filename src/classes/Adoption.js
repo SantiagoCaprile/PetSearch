@@ -32,7 +32,7 @@ class Adoption {
                 return 'Pendiente';
             case 'approved':
                 return 'Aprobada';
-            case 'rejected':
+            case 'denied':
                 return 'Rechazada';
             case 'cancelled':
                 return 'Cancelada';

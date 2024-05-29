@@ -34,6 +34,16 @@ export default function AdoptionPage({ params: { id } }) {
         if (!session) return;
         Adoption.getAdoptionById(id)
             .then((adoption) => {
+                if (adoption.result === Adoption.result.PENDING) {
+                    Adoption.changeAdoptionStatus(adoption._id, Adoption.result.ON_REVIEW, session.user.role)
+                        .then((response) => {
+                            console.log(response);
+                        }).catch((error) => {
+                            console.error("An error occurred:", error);
+                        });
+                }
+                return adoption;
+            }).then((adoption) => {
                 adoption.status = Adoption.translateResult(adoption.result);
                 const pet = adoption.pet;
                 const user = adoption.user;
@@ -142,14 +152,14 @@ export default function AdoptionPage({ params: { id } }) {
                 {session && session.user.role === 'rescuer' &&
                     <div className="flex flex-col gap-2 md:flex-row w-full md:w-fit">
                         <ConfirmButton
-                            onClick={() => console.log("Adoption accepted")}
+                            click={() => handleConfirmChange(Adoption.result.APPROVED)}
                             text="Aprobar"
                             disabledIf={!(adoption.result === Adoption.result.ON_REVIEW || adoption.result === Adoption.result.PENDING)}
                             finalText="Esta seguro de aceptar la adopción?"
                             bgColor="bg-green-500"
                         />
                         <ConfirmButton
-                            onClick={() => console.log("Adoption denied")}
+                            click={() => handleConfirmChange(Adoption.result.DENIED)}
                             text="Rechazar adopción"
                             disabledIf={!(adoption.result === Adoption.result.ON_REVIEW || adoption.result === Adoption.result.PENDING)}
                             finalText="Esta seguro de rechazar la adopción?"
