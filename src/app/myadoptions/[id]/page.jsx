@@ -22,9 +22,8 @@ const checkCrossPill = (value, message) => {
     }
 }
 
-export default function AdoptionPage({ params: { id } }) {
+export default function AdoptionPage({ params }) {
     const { data: session } = useSession();
-
     const [adoption, setAdoption] = useState('loading');
     const [pet, setPet] = useState(null);
     const [user, setUser] = useState(null);
@@ -32,7 +31,7 @@ export default function AdoptionPage({ params: { id } }) {
 
     useEffect(() => {
         if (!session) return;
-        Adoption.getAdoptionById(id)
+        Adoption.getAdoptionById(params.id)
             .then((adoption) => {
                 if (session.user.role === "rescuer" && adoption.result === Adoption.result.PENDING) {
                     Adoption.changeAdoptionStatus(adoption._id, Adoption.result.ON_REVIEW, session.user.role)
@@ -57,7 +56,7 @@ export default function AdoptionPage({ params: { id } }) {
                 setAdoption(null);
                 console.error("An error occurred:", error);
             });
-    }, [id, actualResult]);
+    }, [params.id, actualResult, session]);
 
     if (adoption == 'loading') {
         return <div className="flex flex-1 items-center justify-center">
