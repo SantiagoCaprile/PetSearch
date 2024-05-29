@@ -88,6 +88,8 @@ export default function PetProfile({ params }) {
       } else {
         router.push(`/adoptionform/${pet._id}`);
       }
+    } else if (session) {
+      toast.error("Los rescatistas no pueden adoptar mascotas, inicia sesión como usuario para poder hacerlo", { duration: 6000 });
     } else {
       toast.error("Debes iniciar sesión para poder adoptar una mascota");
       setTimeout(() => {
