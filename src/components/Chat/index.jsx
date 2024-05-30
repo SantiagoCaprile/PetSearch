@@ -71,6 +71,10 @@ const Chat = ({ chatId }) => {
 			if (typeof callback === "function") {
 				callback("Message received successfully");
 			}
+			chatBottomRef.current.scrollIntoView({
+				behavior: "smooth",
+				block: "end",
+			});
 		});
 
 		socket.on("error", (error) => {
