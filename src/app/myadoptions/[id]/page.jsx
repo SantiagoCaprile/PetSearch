@@ -10,7 +10,7 @@ import { useSession } from "next-auth/react";
 import ConfirmButton from "@/components/ConfirmButton/page";
 import { toast } from "react-hot-toast"
 
-import { CheckCircle2, XCircle } from "lucide-react";
+import { CheckCircle2, XCircle, MessageSquareWarning } from "lucide-react";
 const checkCrossPill = (value, message) => {
     const styles = {
         statusSpan: "flex gap-2 items-center justify-center p-1 rounded-lg border border-gray-700 text-black md:w-fit h-[50px] w-full md:h-full ",
@@ -155,13 +155,22 @@ export default function AdoptionPage({ params }) {
                     <p>{adoption.whyAdopt}</p>
                 </div>
                 {session && session.user.role === 'user' &&
-                    <ConfirmButton
-                        click={() => handleConfirmChange(Adoption.result.CANCELLED)}
-                        text="Retirar Adopción"
-                        disabledIf={!(adoption.result === Adoption.result.ON_REVIEW || adoption.result === Adoption.result.PENDING)}
-                        finalText="Esta seguro de retirar la adopción?"
-                        bgColor="bg-red-500"
-                    />
+                    <>
+                        <ConfirmButton
+                            click={() => handleConfirmChange(Adoption.result.CANCELLED)}
+                            text="Retirar Adopción"
+                            disabledIf={!(adoption.result === Adoption.result.ON_REVIEW || adoption.result === Adoption.result.PENDING)}
+                            finalText="Esta seguro de retirar la adopción?"
+                            bgColor="bg-red-500"
+                        />
+                        <ConfirmButton
+                            click={() => console.log("Rescatista denunciado")}
+                            text={<div className="flex gap-2 items-center justify-center"><MessageSquareWarning size={24} strokeWidth={3} /><span>Denunciar</span></div>}
+                            disabledIf={!(adoption.result === Adoption.result.ON_REVIEW || adoption.result === Adoption.result.PENDING)}
+                            finalText="Está seguro que desea poner una denuncia?"
+                            bgColor="bg-red-500"
+                        />
+                    </>
                 }
                 {session && session.user.role === 'rescuer' &&
                     <div className="flex flex-col gap-2 md:flex-row w-full md:w-fit">
