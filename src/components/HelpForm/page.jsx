@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Map from "@/components/Map";
 import LOCATIONS from "@utils/ar.json";
@@ -7,8 +7,8 @@ import { MapPin, Save } from "lucide-react"
 
 
 export default function HelpForm() {
-    const [mapa, setMapa] = useState(false);
-    const [ubicacion, setUbicacion] = useState({});
+    const [map, setMap] = useState(false);
+    const [location, setLocation] = useState({});
     const {
         register,
         handleSubmit,
@@ -16,27 +16,37 @@ export default function HelpForm() {
         formState: { errors },
     } = useForm();
 
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            window.localStorage.getItem("location")
+                && setLocation(LOCATIONS.find(city => city.city == window.localStorage.getItem("location")))
+            console.log(window.localStorage.getItem("location"))
+            document.getElementById("localidad").value = LOCATIONS.findIndex(city => city.city == window.localStorage.getItem("location"))
+            setMap(true)
+        }
+    }, [])
+
     const onSubmit = async (data) => {
-        if (ubicacion.lat === undefined || ubicacion.lng === undefined) {
+        if (location.lat === undefined || location.lng === undefined) {
             alert("Debe visualizar la ubicación en el mapa antes de continuar");
             return;
         }
         data = {
             ...data,
-            lat: ubicacion.lat,
-            lng: ubicacion.lng,
+            lat: location.lat,
+            lng: location.lng,
         };
         console.log("data a enviar: ", data);
     };
 
-    const actualizarMapa = () => {
-        setMapa(false);
-        setUbicacion({
+    const updateMap = () => {
+        setMap(false);
+        setLocation({
             lat: LOCATIONS[getValues("localidad")].lat,
             lng: LOCATIONS[getValues("localidad")].lng,
         });
         setTimeout(() => {
-            setMapa(true);
+            setMap(true);
         }, 200);
     }
 
@@ -144,7 +154,7 @@ export default function HelpForm() {
                         className={styles.button}
                         onClick={(e) => {
                             e.preventDefault();
-                            actualizarMapa();
+                            updateMap();
                         }}
                     >
                         Ver Mapa <MapPin size={24} />
@@ -155,9 +165,9 @@ export default function HelpForm() {
                 </form>
             </div>
             <div className="flex flex-col w-full gap-2">
-                <div className="md:h-[600px] md:min-w-[500px] h-[300px] bg-slate-400 rounded-md overflow-hidden">
-                    {mapa && ubicacion ? (
-                        <Map center={[ubicacion.lat, ubicacion.lng]} zoom={13}>
+                <div className="md:h-[600px] md:min-w-[500px] h-[300px] bg-slate-400 rounded-md overflow-hidden z-0">
+                    {map && location ? (
+                        <Map center={[location.lat, location.lng]} zoom={13}>
                             {({ TileLayer, Marker }) => (
                                 <>
                                     <TileLayer
@@ -165,11 +175,11 @@ export default function HelpForm() {
                                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                                     />
                                     <Marker
-                                        position={[ubicacion.lat, ubicacion.lng]}
+                                        position={[location.lat, location.lng]}
                                         draggable={true}
                                         eventHandlers={{
                                             dragend: (e) => {
-                                                setUbicacion(e.target.getLatLng());
+                                                setLocation(e.target.getLatLng());
                                             },
                                         }}
                                     />
@@ -178,12 +188,12 @@ export default function HelpForm() {
                         </Map>
                     ) : (
                         <div className="flex justify-center items-center h-full">
-                            {!ubicacion && !mapa && (
+                            {!location && !map && (
                                 <h2 className="text-2xl font-bold text-white">
                                     Ingrese la dirección para ver el mapa
                                 </h2>
                             )}
-                            {ubicacion && !mapa && (
+                            {location && !map && (
                                 <h2 className="text-2xl font-bold text-white">
                                     Cargando Mapa...
                                 </h2>
