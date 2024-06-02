@@ -46,14 +46,23 @@ export default function Nav() {
       <ul className="flex gap-4 px-2 md:px-8 border-l-2">
         <li className="text-white font-bold hover:underline">
           {session ? (
-            <Link href="/profile" className="gap-2 hidden md:flex">
-              <User />
-              <span>
-                {session.user.name}
-                {session.user.role === "rescuer" && " - Rescatista"}
-                {session.user.role === "admin" && " - Admin"}
-              </span>
-            </Link>
+            session.user.role === "rescuer" ? (
+              <Link href={`/rescuers/${session.user._id}`} className="gap-2 hidden md:flex">
+                <User />
+                <span>
+                  {session.user.name}
+                  {session.user.role === "rescuer" && " - Rescatista"}
+                </span>
+              </Link>
+            ) : (
+              <Link href={`/users/${session.user._id}`} className="gap-2 hidden md:flex">
+                <User />
+                <span>
+                  {session.user.name}
+                  {session.user.role === "admin" && " - Admin"}
+                </span>
+              </Link>
+            )
           ) : (
             <Link href="/login" className="gap-2 hidden md:flex">
               <User />
