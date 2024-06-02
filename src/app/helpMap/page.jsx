@@ -29,6 +29,16 @@ export default function HelpMap() {
     const [city, setCity] = useState(null)
     const [map, setMap] = useState(false)
 
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            window.localStorage.getItem("location")
+                && setCity(LOCATIONS.find(city => city.city == window.localStorage.getItem("location")))
+            console.log(window.localStorage.getItem("location"))
+            document.getElementById("city").value = LOCATIONS.findIndex(city => city.city == window.localStorage.getItem("location"))
+            setMap(true)
+        }
+    }, [])
+
     const handleSetCity = (e) => {
         e.preventDefault()
         setMap(false)
