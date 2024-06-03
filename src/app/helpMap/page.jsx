@@ -89,7 +89,7 @@ export default function HelpMap() {
                                             key={index}
                                             position={[pet.lat, pet.lng]}
                                             icon={L.icon({
-                                                iconUrl: pet.type != "Lost" ? "/leaflet/images/marker-icon-red.png" : "/leaflet/images/marker-icon-green.png",
+                                                iconUrl: pet.type == "Lost" ? "/leaflet/images/marker-icon-red.png" : "/leaflet/images/marker-icon-green.png",
                                                 popupAnchor: [0, -30],
                                                 iconSize: [20, 30],
                                                 shadowUrl: "/leaflet/images/marker-shadow.png",
