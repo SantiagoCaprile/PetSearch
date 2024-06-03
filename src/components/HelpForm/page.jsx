@@ -4,17 +4,26 @@ import { useForm } from "react-hook-form";
 import Map from "@/components/Map";
 import LOCATIONS from "@utils/ar.json";
 import { MapPin, Save } from "lucide-react"
+import { Dog } from "lucide-react";
+import Image from "next/image";
 
 
 export default function HelpForm() {
     const [map, setMap] = useState(false);
     const [location, setLocation] = useState({});
+    const [image, setImage] = useState([]);
     const {
         register,
         handleSubmit,
         getValues,
         formState: { errors },
     } = useForm();
+
+    async function handleImageChange(e) {
+        const files = Array.from(e.target.files);
+        const imagePreview = files.map(file => URL.createObjectURL(file));
+        setImage(imagePreview[0])
+    }
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -109,10 +118,34 @@ export default function HelpForm() {
                             {...register("descripcion", {
                                 maxLength: {
                                     value: 500,
-                                    message: "No puede superar los 200 caracteres",
+                                    message: "No puede superar los 500 caracteres",
                                 },
                             })}
                         ></textarea>
+                    </fieldset>
+                    <fieldset className={styles.fieldset + " self-center w-full"}>
+                        <label htmlFor="images" className={styles.label + " self-start"}>
+                            Imagen
+                        </label>
+                        <div className="flex md:flex-1 flex-col md:flex-row justify-between items-center gap-2">
+                            <label className="cursor-pointer">
+                                <input type="file" className="hidden"
+                                    id="images"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                />
+                                {image && image.length > 0 ?
+                                    <Image src={image}
+                                        alt="dog"
+                                        className="aspect-square object-cover overflow-hidden rounded-md"
+                                        width={150}
+                                        height={150} />
+                                    :
+                                    <Dog size={150} className="bg-slate-200 opacity-50 rounded-md" />
+                                }
+                            </label>
+                            <p className="text-sm text-gray-500 md:max-w-36 max-w-full text-pretty">Agregar una imagen del animal aumenta en un 80% la posibilidad de conectarlo con mas personas</p>
+                        </div>
                     </fieldset>
                     <div className="mb-4">
                         <fieldset className={styles.fieldset}>
