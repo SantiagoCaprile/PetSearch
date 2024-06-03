@@ -8,6 +8,7 @@ import { PlusSquare } from "lucide-react";
 //will display a map with lost and fount pets
 const lostAndFoundPets = [
     {
+        image: "https://res.cloudinary.com/dprm5aerx/image/upload/f_auto,q_auto/qc9bukqchv8cjf7z5wip",
         name: "Tommy",
         type: "Lost",
         lat: "-34.6033",
@@ -16,6 +17,7 @@ const lostAndFoundPets = [
         cel: "11 9 44444444"
     },
     {
+        image: "https://res.cloudinary.com/dprm5aerx/image/upload/f_auto,q_auto/rcmnx2zwiso7e3hnlsur",
         name: "Kepler",
         type: "Found",
         lat: "-34.6035",
@@ -98,10 +100,7 @@ export default function HelpMap() {
                                             })}
                                         >
                                             <Popup>
-                                                <p className="text-center">
-                                                    {pet.type == 'Lost' ? "Perdido " : "Encontrado "} el {pet.date}<br />
-                                                    {pet.cel}
-                                                </p>
+                                                <PopupData pet={pet} />
                                             </Popup>
                                         </Marker>))
                                 }
@@ -118,3 +117,17 @@ export default function HelpMap() {
     )
 }
 
+// this will be the component for the popup to display the data of the pet
+import Image from "next/image";
+function PopupData({ pet }) {
+    return (
+        <div className={"w-36 flex-col items-center justify-center "}>
+            <Image src={pet.image} alt="dog" className="aspect-square object-cover overflow-hidden rounded-md" width={200} height={200} />
+            <p className={"text-center rounded-lg " + (pet.type == 'Lost' ? " bg-red-200" : "bg-green-100")}>
+                <b>{pet.type == 'Lost' ? "Perdido " : "Encontrado "}</b><br />
+                {pet.date}<br />
+                {pet.cel}
+            </p>
+        </div>
+    )
+}
