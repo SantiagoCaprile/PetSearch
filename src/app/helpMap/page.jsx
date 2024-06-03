@@ -14,7 +14,8 @@ const lostAndFoundPets = [
         lat: "-34.6033",
         lng: "-58.3817",
         date: "17/04/2024",
-        cel: "11 9 44444444"
+        cel: "11 9 44444444",
+        description: "Gato de raza pequeña, color marrón claro, ojos grandes, cola corta, muy amigable Gato de raza pequeña, color marrón claro, ojos grandes, cola corta, muy amigable Gato de raza pequeña, color marrón claro, ojos grandes, cola corta, muy amigable"
     },
     {
         image: "https://res.cloudinary.com/dprm5aerx/image/upload/f_auto,q_auto/rcmnx2zwiso7e3hnlsur",
@@ -23,7 +24,8 @@ const lostAndFoundPets = [
         lat: "-34.6035",
         lng: "-58.3819",
         date: "13/04/2024",
-        cel: "343 4409871"
+        cel: "343 4409871",
+        description: "Gato de raza siames, color blanco con manchas grises, ojos azules, muy cariñoso"
     }
 ]
 
@@ -120,14 +122,31 @@ export default function HelpMap() {
 // this will be the component for the popup to display the data of the pet
 import Image from "next/image";
 function PopupData({ pet }) {
+    const [showMore, setShowMore] = useState(false)
+
+    const handleShowMore = () => {
+        setShowMore(!showMore)
+    }
+
     return (
-        <div className={"w-36 flex-col items-center justify-center "}>
+        <div className={"w-36 flex-col items-center justify-center max-h-80 overflow-scroll"}>
             <Image src={pet.image} alt="dog" className="aspect-square object-cover overflow-hidden rounded-md" width={200} height={200} />
-            <p className={"text-center rounded-lg " + (pet.type == 'Lost' ? " bg-red-200" : "bg-green-100")}>
-                <b>{pet.type == 'Lost' ? "Perdido " : "Encontrado "}</b><br />
-                {pet.date}<br />
-                {pet.cel}
-            </p>
+            <div className={"text-center rounded-lg " + (pet.type == 'Lost' ? " bg-red-200" : "bg-green-100")}>
+                <p>
+                    <b className="text-lg">{pet.type == 'Lost' ? "Perdido " : "Encontrado "}</b>
+                    <br />
+                    {pet.date}
+                    <br />
+                    {!showMore ? (pet.description?.slice(0, 50) + "...") : pet.description}
+                    <span className="pl-2 text-blue-500 font-bold cursor-pointer text-nowrap" onClick={handleShowMore}>
+                        {!showMore ? "Ver más" : "Menos"}
+                    </span>
+                    <br />
+                    <span className="font-bold">
+                        {pet.cel}
+                    </span>
+                </p>
+            </div>
         </div>
     )
 }
