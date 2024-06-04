@@ -117,12 +117,17 @@ export default function HelpForm() {
                             type="date"
                             name="date"
                             id="date"
+                            max={new Date().toISOString().split('T')[0]}
                             className={styles.inputs + (errors.date && styles.inputError)}
                             {...register("date", {
                                 required: {
                                     value: true,
                                     message: "Fecha es requerida",
                                 },
+                                max: {
+                                    value: new Date().toISOString().split('T')[0],
+                                    message: "Fecha no puede ser mayor a la actual"
+                                }
                             })}
                         />
                     </fieldset>
