@@ -6,12 +6,20 @@ import LOCATIONS from "@utils/ar.json";
 import { MapPin, Save } from "lucide-react"
 import { Dog } from "lucide-react";
 import Image from "next/image";
+import HelpFormClass from "@/classes/HelpForm";
+import { useSession } from "next-auth/react";
+import { toast } from 'react-hot-toast';
+import { useRouter } from "next/navigation";
+import { convertImageToBase64 } from "@/utils/imgFunctions";
 
 
 export default function HelpForm() {
     const [map, setMap] = useState(false);
     const [location, setLocation] = useState({});
     const [image, setImage] = useState([]);
+    const [file, setFile] = useState(null);
+    const { data: session } = useSession();
+    const router = useRouter();
     const {
         register,
         handleSubmit,
@@ -22,6 +30,7 @@ export default function HelpForm() {
     async function handleImageChange(e) {
         const files = Array.from(e.target.files);
         const imagePreview = files.map(file => URL.createObjectURL(file));
+        setFile(files[0]);
         setImage(imagePreview[0])
     }
 
@@ -29,7 +38,6 @@ export default function HelpForm() {
         if (typeof window !== "undefined") {
             window.localStorage.getItem("location")
                 && setLocation(LOCATIONS.find(city => city.city == window.localStorage.getItem("location")))
-            console.log(window.localStorage.getItem("location"))
             document.getElementById("localidad").value = LOCATIONS.findIndex(city => city.city == window.localStorage.getItem("location"))
             setMap(true)
         }
@@ -42,10 +50,25 @@ export default function HelpForm() {
         }
         data = {
             ...data,
-            lat: location.lat,
-            lng: location.lng,
+            location: {
+                lat: location.lat,
+                lng: location.lng,
+                city: LOCATIONS[getValues("localidad")].city,
+            },
+            image: file ? await convertImageToBase64(file) : null,
+            user: session.user._id,
         };
-        console.log("data a enviar: ", data);
+
+        const toastId = toast.loading("Creando anuncio...");
+        const result = await HelpFormClass.createHelpForm(data);
+        if (result) {
+            toast.success("Anuncio creado correctamente", { id: toastId });
+            setTimeout(() => {
+                router.push("/helpMap");
+            }, 2000);
+        } else {
+            toast.error("Error al crear anuncio", { id: toastId });
+        }
     };
 
     const updateMap = () => {
@@ -66,36 +89,36 @@ export default function HelpForm() {
                     Crear anuncio
                 </h2>
                 <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-                    <fieldset className={styles.fieldset + (errors.tipo && " text-red-500")}>
-                        <label htmlFor="tipo" className={styles.label}
+                    <fieldset className={styles.fieldset + (errors.type && " text-red-500")}>
+                        <label htmlFor="type" className={styles.label}
                         >
                             Tipo *
                         </label>
                         <div className="flex justify-center items-center gap-2">
-                            <input type="radio" name="tipo" id="lost" value="lost" {...register("tipo", {
+                            <input type="radio" name="type" id="lost" value={HelpFormClass.TYPE.LOST} {...register("type", {
                                 required: {
                                     value: true,
-                                    message: "Tipo es requerido",
+                                    message: "type es requerido",
                                 }
                             })
                             } />
                             <label htmlFor="lost" className="mr-2">
                                 Perdido
                             </label>
-                            <input type="radio" name="tipo" id="found" value="found" {...register("tipo")} />
+                            <input type="radio" name="type" id="found" value={HelpFormClass.TYPE.FOUND} {...register("type")} />
                             <label htmlFor="found">Encontrado</label>
                         </div>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
-                        <label htmlFor="fecha" className={styles.label}>
+                        <label htmlFor="date" className={styles.label}>
                             Fecha *
                         </label>
                         <input
                             type="date"
-                            name="fecha"
-                            id="fecha"
-                            className={styles.inputs + (errors.fecha && styles.inputError)}
-                            {...register("fecha", {
+                            name="date"
+                            id="date"
+                            className={styles.inputs + (errors.date && styles.inputError)}
+                            {...register("date", {
                                 required: {
                                     value: true,
                                     message: "Fecha es requerida",
@@ -104,18 +127,18 @@ export default function HelpForm() {
                         />
                     </fieldset>
                     <fieldset className="mb-4">
-                        <label htmlFor="descripcion" className={styles.label}>
+                        <label htmlFor="description" className={styles.label}>
                             Descripción
                         </label>
                         <textarea
-                            name="descripcion"
-                            id="descripcion"
+                            name="description"
+                            id="description"
                             cols="50"
                             rows="10"
                             maxLength={500}
                             placeholder="Como es el animal? Donde fue visto?..."
                             className={styles.inputs + " resize-none"}
-                            {...register("descripcion", {
+                            {...register("description", {
                                 maxLength: {
                                     value: 500,
                                     message: "No puede superar los 500 caracteres",
