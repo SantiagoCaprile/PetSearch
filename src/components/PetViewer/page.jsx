@@ -146,7 +146,7 @@ export default function PetViewer({ petList = [], admitNewPet = false, loading =
                         Buscar
                     </button>
                 </div>
-                <div className="md:w-3/4 bg-white p-4 flex flex-col justify-between">
+                <div className="md:w-3/4 bg-white p-4 flex flex-col justify-between min-h-fit">
                     {!loading && !currentItems.length && <p>No se encontró ninguna mascota</p>}
                     {loading && <div className="flex flex-1 flex-col justify-center items-center">
                         <Loader />
