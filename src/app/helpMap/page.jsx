@@ -4,34 +4,12 @@ import Map from "@/components/Map";
 import LOCATIONS from "@utils/ar.json"
 import Link from "next/link";
 import { PlusSquare } from "lucide-react";
-
-//will display a map with lost and fount pets
-const lostAndFoundPets = [
-    {
-        image: "https://res.cloudinary.com/dprm5aerx/image/upload/f_auto,q_auto/qc9bukqchv8cjf7z5wip",
-        name: "Tommy",
-        type: "Lost",
-        lat: "-34.6033",
-        lng: "-58.3817",
-        date: "17/04/2024",
-        cel: "11 9 44444444",
-        description: "Gato de raza pequeña, color marrón claro, ojos grandes, cola corta, muy amigable Gato de raza pequeña, color marrón claro, ojos grandes, cola corta, muy amigable Gato de raza pequeña, color marrón claro, ojos grandes, cola corta, muy amigable"
-    },
-    {
-        image: "https://res.cloudinary.com/dprm5aerx/image/upload/f_auto,q_auto/rcmnx2zwiso7e3hnlsur",
-        name: "Kepler",
-        type: "Found",
-        lat: "-34.6035",
-        lng: "-58.3819",
-        date: "13/04/2024",
-        cel: "343 4409871",
-        description: "Gato de raza siames, color blanco con manchas grises, ojos azules, muy cariñoso"
-    }
-]
+import HelpFormClass from "@/classes/HelpForm";
 
 export default function HelpMap() {
     const [city, setCity] = useState(null)
     const [map, setMap] = useState(false)
+    const [lostAndFoundPets, setLostAndFoundPets] = useState([])
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -40,6 +18,14 @@ export default function HelpMap() {
             console.log(window.localStorage.getItem("location"))
             document.getElementById("city").value = LOCATIONS.findIndex(city => city.city == window.localStorage.getItem("location"))
             setMap(true)
+            HelpFormClass.getHelpFormByCity(window.localStorage.getItem("location"))
+                .then((data) => {
+                    setLostAndFoundPets(data)
+                    console.log(data)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
         }
     }, [])
 
@@ -91,7 +77,7 @@ export default function HelpMap() {
                                     lostAndFoundPets.map((pet, index) => (
                                         <Marker
                                             key={index}
-                                            position={[pet.lat, pet.lng]}
+                                            position={[pet.location.lat, pet.location.lng]}
                                             icon={L.icon({
                                                 iconUrl: pet.type == "Lost" ? "/leaflet/images/marker-icon-red.png" : "/leaflet/images/marker-icon-green.png",
                                                 popupAnchor: [0, -30],
