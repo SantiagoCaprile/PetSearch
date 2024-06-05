@@ -16,13 +16,11 @@ export default function HelpMap() {
         if (typeof window !== "undefined") {
             window.localStorage.getItem("location")
                 && setCity(LOCATIONS.find(city => city.city == window.localStorage.getItem("location")))
-            console.log(window.localStorage.getItem("location"))
             document.getElementById("city").value = LOCATIONS.findIndex(city => city.city == window.localStorage.getItem("location"))
             setMap(true)
             HelpFormClass.getHelpFormByCity(window.localStorage.getItem("location"))
                 .then((data) => {
                     setLostAndFoundPets(data)
-                    console.log(data)
                 })
                 .catch((err) => {
                     console.log(err)
@@ -37,7 +35,6 @@ export default function HelpMap() {
         HelpFormClass.getHelpFormByCity(LOCATIONS[e.target.value].city)
             .then((data) => {
                 setLostAndFoundPets(data)
-                console.log(data)
             })
             .catch((err) => {
                 console.log(err)
@@ -89,7 +86,7 @@ export default function HelpMap() {
                                             key={index}
                                             position={[pet.location.lat, pet.location.lng]}
                                             icon={L.icon({
-                                                iconUrl: pet.type == "Lost" ? "/leaflet/images/marker-icon-red.png" : "/leaflet/images/marker-icon-green.png",
+                                                iconUrl: pet.type == HelpFormClass.TYPE.LOST ? "/leaflet/images/marker-icon-red.png" : "/leaflet/images/marker-icon-green.png",
                                                 popupAnchor: [0, -30],
                                                 iconSize: [20, 30],
                                                 shadowUrl: "/leaflet/images/marker-shadow.png",
@@ -127,9 +124,9 @@ function PopupData({ pet }) {
     return (
         <div className={"w-36 flex-col items-center justify-center max-h-80 overflow-scroll"}>
             <Image src={pet.image} alt="dog" className="aspect-square object-cover overflow-hidden rounded-md" width={200} height={200} />
-            <div className={"text-center rounded-lg " + (pet.type == 'Lost' ? " bg-red-200" : "bg-green-100")}>
+            <div className={"text-center rounded-lg " + (pet.type == HelpFormClass.TYPE.LOST ? " bg-red-200" : "bg-green-100")}>
                 <p>
-                    <b className="text-lg">{pet.type == 'Lost' ? "Perdido " : "Encontrado "}</b>
+                    <b className="text-lg">{pet.type == HelpFormClass.TYPE.LOST ? "Perdido " : "Encontrado "}</b>
                     <br />
                     {formatDateToDDMMYYYY(pet.date)}
                     <br />
