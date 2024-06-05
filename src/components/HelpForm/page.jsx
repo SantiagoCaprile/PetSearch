@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import Map from "@/components/Map";
 import LOCATIONS from "@utils/ar.json";
 import { MapPin, Save } from "lucide-react"
-import { Dog } from "lucide-react";
+import { Dog, TriangleAlert } from "lucide-react";
 import Image from "next/image";
 import HelpFormClass from "@/classes/HelpForm";
 import { useSession } from "next-auth/react";
@@ -71,15 +71,43 @@ export default function HelpForm() {
         }
     };
 
-    const updateMap = () => {
+    const updateMap = (e = null) => {
         setMap(false);
-        setLocation({
-            lat: LOCATIONS[getValues("localidad")].lat,
-            lng: LOCATIONS[getValues("localidad")].lng,
-        });
+        if (e) {
+            console.log(e.target);
+            setLocation({
+                lat: LOCATIONS[e.target.value].lat,
+                lng: LOCATIONS[e.target.value].lng,
+            });
+        } else {
+            setLocation({
+                lat: LOCATIONS[getValues("localidad")].lat,
+                lng: LOCATIONS[getValues("localidad")].lng,
+            });
+        }
         setTimeout(() => {
             setMap(true);
         }, 200);
+    }
+
+    const getLocation = () => {
+        toast.error("Utilice esta luego de haber seleccionado la localidad", { icon: <TriangleAlert size={24} color="orange" /> }, { duration: 7000 });
+        if (navigator.geolocation) {
+            setMap(false);
+            navigator.geolocation.getCurrentPosition((position) => {
+                setLocation({
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                });
+            });
+            setTimeout(() => {
+                setMap(true);
+                toast.success("Ubicación actualizada", { icon: <MapPin size={18} /> });
+            }, 500);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+
     }
 
     return (
@@ -192,6 +220,10 @@ export default function HelpForm() {
                                         message: "Localidad es requerida",
                                     },
                                 })}
+                                onChange={(e) => {
+                                    e.preventDefault();
+                                    updateMap(e);
+                                }}
                             >
                                 {
                                     LOCATIONS &&
@@ -218,7 +250,16 @@ export default function HelpForm() {
                             updateMap();
                         }}
                     >
-                        Ver Mapa <MapPin size={24} />
+                        1- Cambiar <MapPin size={24} />
+                    </button>
+                    <button
+                        className={styles.button}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            getLocation();
+                        }}
+                    >
+                        2- Mi Ubicación <MapPin size={24} />
                     </button>
                     <button className={styles.button} type="submit">
                         Guardar <Save size={24} />
@@ -228,7 +269,7 @@ export default function HelpForm() {
             <div className="flex flex-col w-full gap-2">
                 <div className="md:h-[600px] md:min-w-[500px] h-[300px] bg-slate-400 rounded-md overflow-hidden z-0">
                     {map && location ? (
-                        <Map center={[location.lat, location.lng]} zoom={13}>
+                        <Map center={[location.lat, location.lng]} zoom={15}>
                             {({ TileLayer, Marker }) => (
                                 <>
                                     <TileLayer
@@ -275,5 +316,5 @@ const styles = {
         "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
     errors: "text-red-500 mb-4",
     button:
-        "bg-green-900 text-white border-2 border-green-500 px-16 py-2 rounded-full text-xl hover:bg-green-700 transition-all active:translate-y-1 flex justify-center items-center gap-2",
+        "bg-green-900 text-white border-2 border-green-500 px-16 py-2 rounded-full text-xl hover:bg-green-700 transition-all active:translate-y-1 flex justify-center items-center gap-2 text-nowrap",
 };
