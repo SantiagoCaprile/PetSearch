@@ -74,7 +74,6 @@ export default function HelpForm() {
     const updateMap = (e = null) => {
         setMap(false);
         if (e) {
-            console.log(e.target);
             setLocation({
                 lat: LOCATIONS[e.target.value].lat,
                 lng: LOCATIONS[e.target.value].lng,
@@ -91,19 +90,40 @@ export default function HelpForm() {
     }
 
     const getLocation = () => {
-        toast.error("Utilice esta luego de haber seleccionado la localidad", { icon: <TriangleAlert size={24} color="orange" /> }, { duration: 7000 });
+        // const toastId = toast.error("Utilice esta luego de haber seleccionado la localidad", { icon: <TriangleAlert size={24} color="orange" /> }, { duration: 7000 });
+        const verifyIfCitySelectedCorrectly = (position) => {
+            //should check if the city selected is close to the location
+            //if not, should alert the user that the location may not be correct
+            if (getValues("localidad") === "") {
+                alert("Debe seleccionar la localidad antes de continuar");
+                return false;
+            }
+            //if the difference between the selected location and the city is greater than 0.2, alert the user
+            if ((Math.abs(position.coords.latitude) - Math.abs(LOCATIONS[getValues("localidad")].lat)) > 0.2 || (Math.abs(position.coords.longitude) - Math.abs(LOCATIONS[getValues("localidad")].lng)) > 0.2) {
+                // toast.dismiss(toastId);
+                toast.error("Parece que no se encuentra en la localidad seleccionada. Favor verifique", {
+                    icon: <TriangleAlert size={32} color="red" />
+                }, { duration: 7000 });
+                return false;
+            }
+            return true;
+        }
         if (navigator.geolocation) {
             setMap(false);
             navigator.geolocation.getCurrentPosition((position) => {
-                setLocation({
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                });
-            });
-            setTimeout(() => {
-                setMap(true);
-                toast.success("Ubicación actualizada", { icon: <MapPin size={18} /> });
-            }, 500);
+                if (verifyIfCitySelectedCorrectly(position)) {
+                    setLocation({
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    });
+                    setTimeout(() => {
+                        setMap(true);
+                        toast.success("Ubicación actualizada", { icon: <MapPin size={18} /> });
+                    }, 500);
+                } else {
+                    toast.error("Ubicación no actualizada", { icon: <TriangleAlert size={24} color="red" /> });
+                }
+            })
         } else {
             alert("Geolocation is not supported by this browser.");
         }
