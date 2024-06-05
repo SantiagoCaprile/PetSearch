@@ -5,6 +5,7 @@ import LOCATIONS from "@utils/ar.json"
 import Link from "next/link";
 import { PlusSquare } from "lucide-react";
 import HelpFormClass from "@/classes/HelpForm";
+import { formatDateToDDMMYYYY } from "@/utils/dateFunctions";
 
 export default function HelpMap() {
     const [city, setCity] = useState(null)
@@ -130,12 +131,19 @@ function PopupData({ pet }) {
                 <p>
                     <b className="text-lg">{pet.type == 'Lost' ? "Perdido " : "Encontrado "}</b>
                     <br />
-                    {pet.date}
+                    {formatDateToDDMMYYYY(pet.date)}
                     <br />
-                    {!showMore ? (pet.description?.slice(0, 50) + "...") : pet.description}
-                    <span className="pl-2 text-blue-500 font-bold cursor-pointer text-nowrap" onClick={handleShowMore}>
-                        {!showMore ? "Ver más" : "Menos"}
-                    </span>
+                    {
+                        pet.description.length < 40 ? pet.description
+                            :
+                            !showMore ? (pet.description?.slice(0, 40) + "...") : pet.description
+                    }
+                    {
+                        pet.description.length > 40 &&
+                        <span className="pl-2 text-blue-500 font-bold cursor-pointer text-nowrap" onClick={handleShowMore}>
+                            {!showMore ? "Ver más" : "Menos"}
+                        </span>
+                    }
                     <br />
                     <span className="font-bold">
                         {pet.cel}
