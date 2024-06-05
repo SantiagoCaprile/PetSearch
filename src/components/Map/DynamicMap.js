@@ -1,14 +1,12 @@
 import { useEffect } from "react";
-import Leaflet, { popup } from "leaflet";
+import Leaflet from "leaflet";
 import * as ReactLeaflet from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-const imagenMarkerURL = "/leaflet/images/marker-icon.png";
 
 const { MapContainer } = ReactLeaflet;
 
 const Map = ({ children, className, width, height, ...rest }) => {
 	let mapClassName = "w-full h-full";
-	console.log(rest)
 
 	if (className) {
 		mapClassName = `${mapClassName} ${className}`;
