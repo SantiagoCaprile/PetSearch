@@ -25,6 +25,7 @@ export default function AdoptionFormComponent({ petId }) {
     if (response) {
       toast.remove(toastId);
       toast.success("Solicitud enviada correctamente");
+      document.getElementById("submitButton").disabled = true;
       setTimeout(() => {
         router.push("/");
       }, 3000);
@@ -255,7 +256,7 @@ export default function AdoptionFormComponent({ petId }) {
           )}
         </fieldset>
         <div className="flex justify-center items-center">
-          <button type="submit" className={styles.button}>
+          <button type="submit" className={styles.button} id="submitButton">
             Enviar Solicitud
           </button>
         </div>
