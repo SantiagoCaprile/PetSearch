@@ -33,6 +33,15 @@ export default function HelpMap() {
         e.preventDefault()
         setMap(false)
         setCity(LOCATIONS[e.target.value])
+        HelpFormClass.getHelpFormByCity(LOCATIONS[e.target.value].city)
+            .then((data) => {
+                setLostAndFoundPets(data)
+                console.log(data)
+            })
+            .catch((err) => {
+                console.log(err)
+            }
+            )
         setTimeout(() => {
             setMap(true)
         }, 200)
