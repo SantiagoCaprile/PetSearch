@@ -210,9 +210,6 @@ export default function Page() {
         </div>
         <div className="md:w-3/4 bg-white p-4 flex flex-col justify-between min-h-fit">
           {petsSelector.error && <p>Fallo en la carga de mascotas</p>}
-          {petsSelector.pets.length === 0 && (
-            <p className="text-red-500">No se encontraron mascotas</p>
-          )}
           {petsSelector.loading ? (
             <div className="flex flex-1 flex-col justify-center items-center">
               <Loader />
