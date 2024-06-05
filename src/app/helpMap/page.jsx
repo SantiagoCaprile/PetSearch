@@ -80,7 +80,7 @@ export default function HelpMap() {
                                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                                 />
-                                {lostAndFoundPets &&
+                                {lostAndFoundPets && lostAndFoundPets.length > 0 &&
                                     lostAndFoundPets.map((pet, index) => (
                                         <Marker
                                             key={index}
