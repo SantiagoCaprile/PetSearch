@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Message from "@/components/Message";
-import { Send } from "lucide-react";
+import { Send, ArrowBigDown } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 import io from "socket.io-client";
@@ -29,8 +29,18 @@ const Chat = ({ chatId }) => {
 				behavior: "smooth",
 				block: "end",
 			});
+		} else {
+			setShowScrollButton(true);
 		}
 	}, [messages]);
+
+	const [showScrollButton, setShowScrollButton] = useState(false);
+	const chatContainerRef = useRef(null);
+
+	const scrollToBottom = () => {
+		chatBottomRef.current.scrollIntoView({ behavior: "smooth" });
+		setShowScrollButton(false);
+	};
 
 	useEffect(() => {
 		socket.emit(
@@ -71,10 +81,12 @@ const Chat = ({ chatId }) => {
 			if (typeof callback === "function") {
 				callback("Message received successfully");
 			}
-			chatBottomRef.current.scrollIntoView({
-				behavior: "smooth",
-				block: "end",
-			});
+			if (window.innerWidth >= 768) {
+				chatBottomRef.current.scrollIntoView({
+					behavior: "smooth",
+					block: "end",
+				});
+			}
 		});
 
 		socket.on("error", (error) => {
@@ -96,6 +108,10 @@ const Chat = ({ chatId }) => {
 		setInputValue(event.target.value);
 	};
 
+	const isMobile = () => {
+		return window.innerWidth < 768;
+	};
+
 	const handleSendMessage = () => {
 		if (inputValue.trim() !== "") {
 			const newMessage = {
@@ -114,6 +130,11 @@ const Chat = ({ chatId }) => {
 				}
 			}); //aca se envia el mensaje
 			setInputValue("");
+			if (isMobile()) {
+				setTimeout(() => {
+					chatBottomRef.current.scrollIntoView({ behavior: "smooth" });
+				}, 100); // Timeout to allow the new message to be rendered
+			}
 		}
 	};
 
@@ -125,7 +146,21 @@ const Chat = ({ chatId }) => {
 
 	return (
 		<div className="bg-gray-100 flex flex-col justify-end min-h-80 max-h-[500px] md:max-h-[700px] p-1 rounded-sm border border-black">
-			<div className="flex-1 overflow-y-auto scroll-smooth">
+			<div className="flex-1 overflow-y-auto scroll-smooth"
+				ref={chatContainerRef}
+				onScroll={() => {
+					if (window.innerWidth >= 768) return;
+					if (
+						chatContainerRef.current.scrollTop + chatContainerRef.current.clientHeight ===
+						chatContainerRef.current.scrollHeight
+					) {
+						setShowScrollButton(false);
+					} else {
+						setShowScrollButton(true);
+					}
+				}
+				}
+			>
 				{messages.length === 0 ? (
 					<p className="text-center text-black">Aún no hay mensajes</p>
 				) : (
@@ -139,6 +174,16 @@ const Chat = ({ chatId }) => {
 						/>
 					))
 				)}
+				<div className="flex justify-center items-center sticky bottom-0">
+					{showScrollButton && (
+						<button
+							onClick={scrollToBottom}
+							className="bg-green-500 hover:bg-green-600 rounded-full text-white p-2 text-lg flex items-center animate-bounce ease-in-out"
+						>
+							<ArrowBigDown />
+						</button>
+					)}
+				</div>
 				<div ref={chatBottomRef}></div>
 			</div>
 
@@ -151,7 +196,6 @@ const Chat = ({ chatId }) => {
 					onKeyDown={handleKeyDown}
 					className="flex-1 mr-2 py-2 px-4 rounded-full bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white border-b border-gray-300 resize-y"
 				/>
-
 				<button
 					onClick={handleSendMessage}
 					className="bg-green-500 hover:bg-green-600 rounded-full text-white px-4 py-2 text-lg flex items-center"
@@ -166,7 +210,6 @@ const Chat = ({ chatId }) => {
 
 socket.on("connect", () => {
 	console.log("Connected to server");
-	//here we have to receive the messages to set them in the state
 });
 
 export default Chat;
