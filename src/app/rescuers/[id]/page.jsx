@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { Edit, Save, XCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { convertImageToBase64 } from "@/utils/imgFunctions";
+import { toast } from "react-hot-toast"
 
 export default function RescuerPublicProfile({ params }) {
     const { data: session } = useSession();
@@ -41,6 +42,7 @@ export default function RescuerPublicProfile({ params }) {
     }
 
     async function onSubmit(data) {
+        const toastId = toast.loading("Guardando cambios...");
         data = {
             socialMediasLinks: {
                 instagram: data.instagram,
@@ -54,8 +56,9 @@ export default function RescuerPublicProfile({ params }) {
             const updatedRescuer = await Rescuer.getRescuerById(id)
             setRescuer(updatedRescuer.rescuer);
             setEditMode(false);
+            toast.success("Cambios guardados", { id: toastId });
         } else {
-            console.log("Failed to update rescuer");
+            toast.error("Error al guardar los cambios", { id: toastId });
         }
         document.getElementById("saveButton").disabled = false;
     }
