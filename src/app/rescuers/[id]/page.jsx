@@ -188,7 +188,9 @@ export default function RescuerPublicProfile({ params }) {
                     <p className="text-gray-700 text-pretty">
                         {
                             !editMode ?
-                                rescuer?.bio
+                                <span>{rescuer?.bio?.split("\n").map((line, index) => {
+                                    return <span key={index}>{line}<br /></span>
+                                })}</span>
                                 : <textarea
                                     defaultValue={rescuer?.bio}
                                     className="border-b border-gray-400 w-full"
