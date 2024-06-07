@@ -31,5 +31,5 @@ export default withAuth(
 
 // Applies next-auth only to matching routes - can be regex
 export const config = {
-  matcher: ["/profile", "/createPet", "/adoptionform/:petId/:path*"]
+  matcher: ["/profile", "/createPet", "/adoptionform/:petId/:path*", "/helpMap/create"]
 };
