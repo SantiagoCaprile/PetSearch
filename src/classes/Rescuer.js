@@ -39,6 +39,28 @@ class Rescuer {
             return null;
         }
     }
+
+    static async updateRescuer(rescuerId, data) {
+        try {
+            const response = await fetch(`${Rescuer.#URL}/${rescuerId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+            if (response.ok) {
+                const updatedRescuer = await response.json();
+                return updatedRescuer;
+            } else {
+                console.log("Failed to update rescuer");
+                return null;
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return null;
+        }
+    }
 }
 
 export default Rescuer;
