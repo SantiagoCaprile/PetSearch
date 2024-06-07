@@ -11,10 +11,10 @@ export default function RescuerCard({ rescuer }) {
             <div className="flex flex-col items-center justify-center bg-white rounded-lg shadow-lg p-4 m-4 w-[300px] hover:translate-y-1 transition-all cursor-pointer"
             >
                 <Image
-                    src={rescuer.image ? rescuer.image : "/images/rescuerProfile.svg"}
+                    src={rescuer.user?.profilePic ? rescuer.user?.profilePic : "/images/rescuerProfile.svg"}
                     alt="rescuer"
                     loading="lazy"
-                    className="rounded-full h-24 w-24"
+                    className="rounded-full h-24 w-24 object-cover"
                     width={150}
                     height={150}
                 />
