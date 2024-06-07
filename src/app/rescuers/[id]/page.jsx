@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import Rescuer from "@/classes/Rescuer";
 import { useSession } from "next-auth/react";
 import { Edit, Save, XCircle } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { convertImageToBase64 } from "@/utils/imgFunctions";
 
 export default function RescuerPublicProfile({ params }) {
     const { data: session } = useSession();
@@ -13,11 +15,17 @@ export default function RescuerPublicProfile({ params }) {
     const [editMode, setEditMode] = useState(false);
     const [profilePic, setProfilePic] = useState(null)
 
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        formState: { errors },
+    } = useForm();
+
     useEffect(() => {
         Rescuer.getRescuerById(id)
             .then((res) => {
                 setRescuer(res.rescuer);
-                console.log(res.rescuer);
             })
             .catch((error) => {
                 console.error(error);
@@ -28,6 +36,28 @@ export default function RescuerPublicProfile({ params }) {
         const files = Array.from(e.target.files);
         const imagePreview = files.map(file => URL.createObjectURL(file));
         setProfilePic(imagePreview[0])
+        const base64 = await convertImageToBase64(files[0]);
+        setValue("profilePic", base64);
+    }
+
+    async function onSubmit(data) {
+        data = {
+            socialMediasLinks: {
+                instagram: data.instagram,
+                facebook: data.facebook
+            },
+            ...data
+        }
+        document.getElementById("saveButton").disabled = true;
+        const response = await Rescuer.updateRescuer(id, data);
+        if (response) {
+            const updatedRescuer = await Rescuer.getRescuerById(id)
+            setRescuer(updatedRescuer.rescuer);
+            setEditMode(false);
+        } else {
+            console.log("Failed to update rescuer");
+        }
+        document.getElementById("saveButton").disabled = false;
     }
 
     if (!rescuer) {
@@ -45,8 +75,8 @@ export default function RescuerPublicProfile({ params }) {
                         </button>
                         :
                         <div className="flex md:flex-col md:self-start self-end gap-2">
-                            <button className="w-fit md:self-start self-end" onClick={() => console.log("Guardar Info")}>
-                                <Save size={32} color="green" />
+                            <button className="w-fit md:self-start self-end" onClick={handleSubmit(onSubmit)}>
+                                <Save size={32} color="green" id="saveButton" />
                             </button>
                             <button className="w-fit md:self-start self-end" onClick={() => setEditMode(!editMode)}>
                                 <XCircle size={32} color="red" />
@@ -58,7 +88,7 @@ export default function RescuerPublicProfile({ params }) {
                         {
                             !editMode ?
                                 <Image
-                                    src={rescuerImage}
+                                    src={rescuer?.user?.profilePic || rescuerImage}
                                     alt={"rescuer"}
                                     width={300}
                                     height={300}
@@ -89,6 +119,8 @@ export default function RescuerPublicProfile({ params }) {
                         <p className="text-gray-700 flex gap-2">
                             <strong>Email:</strong>
                             {
+                                //maybe we shouldn't show the email in the profile
+                                //but for now we will leave it
                                 !editMode ?
                                     <a href={`mailto:${rescuer.user?.email}`} className="text-blue-500 underline">{rescuer.user?.email}</a>
                                     :
@@ -101,7 +133,11 @@ export default function RescuerPublicProfile({ params }) {
                                 !editMode ?
                                     <span className="text-blue-500">{rescuer.socialMediasLinks?.instagram}</span>
                                     :
-                                    <input type="text" defaultValue={rescuer.socialMediasLinks?.instagram} className="border-b border-gray-400 w-full" />
+                                    <input type="text"
+                                        defaultValue={rescuer.socialMediasLinks?.instagram}
+                                        className="border-b border-gray-400 w-full"
+                                        {...register("instagram")}
+                                    />
                             }
                         </p>
                         <p className="text-gray-700 flex gap-2">
@@ -110,7 +146,11 @@ export default function RescuerPublicProfile({ params }) {
                                 !editMode ?
                                     <span className="text-blue-500">{rescuer.socialMediasLinks?.facebook}</span>
                                     :
-                                    <input type="text" defaultValue={rescuer.socialMediasLinks?.facebook} className="border-b border-gray-400 w-full" />
+                                    <input type="text"
+                                        defaultValue={rescuer.socialMediasLinks?.facebook}
+                                        className="border-b border-gray-400 w-full"
+                                        {...register("facebook")}
+                                    />
                             }
                         </p>
                         <p className="text-gray-700 flex gap-2">
@@ -119,7 +159,11 @@ export default function RescuerPublicProfile({ params }) {
                                 !editMode ?
                                     <span>{rescuer.city}</span>
                                     :
-                                    <input type="text" defaultValue={rescuer.city} className="border-b border-gray-400 w-full" />
+                                    <input type="text"
+                                        defaultValue={rescuer.city}
+                                        className="border-b border-gray-400 w-full"
+                                        {...register("city")}
+                                    />
                             }
                         </p>
                         <p className="text-gray-700 flex gap-2">
@@ -128,7 +172,11 @@ export default function RescuerPublicProfile({ params }) {
                                 !editMode ?
                                     <span>{rescuer.contactPhone}</span>
                                     :
-                                    <input type="text" defaultValue={rescuer.contactPhone} className="border-b border-gray-400 w-full" />
+                                    <input type="text"
+                                        defaultValue={rescuer.contactPhone}
+                                        className="border-b border-gray-400 w-full"
+                                        {...register("contactPhone")}
+                                    />
                             }
                         </p>
                     </div>
@@ -141,7 +189,12 @@ export default function RescuerPublicProfile({ params }) {
                         {
                             !editMode ?
                                 rescuer?.bio
-                                : <textarea defaultValue={rescuer?.bio} className="border-b border-gray-400 w-full" maxLength={700} />
+                                : <textarea
+                                    defaultValue={rescuer?.bio}
+                                    className="border-b border-gray-400 w-full"
+                                    maxLength={700}
+                                    {...register("bio")}
+                                />
                         }
                     </p>
                 </div>
