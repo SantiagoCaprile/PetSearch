@@ -95,7 +95,7 @@ export default function RescuerPublicProfile({ params }) {
                                     alt={"rescuer"}
                                     width={300}
                                     height={300}
-                                    className="rounded-lg min-h-full"
+                                    className="rounded-lg aspect-square"
                                     style={{ objectFit: "cover" }}
                                 />
                                 :
@@ -105,11 +105,11 @@ export default function RescuerPublicProfile({ params }) {
                                         onChange={handleImageChange}
                                     />
                                     <Image
-                                        src={profilePic || rescuerImage}
+                                        src={profilePic || rescuer?.user?.profilePic || rescuerImage}
                                         alt={"rescuer"}
                                         width={300}
                                         height={300}
-                                        className="rounded-lg min-h-full animate-pulse"
+                                        className="rounded-lg aspect-square animate-pulse"
                                         style={{ objectFit: "cover" }}
                                     />
                                 </label>
