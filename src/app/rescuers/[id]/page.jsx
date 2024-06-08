@@ -35,6 +35,7 @@ export default function RescuerPublicProfile({ params }) {
 
     async function handleImageChange(e) {
         const files = Array.from(e.target.files);
+        if (files.length === 0) return;
         const imagePreview = files.map(file => URL.createObjectURL(file));
         setProfilePic(imagePreview[0])
         const base64 = await convertImageToBase64(files[0]);
@@ -81,7 +82,12 @@ export default function RescuerPublicProfile({ params }) {
                             <button className="w-fit md:self-start self-end" onClick={handleSubmit(onSubmit)}>
                                 <Save size={32} color="green" id="saveButton" />
                             </button>
-                            <button className="w-fit md:self-start self-end" onClick={() => setEditMode(!editMode)}>
+                            <button className="w-fit md:self-start self-end"
+                                onClick={() => {
+                                    setEditMode(!editMode)
+                                    setProfilePic(null)
+                                }
+                                }>
                                 <XCircle size={32} color="red" />
                             </button>
                         </div>)
