@@ -14,7 +14,8 @@ export default function UserPublicProfile({ params }) {
     const [profilePic, setProfilePic] = useState(null)
 
     useEffect(() => {
-        User.getUserById(id)
+        const token = session ? session.jwtApiToken : null;
+        User.getUserById(id, token)
             .then((res) => {
                 setUser(res);
             })

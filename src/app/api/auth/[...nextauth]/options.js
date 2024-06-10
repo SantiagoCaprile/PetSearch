@@ -23,13 +23,13 @@ export const options = {
         try {
           const user = await verifyCredentials(credentials);
           if (user.user) {
-            console.log(user);
             // Return an object with the user's name, email, and role
             return {
               ...user,
               name: user.user,
               email: credentials.email,
               role: user.role ?? "user",
+              token: user.token,
             };
           } else {
             return null;
@@ -47,13 +47,17 @@ export const options = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.role = user.role;
+      if (user) {
+        token.role = user.role;
+        token.token = user.token;
+      }
       return token;
     },
     async session({ session, token }) {
       if (session?.user) {
         session.user.role = token.role;
         session.user._id = token.sub;
+        session.jwtApiToken = token.token;
       }
       return session;
     },

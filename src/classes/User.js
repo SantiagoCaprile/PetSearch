@@ -51,9 +51,16 @@ class User {
         }
     }
 
-    static async getUserById(id) {
+    static async getUserById(id, token) {
         try {
-            const response = await fetch(`${User.URL}/${id}`);
+            const response = await fetch(`${User.URL}/${id}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        authorization: `Bearer ${token}`,
+                    },
+                });
             if (response.ok) {
                 return response.json();
             } else {
