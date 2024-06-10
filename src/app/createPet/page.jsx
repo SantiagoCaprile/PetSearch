@@ -8,12 +8,17 @@ import { useRouter } from "next/navigation";
 import { toast } from 'react-hot-toast';
 import Pet from "@classes/Pet.js";
 
-const createPet = async (data) => {
+const createPet = async (data, { token, role }) => {
   try {
+    if (!token || !role) {
+      throw new Error("Token or role not provided");
+    }
     const response = await fetch(`${process.env.API_URL}/pets`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        'authorization': 'Bearer ' + token,
+        'role': role,
       },
       body: JSON.stringify(data),
     });
@@ -122,7 +127,7 @@ export default function CreatePet() {
     };
     console.log(pet);
     try {
-      const response = await createPet(pet);
+      const response = await createPet(pet, { token: session.jwtApiToken, role: session.user.role });
       if (response) {
         toast.success("Mascota creada exitosamente", { id: toastId });
         setTimeout(() => {
