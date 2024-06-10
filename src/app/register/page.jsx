@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-const url = `${process.env.API_URL}/users`;
+import User from "@/classes/User";
+import { toast } from "react-hot-toast";
 
 const Register = () => {
   const router = useRouter();
@@ -52,32 +53,28 @@ const Register = () => {
     setErrorMessage("");
 
     // Send data to backend
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cors: true,
-        body: JSON.stringify({
-          email: formData.email,
-          name: formData.name,
-          password: formData.password,
-          role: formData.type,
-        }),
-      });
-
-      if (response.ok) {
-        // Registro exitoso, puedes hacer alguna acción aquí si lo deseas
-        console.log("Registro exitoso");
+    const toastId = toast.loading("Creando cuenta...");
+    User.createUser({
+      email: formData.email,
+      name: formData.name,
+      password: formData.password,
+      role: formData.type,
+    }).then((success) => {
+      if (success) {
+        toast.success(<span>Cuenta creada exitosamente<br />Ya puede iniciar sesión</span>, { id: toastId, duration: 7000 });
         router.push("/login");
       } else {
-        console.error("Error al registrar:", response.statusText);
+        toast.error("Error al crear la cuenta", { id: toastId });
+        setErrorMessage("Error al crear la cuenta");
       }
-    } catch (error) {
-      // Error al registrar
-      console.error("Error al registrar:", error);
-    }
+    })
+      .catch((error) => {
+        console.error("An error occurred:", error);
+        toast.error("Error al crear la cuenta", { id: toastId });
+        setErrorMessage("Error al crear la cuenta");
+      }
+      );
+
   };
 
   return (

@@ -28,6 +28,31 @@ class User {
         }
     }
 
+    static async createUser(user) {
+        try {
+            const response = await fetch(User.URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-api-key": process.env.API_KEY,
+                },
+                cors: true,
+                body: JSON.stringify(user),
+            });
+
+            if (response.ok) {
+                console.log("User created successfully");
+                return true;
+            } else {
+                console.log("Failed to create user");
+                return false;
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return false;
+        }
+    }
+
     static async login(email, password) {
         try {
             const response = await fetch(User.URL + "/login", {
