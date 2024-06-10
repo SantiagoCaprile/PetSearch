@@ -46,8 +46,12 @@ class Pet {
         );
         age ? age.forEach(ageValue => params.append('age', ageValue)) : null;
         try {
-            const response = await fetch(`${Pet.#URL}?${params}`);
-
+            const response = await fetch(`${Pet.#URL}?${params}`, {
+                method: "GET",
+                headers: {
+                    "x-api-key": process.env.API_KEY,
+                },
+            });
             if (response.ok) {
                 const pets = await response.json();
                 return pets;
@@ -62,7 +66,12 @@ class Pet {
 
     static async getRescuersPets(rescuerId) {
         try {
-            const response = await fetch(`${Pet.#URL}/rescuer/${rescuerId}`);
+            const response = await fetch(`${Pet.#URL}/rescuer/${rescuerId}`, {
+                method: "GET",
+                headers: {
+                    "x-api-key": process.env.API_KEY,
+                },
+            });
             if (response.ok) {
                 const pets = await response.json();
                 return pets;
@@ -78,9 +87,15 @@ class Pet {
 
     static async getPetById(petId) {
         try {
-            const response = await fetch(`${Pet.#URL}/${petId}`);
+            const response = await fetch(`${Pet.#URL}/${petId}`, {
+                method: "GET",
+                headers: {
+                    "x-api-key": process.env.API_KEY,
+                },
+            });
             if (response.ok) {
                 const pet = await response.json();
+                console.log("Pet", pet);
                 return pet;
             } else {
                 console.log("Failed to get pet");
@@ -89,6 +104,27 @@ class Pet {
         } catch (error) {
             console.error("An error occurred:", error);
             return null;
+        }
+    }
+
+    static async getRandomPets() {
+        try {
+            const response = await fetch(`${Pet.#URL}/random`, {
+                method: "GET",
+                headers: {
+                    "x-api-key": process.env.API_KEY,
+                },
+            });
+            if (response.ok) {
+                const pets = await response.json();
+                return pets;
+            } else {
+                console.log("Failed to get pets");
+                return [];
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return [];
         }
     }
 }

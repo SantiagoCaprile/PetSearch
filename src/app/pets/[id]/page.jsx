@@ -37,19 +37,6 @@ export default function PetProfile({ params }) {
   const loading = useSelector((state) => state.pets.loading);
   const error = useSelector((state) => state.pets.error);
   useEffect(() => {
-    if (pet === null) {
-      dispatch(setPetsLoading());
-      fetch(URLPETS).then((response) => {
-        if (response.ok) {
-          response.json().then((data) => {
-            dispatch(setPets(data));
-          });
-        } else {
-          dispatch(setPetsError());
-        }
-      });
-    }
-
     if (!pet) {
       // Si no se encuentra el pet tendría que hacer el fetch y luego agregarlo al store
       dispatch(setPetsLoading());
