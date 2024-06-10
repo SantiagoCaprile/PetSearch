@@ -10,7 +10,11 @@ class Rescuer {
     //fetch all the rescuers
     static async getAll() {
         try {
-            const response = await fetch(Rescuer.#URL);
+            const response = await fetch(Rescuer.#URL, {
+                headers: {
+                    "x-api-key": process.env.API_KEY,
+                },
+            });
             if (response.ok) {
                 const rescuers = await response.json();
                 return rescuers;
@@ -26,7 +30,11 @@ class Rescuer {
 
     static async getRescuerById(rescuerId) {
         try {
-            const response = await fetch(`${Rescuer.#URL}/${rescuerId}`);
+            const response = await fetch(`${Rescuer.#URL}/${rescuerId}`, {
+                headers: {
+                    "x-api-key": process.env.API_KEY,
+                },
+            });
             if (response.ok) {
                 const rescuer = await response.json();
                 return rescuer;
@@ -40,12 +48,17 @@ class Rescuer {
         }
     }
 
-    static async updateRescuer(rescuerId, data) {
+    static async updateRescuer(rescuerId, data, token) {
         try {
+            if (!token) {
+                throw new Error("Token is required");
+            }
             const response = await fetch(`${Rescuer.#URL}/${rescuerId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
+                    "x-api-key": process.env.API_KEY,
+                    "authorization": "Bearer " + token,
                 },
                 body: JSON.stringify(data),
             });

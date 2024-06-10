@@ -52,7 +52,7 @@ export default function RescuerPublicProfile({ params }) {
             ...data
         }
         document.getElementById("saveButton").disabled = true;
-        const response = await Rescuer.updateRescuer(id, data);
+        const response = await Rescuer.updateRescuer(id, data, session.jwtApiToken);
         if (response) {
             const updatedRescuer = await Rescuer.getRescuerById(id)
             setRescuer(updatedRescuer.rescuer);
