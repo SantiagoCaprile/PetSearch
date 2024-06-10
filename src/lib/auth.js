@@ -3,6 +3,7 @@ export async function verifyCredentials(user) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "x-api-key": process.env.API_KEY,
     },
     body: JSON.stringify({
       email: user.email,
