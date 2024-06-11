@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect } from "react";
-import { CheckCircle2, XCircle, Store, BookHeartIcon } from "lucide-react";
+import { CheckCircle2, XCircle, Store, BookHeartIcon, EditIcon } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "@/components/Loader";
 import Carousel from "@/components/Carousel/page";
@@ -131,6 +131,11 @@ export default function PetProfile({ params }) {
               <span className="font-bold text-nowrap"> {pet.rescuer.name}</span>
             </Link>
           )}
+          {session && session.user.role === "rescuer" && session.user._id === pet.rescuer?._id &&
+            <Link href={`/mypets/edit/${pet._id}`} className="flex flex-row gap-2 justify-center align-middle bg-slate-100 border-blue-500 border-2 text-black px-4 py-2 rounded-md w-2/3 text-center mt-2 hover:bg-slate-200 hover:border-blue-700">
+              <EditIcon /> <span className="font-bold text-nowrap"> Editar</span>
+            </Link>
+          }
         </div>
       </div>
       <div className="my-5">
