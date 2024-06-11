@@ -27,6 +27,16 @@ const Login = () => {
     setIsLoading(true);
 
     const { email, password } = formData;
+    if (!email) {
+      setErrorMessage("El email es requerido");
+      setIsLoading(false);
+      return null;
+    }
+    if (!password) {
+      setErrorMessage("La contraseña es requerida");
+      setIsLoading(false);
+      return null;
+    }
     try {
       const result = await signIn("credentials", {
         email,

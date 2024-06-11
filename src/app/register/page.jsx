@@ -30,18 +30,23 @@ const Register = () => {
     e.preventDefault();
 
     // Validations
+    if (formData.email.trim() === "") {
+      setErrorMessage("Email es requerido");
+      return;
+    }
+
     if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(formData.email)) {
       setErrorMessage("Email inválido");
       return;
     }
 
-    if (formData.email.trim() === "") {
-      setErrorMessage("Email requerido");
+    if (formData.name.trim() === "") {
+      setErrorMessage("Nombre completo requerido");
       return;
     }
 
-    if (formData.name.trim() === "") {
-      setErrorMessage("Nombre completo requerido");
+    if (formData.password.trim() === "") {
+      setErrorMessage("La contraseña es requerida");
       return;
     }
 
@@ -61,7 +66,7 @@ const Register = () => {
       role: formData.type,
     }).then((success) => {
       if (success) {
-        toast.success(<span>Cuenta creada exitosamente<br />Ya puede iniciar sesión</span>, { id: toastId, duration: 7000 });
+        toast.success(<span id="success_toast">Cuenta creada exitosamente<br />Ya puede iniciar sesión</span>, { id: toastId, duration: 7000 });
         router.push("/login");
       } else {
         toast.error("Error al crear la cuenta", { id: toastId });
