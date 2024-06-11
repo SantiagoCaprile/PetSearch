@@ -95,7 +95,6 @@ class Pet {
             });
             if (response.ok) {
                 const pet = await response.json();
-                console.log("Pet", pet);
                 return pet;
             } else {
                 console.log("Failed to get pet");
@@ -125,6 +124,54 @@ class Pet {
         } catch (error) {
             console.error("An error occurred:", error);
             return [];
+        }
+    }
+
+    static async createPet(pet, user) {
+        try {
+            const response = await fetch(Pet.#URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": "Bearer " + user.token,
+                    "role": user.role,
+                },
+                body: JSON.stringify(pet),
+            });
+            if (response.ok) {
+                const pet = await response.json();
+                return pet;
+            } else {
+                console.log("Failed to create pet");
+                return null;
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return null;
+        }
+    }
+
+    static async updatePet(petId, pet, user) {
+        try {
+            const response = await fetch(`${Pet.#URL}/${petId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": "Bearer " + user.token,
+                    "role": user.role,
+                },
+                body: JSON.stringify(pet),
+            });
+            if (response.ok) {
+                const pet = await response.json();
+                return pet;
+            } else {
+                console.log("Failed to update pet");
+                return null;
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return null;
         }
     }
 }
