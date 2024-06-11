@@ -141,7 +141,6 @@ export default function CreatePetForm({ editPet }) {
                 router.push("/mypets");
             });
         } else {
-            console.log(pet, session);
             submitCreatePet(pet, session).finally(() => {
                 router.push("/mypets");
             });

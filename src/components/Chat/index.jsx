@@ -94,7 +94,7 @@ const Chat = ({ chatId }) => {
 		});
 
 		socket.on("disconnect", () => {
-			console.log("Disconnected from server");
+			// console.log("Disconnected from server");
 		});
 
 		return () => {
@@ -120,13 +120,10 @@ const Chat = ({ chatId }) => {
 				time: formatTime(new Date()),
 				user: username ?? "Anónimo",
 			};
-			console.log(newMessage);
 			setMessages([...messages, newMessage]);
 			socket.emit("message", newMessage, { timeout: 60000 }, (error) => {
 				if (error) {
 					console.log("Error sending message:", error);
-				} else {
-					console.log("Message sent successfully");
 				}
 			}); //aca se envia el mensaje
 			setInputValue("");
@@ -209,7 +206,7 @@ const Chat = ({ chatId }) => {
 };
 
 socket.on("connect", () => {
-	console.log("Connected to server");
+	// console.log("Connected to server");
 });
 
 export default Chat;

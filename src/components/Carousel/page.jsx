@@ -9,7 +9,6 @@ import useEmblaCarousel from 'embla-carousel-react'
 
 const EmblaCarousel = (props) => {
     const { slides, options } = props
-    console.log(slides)
     const [emblaRef, emblaApi] = useEmblaCarousel(options ? options : { "loop": true })
 
     const {

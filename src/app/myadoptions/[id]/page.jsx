@@ -37,7 +37,7 @@ export default function AdoptionPage({ params }) {
                 if (session.user.role === "rescuer" && adoption.result === Adoption.result.PENDING) {
                     Adoption.changeAdoptionStatus(adoption._id, Adoption.result.ON_REVIEW, session.user.role)
                         .then((response) => {
-                            console.log(response);
+                            // console.log(response);
                         }).catch((error) => {
                             console.error("An error occurred:", error);
                         });
@@ -78,7 +78,6 @@ export default function AdoptionPage({ params }) {
         const toastId = toast.loading("Cargando...");
         Adoption.changeAdoptionStatus(adoption._id, status, session.user.role)
             .then((response) => {
-                console.log(response);
                 setActualResult(status);
                 toast.success("Acción realizada exitosamente", { id: toastId });
             }).catch((error) => {

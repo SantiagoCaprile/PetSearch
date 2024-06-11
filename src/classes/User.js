@@ -16,7 +16,6 @@ class User {
             });
 
             if (response.ok) {
-                console.log("User created successfully");
                 return true;
             } else {
                 console.log("Failed to create user");
@@ -41,7 +40,6 @@ class User {
             });
 
             if (response.ok) {
-                console.log("User created successfully");
                 return true;
             } else {
                 console.log("Failed to create user");
@@ -64,7 +62,6 @@ class User {
             });
 
             if (response.ok) {
-                console.log("User logged in successfully");
                 return true;
             } else {
                 console.log("Failed to log in");

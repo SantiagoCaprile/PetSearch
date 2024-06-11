@@ -8,21 +8,18 @@ export default withAuth(
       req.nextUrl.pathname.startsWith("/createPet") &&
       req.nextauth.token.role !== "rescuer"
     ) {
-      console.log("no es rescuer, no puede crear mascotas");
       return NextResponse.rewrite(new URL("/denied", req.url));
     }
     if (
       req.nextUrl.pathname.startsWith("/adoptionform/") &&
       req.nextauth.token.role !== "user"
     ) {
-      console.log("no es user, no puede adoptar mascotas");
       return NextResponse.rewrite(new URL("/denied", req.url));
     }
   },
   {
     callbacks: {
       authorized: ({ token }) => {
-        console.log("authorized", token);
         return !!token;
       },
     },

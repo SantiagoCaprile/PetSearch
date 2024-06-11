@@ -21,7 +21,6 @@ export default function PetViewer({ petList = [], admitNewPet = false, loading =
 
     const handleSearch = () => {
         // Lógica de búsqueda según los filtros seleccionados
-        console.log("Realizar búsqueda...");
     };
 
     const handleAgeChange = (event) => {

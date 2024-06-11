@@ -29,7 +29,6 @@ export default function MyAdoptions() {
             const response = Adoption.getAdoptionsForUser(id)
                 .then((response) => {
                     setAdoptions(response);
-                    console.log(response);
                 }
                 ).catch((error) => {
                     setAdoptions('error');
