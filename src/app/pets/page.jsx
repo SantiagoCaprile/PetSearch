@@ -32,7 +32,7 @@ export default function Page() {
       });
   }, [dispatch]);
 
-  const itemsPerPage = 8;
+  const itemsPerPage = 12;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const totalPages = Math.ceil(Array.isArray(petsSelector.pets) ? petsSelector.pets.length / itemsPerPage : 0);

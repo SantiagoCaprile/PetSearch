@@ -7,13 +7,13 @@ export default function PetViewer({ petList = [], admitNewPet = false, loading =
     const [selectedAges, setSelectedAges] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
 
-    const itemsPerPage = 8;
+    const itemsPerPage = 11;
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = Array.isArray(petList)
         ? petList.slice(indexOfFirstItem, indexOfLastItem)
         : [];
-    const totalPages = Math.ceil(currentItems.length / itemsPerPage);
+    const totalPages = Math.ceil(Array.isArray(petList) ? petList.length / itemsPerPage : 0);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
