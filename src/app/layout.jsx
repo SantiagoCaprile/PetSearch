@@ -16,7 +16,10 @@ export default function RootLayout({ children }) {
       <Provider store={store}>
         <html lang="en">
           <head>
-            <GoogleAdsense pId='9956234514200358' />
+            {
+              process.env.ALLOW_ADS == 'true' &&
+              <GoogleAdsense pId='9956234514200358' />
+            }
           </head>
           <body className={inter.className + " flex flex-col min-h-lvh"}>
             <Toaster position="bottom-center" />
