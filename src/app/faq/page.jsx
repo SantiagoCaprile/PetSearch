@@ -19,9 +19,9 @@ export default function Faq() {
     };
 
     return (
-        <div className="container mx-auto">
+        <div className="container mx-auto flex flex-col justify-center items-center">
             <h1 className="text-4xl font-bold text-center my-8">Preguntas Frecuentes</h1>
-            <div className="grid grid-cols-1">
+            <div className="grid grid-cols-1 md:w-[800px]">
                 {faqs.map((faq, index) => {
                     const isFaqSelected = index === selectedFaq;
                     return (
