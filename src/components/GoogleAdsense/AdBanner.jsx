@@ -24,13 +24,3 @@ const AdBanner = ({ dataAdSlot, dataAdFormat, dataFullWidthResponsive, }) => {
 };
 
 export default AdBanner;
-
-{/* <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-9956234514200358"
-     data-ad-slot="6430493933"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script> */}
