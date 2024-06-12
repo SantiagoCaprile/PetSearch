@@ -40,3 +40,6 @@ next-env.d.ts
 /cypress/videos
 /cypress/fixtures
 /cypress/downloads
+
+# deploy
+/static
