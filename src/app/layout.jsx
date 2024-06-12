@@ -8,12 +8,16 @@ import store from "./store/configureStore";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 const inter = Inter({ subsets: ["latin"] });
+import GoogleAdsense from "@/components/GoogleAdsense/AdScript";
 
 export default function RootLayout({ children }) {
   return (
     <SessionProvider>
       <Provider store={store}>
         <html lang="en">
+          <head>
+            <GoogleAdsense pId='9956234514200358' />
+          </head>
           <body className={inter.className + " flex flex-col min-h-lvh"}>
             <Toaster position="bottom-center" />
             <Nav />

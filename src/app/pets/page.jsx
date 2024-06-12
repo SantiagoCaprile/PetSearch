@@ -11,6 +11,7 @@ import {
 } from "../../app/store/reducers/petsSlice";
 import { useForm } from "react-hook-form";
 import Pet from "@/classes/Pet";
+import AdBanner from "@/components/GoogleAdsense/AdBanner";
 
 export default function Page() {
   const { register, handleSubmit, setValue } = useForm();
@@ -237,7 +238,15 @@ export default function Page() {
             ))}
           </div>
         </div>
-        <div className="w-1/6 bg-gray-100 p-4"></div>
+        <div className="w-1/6 bg-gray-100 p-4 hidden md:flex flex-col text-center">
+          <div className="sticky top-3">
+            <AdBanner
+              dataAdSlot="6430493933"
+              dataAdFormat="auto"
+              dataFullWidthResponsive={true}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
