@@ -29,6 +29,7 @@ class HelpFormClass {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "x-api-key": process.env.API_KEY,
                 },
                 body: JSON.stringify(data),
             });
@@ -42,7 +43,13 @@ class HelpFormClass {
 
     static async getHelpFormsByUserId(userId) {
         try {
-            const response = await fetch(`${this.URL}/${userId}`);
+            const response = await fetch(`${this.URL}/${userId}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "x-api-key": process.env.API_KEY,
+                    },
+                });
             const result = await response.json();
             return result;
         } catch (error) {
@@ -52,7 +59,13 @@ class HelpFormClass {
 
     static async getHelpFormByCity(city) {
         try {
-            const response = await fetch(`${this.URL}/city/${city}`);
+            const response = await fetch(`${this.URL}/city/${city}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "x-api-key": process.env.API_KEY,
+                    },
+                });
             const result = await response.json();
             return result;
         } catch (error) {
