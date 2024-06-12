@@ -4,7 +4,6 @@ import { getAge } from "@utils/dateFunctions";
 
 export default function Pet({ pet }) {
   let age = getAge(pet);
-  console.log(pet);
   return (
     <div key={pet._id} className="group relative">
       <div className="min-h-5 aspect-video overflow-hidden min-w-72 md:min-w-0 md:w-full rounded-md bg-gray-200 lg:aspect-none group-hover:scale-105 transition-all lg:h-52 shadow-sm">
@@ -18,8 +17,6 @@ export default function Pet({ pet }) {
             className={"w-full h-full object-center object-cover lg:w-full lg:h-full" + (pet.images.length ? "" : " opacity-50 object-fill")}
           />
         }
-
-
       </div>
       <div className="mt-4 flex justify-between">
         <div>

@@ -49,7 +49,7 @@ export default async function HomePage() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center justify-center pt-1 pb-2 px-5 from-transparent to-green-900 bg-gradient-to-t">
+      <div className="flex flex-col items-center justify-center pt-1 pb-2 px-5 from-transparent to-green-900 bg-gradient-to-t md:min-h-80 min-h-[300px]">
         <PetsRandom />
       </div>
     </div>
