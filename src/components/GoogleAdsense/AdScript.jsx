@@ -1,9 +1,9 @@
 import Script from "next/script";
 
 const GoogleAdScript = ({ pId }) => {
-    // if (process.env.NODE_ENV !== "production") {
-    //     return null;
-    // }
+    if (process.env.ALLOW_ADS !== "true") {
+        return null;
+    }
     return (
         <Script
             async
