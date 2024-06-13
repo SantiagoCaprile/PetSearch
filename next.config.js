@@ -13,6 +13,10 @@ const nextConfig = {
         hostname: 'res.cloudinary.com',
         pathname: '/dprm5aerx/**',
       },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      }
     ],
   },
 };
