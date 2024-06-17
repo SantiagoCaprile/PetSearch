@@ -8,6 +8,7 @@ import Pet from "@/classes/Pet";
 import CalendarComponent from "@components/Calendar/page.jsx"
 import { X, Upload, RefreshCcw } from "lucide-react";
 import { convertBatchImagesToBase64 } from "@/utils/imgFunctions";
+import Image from "next/image";
 
 //This is a component that allows the user to create a pet o edit.
 // it depends if the pet object is passed as a prop or not.
@@ -440,7 +441,7 @@ function ImagePreview({ image, index, handleDelete }) {
                 < X size={20} aria-label="Eliminar" />
                 <span className="sr-only">Eliminar</span>
             </button>
-            <img src={image} alt={`Preview ${index}`} className="thumbnail rounded-sm" />
+            <Image src={image} alt={`Preview ${index}`} className="thumbnail rounded-sm" width={200} height={200} />
         </div >
     );
 }
