@@ -23,7 +23,9 @@ const EmblaCarousel = (props) => {
             <div className="embla__viewport" ref={emblaRef}>
                 <div className="embla__container max-h-[400px]">
                     {slides.map((slide, index) => (
-                        <Image key={index} src={slide} alt="slide" className="embla__slide" width={400} height={400} />
+                        <Image key={index}
+                            priority={index === 0}
+                            src={slide} alt="slide" className="embla__slide" width={400} height={400} />
                     ))}
                 </div>
             </div>
