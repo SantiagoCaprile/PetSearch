@@ -3,6 +3,7 @@ import Link from "next/link";
 import PetsRandom from "../components/PetsRandom/page";
 import { Store, MapPinned, PersonStanding } from "lucide-react";
 import FunnyButton from "@/components/FunnyButtom/page";
+import Sponsors from "@/components/Sponsors/page";
 
 export const metadata = {
   title: "PetSearch",
@@ -51,6 +52,7 @@ export default async function HomePage() {
       </div>
       <div className="flex flex-col items-center justify-center pt-1 pb-2 px-5 from-transparent to-green-900 bg-gradient-to-t md:min-h-80 min-h-[300px]">
         <PetsRandom />
+        <Sponsors />
       </div>
     </div>
   );

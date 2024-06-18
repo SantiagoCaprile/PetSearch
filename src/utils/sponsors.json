@@ -1,0 +1,17 @@
+[
+    {
+        "name": "UAI",
+        "logo": "/images/sponsors/uailogo.webp",
+        "link": "https://uai.edu.ar/"
+    },
+    {
+        "name": "Sabrositos",
+        "logo": "/images/sponsors/sabrositos.webp",
+        "link": "https://www.sabrositos.com.ar/"
+    },
+    {
+        "name": "Whiskas",
+        "logo": "/images/sponsors/whiskas.webp",
+        "link": "https://www.whiskas.com.ar/"
+    }
+]
