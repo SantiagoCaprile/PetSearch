@@ -1,40 +1,101 @@
 "use client";
 import React from "react";
-import LOCATIONS from "@utils/ar.json";
 import { MapPin } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import User from "@/classes/User";
 
+//this will be two components, one for the province and one for the location
+//after the user selects the province, the location will be filtered by the province
+//the location and province will be saved in the local storage
+export default function LocationSelector({ displayProvinces }) {
+    const [provinces, setProvinces] = useState([]);
+    const [locations, setLocations] = useState([]);
+    const [selectedProvince, setSelectedProvince] = useState("");
+    const [selectedLocation, setSelectedLocation] = useState("");
 
-//this will be a dropdown menu to select the location. When it is selected, it will be stored in the session
-export default function LocationSelector() {
     useEffect(() => {
-        if (typeof window !== "undefined") {
-            if (window.localStorage.getItem("location") === null) {
-                window.localStorage.setItem("location", "Buenos Aires");
-            } else {
-                document.getElementById("location").value = window.localStorage.getItem("location");
-            }
+        User.getProvinces().then((provinces) => {
+            setProvinces(provinces);
+        });
+    }, []);
+
+    useEffect(() => {
+        setLocations([]);
+    }, []);
+
+    useEffect(() => {
+        const province = localStorage.getItem("province");
+        const location = localStorage.getItem("location");
+        if (province) {
+            setSelectedProvince(province);
+        }
+        if (location) {
+            setSelectedLocation(location);
         }
     }, []);
 
+    useEffect(() => {
+        if (selectedProvince) {
+            User.getLocationsByProvince(selectedProvince).then((locations) => {
+                setLocations(locations);
+                localStorage.setItem('location', locations[0].name);
+            });
+        }
+    }, [selectedProvince]);
+
+    const handleProvinceChange = (e) => {
+        setSelectedProvince(e.target.value);
+        localStorage.setItem("province", e.target.value);
+    };
+
+    const handleLocationChange = (e) => {
+        setSelectedLocation(e.target.value);
+        localStorage.setItem("location", e.target.value);
+    };
+
     return (
-        <div className="flex items-center justify-center px-2">
-            <MapPin color="white" size="24" />
-            <select
-                className="text-white bg-inherit bg-opacity-55 rounded-md md:p-2 focus:outline-none w-full"
-                name="location"
-                id="location"
-                defaultValue={typeof window !== "undefined" ? window.localStorage.getItem("location") : "Buenos Aires"}
-                onChange={(e) => {
-                    typeof window !== "undefined" ? window.localStorage.setItem("location", e.target.value) : null;
-                }}
-            >
-                {Object.values(LOCATIONS).map((city, index) => (
-                    <option key={index} value={city.city}>
-                        {city.city}
-                    </option>
-                ))}
-            </select>
+        <div className="flex items-center gap-2 md:px-1">
+            <MapPin color={"white"} />
+            <div className="flex flex-col items-center">
+                {displayProvinces && (
+                    <select
+                        value={selectedProvince}
+                        onChange={handleProvinceChange}
+                        disabled={provinces.length === 0}
+                        className="text-white bg-inherit bg-opacity-55 rounded-md md:p-2 focus:outline-none w-full"
+                    >
+                        {provinces.length === 0 && (
+                            <option value="">
+                                Provincia
+                            </option>
+                        )
+                        }
+                        {provinces.map((province) => (
+                            <option key={province.cod} value={province.name}>
+                                {province.name}
+                            </option>
+                        ))}
+                    </select>
+                )}
+                <select
+                    value={selectedLocation}
+                    onChange={handleLocationChange}
+                    disabled={locations.length === 0}
+                    className="text-white bg-inherit bg-opacity-55 rounded-md md:p-2 focus:outline-none w-full"
+                >
+                    {locations.length === 0 && (
+                        <option value="">
+                            Localidad
+                        </option>
+                    )
+                    }
+                    {locations.map((location) => (
+                        <option key={location._id} value={location.name}>
+                            {location.name}
+                        </option>
+                    ))}
+                </select>
+            </div>
         </div>
     );
 }

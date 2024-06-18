@@ -22,7 +22,7 @@ export default function Nav() {
         <Link href="/">PetSearch</Link>
         <span className="text-sm text-white font-normal"> hi</span>
       </p>
-      <LocationSelector />
+      <LocationSelector displayProvinces={true} />
       {session && (session.user.role === "rescuer" || session.user.role === "user") && (
         <ul className="flex-1 justify-end gap-4 border-l-2 px-2 md:px-8 hidden md:flex">
           <li className="text-white font-bold hover:underline">
