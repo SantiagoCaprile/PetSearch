@@ -61,7 +61,7 @@ export default function LocationSelector({ displayProvinces }) {
                     <select
                         value={selectedProvince}
                         onChange={handleProvinceChange}
-                        disabled={provinces.length === 0}
+                        disabled={provinces?.length === 0}
                         className="text-white bg-inherit bg-opacity-55 rounded-md md:p-2 focus:outline-none w-full"
                     >
                         {provinces.length === 0 && (
@@ -80,7 +80,7 @@ export default function LocationSelector({ displayProvinces }) {
                 <select
                     value={selectedLocation}
                     onChange={handleLocationChange}
-                    disabled={locations.length === 0}
+                    disabled={locations?.length === 0}
                     className="text-white bg-inherit bg-opacity-55 rounded-md md:p-2 focus:outline-none w-full"
                 >
                     {locations.length === 0 && (

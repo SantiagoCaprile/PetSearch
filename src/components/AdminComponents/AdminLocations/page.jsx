@@ -40,8 +40,8 @@ export default function LocationsManager() {
         provincePage * itemsPerPage
     );
 
-    const totalLocationPages = Math.ceil(filteredLocations.length / itemsPerPage);
-    const totalProvincePages = Math.ceil(provinces.length / itemsPerPage);
+    const totalLocationPages = Math.ceil(filteredLocations?.length / itemsPerPage);
+    const totalProvincePages = Math.ceil(provinces?.length / itemsPerPage);
 
     return (
         <div className="p-6">
