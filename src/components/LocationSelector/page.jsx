@@ -38,7 +38,8 @@ export default function LocationSelector({ displayProvinces }) {
         if (selectedProvince) {
             User.getLocationsByProvince(selectedProvince).then((locations) => {
                 setLocations(locations);
-                localStorage.setItem('location', locations[0].name);
+                const defaultLocation = locations ? locations[0]?.name : "";
+                localStorage.setItem('location', defaultLocation);
             });
         }
     }, [selectedProvince]);
@@ -64,13 +65,13 @@ export default function LocationSelector({ displayProvinces }) {
                         disabled={provinces?.length === 0}
                         className="text-white bg-inherit bg-opacity-55 rounded-md md:p-2 focus:outline-none w-full"
                     >
-                        {provinces.length === 0 && (
-                            <option value="">
+                        {provinces?.length == 0 && (
+                            <option value="" selected>
                                 Provincia
                             </option>
                         )
                         }
-                        {provinces.map((province) => (
+                        {provinces?.map((province) => (
                             <option key={province.cod} value={province.name}>
                                 {province.name}
                             </option>
@@ -83,13 +84,13 @@ export default function LocationSelector({ displayProvinces }) {
                     disabled={locations?.length === 0}
                     className="text-white bg-inherit bg-opacity-55 rounded-md md:p-2 focus:outline-none w-full"
                 >
-                    {locations.length === 0 && (
+                    {locations?.length === 0 && (
                         <option value="">
                             Localidad
                         </option>
                     )
                     }
-                    {locations.map((location) => (
+                    {locations?.map((location) => (
                         <option key={location._id} value={location.name}>
                             {location.name}
                         </option>
