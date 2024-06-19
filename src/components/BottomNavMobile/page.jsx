@@ -31,7 +31,7 @@ export default function BottomNavMobile() {
             }
             {
                 session ? (
-                    <Link href="/profile" className="flex flex-col items-center">
+                    <Link href={session.user.role === "rescuer" ? `/rescuers/${session.user._id}` : `/users/${session.user._id}`} className="flex flex-col items-center" >
                         <User color="white" />
                         <span className="text-white text-xs">Mi Perfíl</span>
                     </Link>
@@ -43,6 +43,5 @@ export default function BottomNavMobile() {
                 )
             }
         </div>
-    );
+    )
 }
-
