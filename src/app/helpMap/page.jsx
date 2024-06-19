@@ -1,13 +1,14 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import Map from "@/components/Map";
-import LOCATIONS from "@utils/ar.json"
 import Link from "next/link";
 import { PlusSquare } from "lucide-react";
 import HelpFormClass from "@/classes/HelpForm";
 import { formatDateToDDMMYYYY } from "@/utils/dateFunctions";
+import { useSelector } from "react-redux";
 
 export default function HelpMap() {
+    const locations = useSelector((state) => state.location);
     const [city, setCity] = useState(null)
     const [map, setMap] = useState(false)
     const [lostAndFoundPets, setLostAndFoundPets] = useState([])
@@ -15,10 +16,9 @@ export default function HelpMap() {
     useEffect(() => {
         if (typeof window !== "undefined") {
             window.localStorage.getItem("location")
-                && setCity(LOCATIONS.find(city => city.city == window.localStorage.getItem("location")))
-            document.getElementById("city").value = LOCATIONS.findIndex(city => city.city == window.localStorage.getItem("location"))
+                && (locations ? locations.location : window.localStorage.getItem("location"))
             setMap(true)
-            HelpFormClass.getHelpFormByCity(window.localStorage.getItem("location"))
+            HelpFormClass.getHelpFormByCity(locations.location.name)
                 .then((data) => {
                     setLostAndFoundPets(data)
                 })
@@ -26,13 +26,13 @@ export default function HelpMap() {
                     console.log(err)
                 })
         }
-    }, [])
+        handleSetCity()
+    }, [locations.location])
 
     const handleSetCity = (e) => {
-        e.preventDefault()
         setMap(false)
-        setCity(LOCATIONS[e.target.value])
-        HelpFormClass.getHelpFormByCity(LOCATIONS[e.target.value].city)
+        setCity(locations.location.location) //redux slice.location object.city
+        HelpFormClass.getHelpFormByCity(locations.location)
             .then((data) => {
                 setLostAndFoundPets(data)
             })
@@ -48,28 +48,18 @@ export default function HelpMap() {
     return (
         <div className="flex flex-col justify-center items-center">
             <div className="flex justify-around items-center my-2 gap-2">
-                <select name="city" id="city" className="w-[200px] p-2 rounded-md border border-gray-300"
-                    onChange={handleSetCity}
-                >
-                    <option value="" defaultChecked>
-                        Seleccione localidad
-                    </option>
-                    {
-                        LOCATIONS &&
-                        Object.values(LOCATIONS).map((city, index) => (
-                            <option key={index} value={index}>
-                                {city.city}
-                            </option>
-                        ))
-                    }
-                </select>
+                <p className="text-sm text-wrap text-gray-500 ">
+                    Si perdiste o encontraste un animalito, puedes publicar un anuncio
+                    <br />
+                    (Selecciona tu ciudad arriba)
+                </p>
                 <Link href="/helpMap/create" className="flex gap-1 text-nowrap bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                     Crear Anuncio
                     <PlusSquare />
                 </Link>
             </div>
             <div className="md:w-2/3 md:h-[600px] h-svh w-full rounded-md overflow-hidden">
-                {city && map ? (
+                {city && city.lat && map ? (
                     <Map
                         center={[city.lat, city.lng]}
                         zoom={13}

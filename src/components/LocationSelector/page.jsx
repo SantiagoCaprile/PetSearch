@@ -3,11 +3,14 @@ import React from "react";
 import { MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
 import User from "@/classes/User";
+import { useDispatch } from "react-redux";
+import { setLocation } from "./../../app/store/reducers/locationSlice";
 
 //this will be two components, one for the province and one for the location
 //after the user selects the province, the location will be filtered by the province
 //the location and province will be saved in the local storage
 export default function LocationSelector({ displayProvinces }) {
+    const dispatch = useDispatch();
     const [provinces, setProvinces] = useState([]);
     const [locations, setLocations] = useState([]);
     const [selectedProvince, setSelectedProvince] = useState("");
@@ -25,12 +28,13 @@ export default function LocationSelector({ displayProvinces }) {
 
     useEffect(() => {
         const province = localStorage.getItem("province");
-        const location = localStorage.getItem("location");
+        const location = JSON.parse(localStorage.getItem("location"));
         if (province) {
             setSelectedProvince(province);
         }
         if (location) {
-            setSelectedLocation(location);
+            setSelectedLocation(location.name);
+            dispatch(setLocation({ province, location }));
         }
     }, []);
 
@@ -38,8 +42,17 @@ export default function LocationSelector({ displayProvinces }) {
         if (selectedProvince) {
             User.getLocationsByProvince(selectedProvince).then((locations) => {
                 setLocations(locations);
-                const defaultLocation = locations ? locations[0]?.name : "";
-                localStorage.setItem('location', defaultLocation);
+                if (locations.length > 0) {
+                    if (!localStorage.getItem("location")) {
+                        localStorage.setItem("location", JSON.stringify(locations[0]));
+                        setSelectedLocation(locations[0].name);
+                        dispatch(setLocation({ province: selectedProvince, location: locations[0] }));
+                    } else {
+                        const location = JSON.parse(localStorage.getItem("location"));
+                        setSelectedLocation(location.name);
+                        dispatch(setLocation({ province: selectedProvince, location }));
+                    }
+                }
             });
         }
     }, [selectedProvince]);
@@ -51,7 +64,9 @@ export default function LocationSelector({ displayProvinces }) {
 
     const handleLocationChange = (e) => {
         setSelectedLocation(e.target.value);
-        localStorage.setItem("location", e.target.value);
+        const locationFull = locations.find(location => location.name === e.target.value)
+        localStorage.setItem("location", JSON.stringify(locationFull));
+        dispatch(setLocation({ province: selectedProvince, location: locationFull }));
     };
 
     return (
@@ -65,12 +80,9 @@ export default function LocationSelector({ displayProvinces }) {
                         disabled={provinces?.length === 0}
                         className="text-white bg-inherit bg-opacity-55 rounded-md md:p-2 focus:outline-none w-full"
                     >
-                        {provinces?.length == 0 && (
-                            <option value="" selected>
-                                Provincia
-                            </option>
-                        )
-                        }
+                        <option value="" disabled>
+                            Provincia
+                        </option>
                         {provinces?.map((province) => (
                             <option key={province.cod} value={province.name}>
                                 {province.name}
