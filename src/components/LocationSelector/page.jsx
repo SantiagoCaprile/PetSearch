@@ -28,13 +28,20 @@ export default function LocationSelector({ displayProvinces }) {
 
     useEffect(() => {
         const province = localStorage.getItem("province");
-        const location = JSON.parse(localStorage.getItem("location"));
         if (province) {
             setSelectedProvince(province);
         }
-        if (location) {
-            setSelectedLocation(location.name);
-            dispatch(setLocation({ province, location }));
+        //if the location is saved in the local storage but is not a valid location, it will be removed
+        if (!localStorage.getItem("location")) return;
+
+        if (!localStorage.getItem("location").includes("name")) {
+            localStorage.removeItem("location");
+        } else if (localStorage.getItem("location").includes("lat") && localStorage.getItem("location").includes("lng")) {
+            const locationSaved = JSON.parse(localStorage.getItem("location"));
+            if (locationSaved && locationSaved.name && locationSaved.lat) {
+                setSelectedLocation(locationSaved.name);
+                dispatch(setLocation({ province, location }));
+            }
         }
     }, []);
 

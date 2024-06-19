@@ -12,6 +12,11 @@ const store = configureStore({
     mypets: mypetsReducer,
     location: locationReducer,
   },
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware({
+      serializableCheck: false,
+    });
+  }
 });
 
 export default store;
