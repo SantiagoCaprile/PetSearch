@@ -37,8 +37,8 @@ export default function HelpForm() {
     useEffect(() => {
         if (typeof window !== "undefined") {
             window.localStorage.getItem("location")
-                && setLocation(LOCATIONS.find(city => city.city == window.localStorage.getItem("location")))
-            document.getElementById("localidad").value = LOCATIONS.findIndex(city => city.city == window.localStorage.getItem("location"))
+                && setLocation(LOCATIONS.find(city => city.city == JSON.parse(window.localStorage.getItem("location")).name))
+            document.getElementById("localidad").value = LOCATIONS.findIndex(city => city.city == JSON.parse(window.localStorage.getItem("location")).name)
             setMap(true)
         }
     }, [])
