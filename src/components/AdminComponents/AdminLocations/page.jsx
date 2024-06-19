@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import User from "@/classes/User";
 import ConfirmButton from "@/components/ConfirmButton/page";
-import AddProvinceForm from "./AddProvinceForm";
-import AddLocationForm from "./AddLocationForm";
+import AddProvinceForm from "./addProvinceForm";
+import AddLocationForm from "./addLocationForm";
 
 export default function LocationsManager() {
     const [locations, setLocations] = useState([]);
