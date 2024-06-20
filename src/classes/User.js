@@ -6,6 +6,32 @@ class User {
         this.role = role;
     }
 
+    //this is only for admin
+    static async adminGetAllUsers(token, role) {
+        try {
+            const response = await fetch(User.URL, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-api-key": process.env.API_KEY,
+                    authorization: `Bearer ${token}`,
+                    "role": role,
+                },
+            });
+
+            if (response.ok) {
+                return response.json();
+            } else {
+                console.log("Failed to get users");
+                return null;
+            }
+        }
+        catch (error) {
+            console.error("An error occurred:", error);
+            return null;
+        }
+    }
+
     async save() {
         try {
             const response = await fetch(User.URL, {
