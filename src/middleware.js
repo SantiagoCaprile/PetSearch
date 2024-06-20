@@ -22,6 +22,12 @@ export default withAuth(
     ) {
       return NextResponse.rewrite(new URL("/denied", req.url));
     }
+    if (
+      req.nextUrl.pathname.startsWith("/adminDashboard") &&
+      req.nextauth.token.role !== "admin"
+    ) {
+      return NextResponse.rewrite(new URL("/denied", req.url));
+    }
   },
   {
     callbacks: {
@@ -34,5 +40,5 @@ export default withAuth(
 
 // Applies next-auth only to matching routes - can be regex
 export const config = {
-  matcher: ["/createPet", "/adoptionform/:petId/:path*", "/helpMap/create", "/mypets/:path*"]
+  matcher: ["/createPet", "/adoptionform/:petId/:path*", "/helpMap/create", "/mypets/:path*", "/adminDashboard/:path*"]
 };
