@@ -23,7 +23,11 @@ export default function LocationSelector({ displayProvinces }) {
     }, []);
 
     useEffect(() => {
-        setLocations([]);
+        if (localStorage.getItem("location")) {
+            const location = JSON.parse(localStorage.getItem("location"));
+            setSelectedLocation(location.name);
+            dispatch(setLocation({ province: selectedProvince, location: location }));
+        }
     }, []);
 
     useEffect(() => {
@@ -55,9 +59,8 @@ export default function LocationSelector({ displayProvinces }) {
                         setSelectedLocation(locations[0].name);
                         dispatch(setLocation({ province: selectedProvince, location: locations[0] }));
                     } else {
-                        const location = JSON.parse(localStorage.getItem("location"));
-                        setSelectedLocation(location.name);
-                        dispatch(setLocation({ province: selectedProvince, location }));
+                        setSelectedLocation(locations[0].name);
+                        dispatch(setLocation({ province: selectedProvince, location: locations[0] }));
                     }
                 }
             });
