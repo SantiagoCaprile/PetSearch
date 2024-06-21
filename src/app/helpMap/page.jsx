@@ -62,7 +62,7 @@ export default function HelpMap() {
                 {city && city.lat && map ? (
                     <Map
                         center={[city.lat, city.lng]}
-                        zoom={13}
+                        zoom={city.admin == "CABA" ? 15 : 13}
                     >
                         {({ TileLayer, Marker, Popup }) => (
                             <>
