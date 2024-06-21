@@ -1,6 +1,6 @@
 import React from "react";
 
-const Message = ({ body, time, user, alignRight }) => {
+const Message = ({ body, time, user, alignRight, showUser = true }) => {
   const alignClass = alignRight ? "items-end pl-8" : "items-start pr-8";
   const bgClass = alignRight
     ? "bg-blue-500 text-white"
@@ -11,18 +11,15 @@ const Message = ({ body, time, user, alignRight }) => {
   return (
     <div className={`flex flex-col ${alignClass} my-1`}>
       <div className="flex items-center">
-        {!alignRight && (
+        {!alignRight && showUser && (
           <div className="flex items-center justify-center h-8 w-8 rounded-full bg-gray-400">
             <span className="text-white font-bold">{userInitial}</span>
           </div>
         )}
         <div className={`ml-2 flex flex-col ${alignClass}`}>
-          <p className="text-sm font-medium text-gray-900">{user}</p>
-          <div className="flex items-center mt-1">
-            <p className="text-sm text-gray-500">{time}</p>
-          </div>
+          {showUser && <p className="text-sm font-medium text-gray-900">{user}</p>}
         </div>
-        {alignRight && (
+        {alignRight && showUser && (
           <div className="flex items-center justify-center h-8 w-8 rounded-full bg-gray-400 ml-2">
             <span className="text-white font-bold">{userInitial}</span>
           </div>
@@ -30,6 +27,9 @@ const Message = ({ body, time, user, alignRight }) => {
       </div>
       <div className={`mt-1 rounded-lg px-3 py-2 ${bgClass} ${roundedClass}`}>
         <p className="text-sm">{body}</p>
+      </div>
+      <div className="flex items-center mt-1">
+        <p className="text-sm text-gray-500">{time}</p>
       </div>
     </div>
   );

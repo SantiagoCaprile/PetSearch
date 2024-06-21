@@ -172,6 +172,7 @@ const Chat = ({ chatId }) => {
 				) : (
 					messages.map((message, index) => {
 						const newDay = index === 0 || messages[index - 1].date !== message.date;
+						const sameUser = index > 0 && messages[index - 1].user === message.user;
 						return (
 							<>
 								{
@@ -186,8 +187,9 @@ const Chat = ({ chatId }) => {
 									key={index}
 									body={message.body}
 									time={message.time}
-									user={message.user ?? "Anónimo"}
+									user={message.user}
 									alignRight={message.user == username ?? "Anónimo"}
+									showUser={!sameUser}
 								/>
 							</>
 						);
