@@ -28,7 +28,7 @@ export default function LocationSelector({ displayProvinces }) {
             setSelectedLocation(location.name);
             dispatch(setLocation({ province: selectedProvince, location: location }));
         }
-    }, []);
+    }, [provinces]);
 
     useEffect(() => {
         const province = localStorage.getItem("province");
