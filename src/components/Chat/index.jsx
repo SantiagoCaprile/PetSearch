@@ -15,6 +15,14 @@ function formatTime(dateString) {
 	return `${hours}:${minutes}`;
 }
 
+function formatDate(dateString) {
+	const date = new Date(dateString);
+	const day = date.getDate().toString().padStart(2, "0");
+	const month = (date.getMonth() + 1).toString().padStart(2, "0");
+	const year = date.getFullYear();
+	return `${day}/${month}/${year}`;
+}
+
 const Chat = ({ chatId }) => {
 	const session = useSession();
 	const username = session?.data?.user?.name ?? "Anónimo";
@@ -62,6 +70,7 @@ const Chat = ({ chatId }) => {
 					chat: message.chatId,
 					body: message.body,
 					time: formatTime(message.time),
+					date: formatDate(message.time),
 					user: message.username,
 				};
 			});
@@ -161,15 +170,29 @@ const Chat = ({ chatId }) => {
 				{messages.length === 0 ? (
 					<p className="text-center text-black">Aún no hay mensajes</p>
 				) : (
-					messages.map((message, index) => (
-						<Message
-							key={index}
-							body={message.body}
-							time={message.time}
-							user={message.user ?? "Anónimo"}
-							alignRight={message.user == username ?? "Anónimo"}
-						/>
-					))
+					messages.map((message, index) => {
+						const newDay = index === 0 || messages[index - 1].date !== message.date;
+						return (
+							<>
+								{
+									newDay &&
+									<div key={index} className="flex flex-col items-center">
+										<p className="text-xs text-gray-500 bg-gray-300 px-2 py-1 rounded-full">
+											{message.date}
+										</p>
+									</div>
+								}
+								<Message
+									key={index}
+									body={message.body}
+									time={message.time}
+									user={message.user ?? "Anónimo"}
+									alignRight={message.user == username ?? "Anónimo"}
+								/>
+							</>
+						);
+					}
+					)
 				)}
 				<div className="flex justify-center items-center sticky bottom-0">
 					{showScrollButton && (
