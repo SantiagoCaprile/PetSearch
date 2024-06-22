@@ -1,6 +1,6 @@
 // components/Metadata.js
 const Metadata = ({ title, description, keywords, openGraph, twitter }) => (
-    <div hidden>
+    <>
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta name="keywords" content={keywords.join(", ")} />
@@ -15,7 +15,7 @@ const Metadata = ({ title, description, keywords, openGraph, twitter }) => (
         <meta name="twitter:title" content={twitter.title} />
         <meta name="twitter:description" content={twitter.description} />
         <meta name="twitter:image" content={twitter.image} />
-    </div>
+    </>
 );
 
 export default Metadata;
