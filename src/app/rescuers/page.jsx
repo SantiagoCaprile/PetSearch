@@ -26,7 +26,7 @@ export default function RescuersPage() {
 
   const metadata = {
     ...defaultMetadata,
-    title: "Rescatistas de animales en Argentina" + defaultMetadata.title.end,
+    title: "Rescatistas de animales en Argentina" + defaultMetadata.separator + defaultMetadata.title,
     description: "Listado de rescatistas de animales en Argentina",
   };
 

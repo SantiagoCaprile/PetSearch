@@ -22,7 +22,7 @@ export default function Faq() {
 
     const metadata = {
         ...defaultMetadata,
-        title: "Preguntas Frecuentes" + defaultMetadata.title.end,
+        title: "Preguntas Frecuentes" + defaultMetadata.separator + defaultMetadata.title,
         description: "Preguntas frecuentes de PetSearch. Conocé más sobre nuestra plataforma y cómo funciona",
     };
 

@@ -2,10 +2,8 @@
 export const defaultMetadata = {
     metadataBase: new URL("https://www.petsearch.com.ar"),
     keywords: ["PetSearch", "Mascotas", "Adopciones", "Rescatistas", "Argentina",],
-    title: {
-        default: "PetSearch",
-        end: " - PetSearch",
-    },
+    title: "PetSearch",
+    separator: " | ",
     openGraph: {
         description: "PetSearch es una aplicación para encontrar tu mascota ideal",
         image: "/images/thumbnail.webp",

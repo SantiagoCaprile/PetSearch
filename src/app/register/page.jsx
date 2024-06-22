@@ -86,7 +86,7 @@ const Register = () => {
 
   const metadata = {
     ...defaultMetadata,
-    title: "Registro de usuario o rescatista" + defaultMetadata.title.end,
+    title: "Registro de usuario o rescatista" + defaultMetadata.separator + defaultMetadata.title,
     description: "Unite a la comunidad de PetSearch y ayuda a los animales perdidos y abandonados. Registrate ahora!",
   };
 

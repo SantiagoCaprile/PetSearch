@@ -50,7 +50,7 @@ export default function HelpMap() {
     const metadata = {
         ...defaultMetadata,
         title: "Mapa de Mascotas Perdidas y Encontradas en Argentina"
-            + defaultMetadata.title.end,
+            + defaultMetadata.separator + defaultMetadata.title,
         description: "Mapa de mascotas perdidas y encontradas en Argentina. Publica un anuncio si perdiste o encontraste un animalito",
     };
 

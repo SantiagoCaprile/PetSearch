@@ -61,7 +61,7 @@ export default function Page() {
 
   const metadata = {
     ...defaultMetadata,
-    title: "Mascotas para adoptar en Argentina" + defaultMetadata.title.end,
+    title: "Mascotas para adoptar en Argentina" + defaultMetadata.separator + defaultMetadata.title,
     description: "Buscador de mascotas para adoptar en Argentina de manera rápida y sencilla. Encontrá tu mascota ideal en PetSearch",
   };
 

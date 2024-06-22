@@ -58,7 +58,7 @@ const Login = () => {
 
   const metadata = {
     ...defaultMetadata,
-    title: "Iniciar Sesión" + defaultMetadata.title.end,
+    title: "Iniciar Sesión" + defaultMetadata.separator + defaultMetadata.title,
     description: "Inicia sesión en PetSearch para poder desbloquear todas las funcionalidades",
   };
 
