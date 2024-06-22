@@ -4,7 +4,7 @@ import { MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
 import User from "@/classes/User";
 import { useDispatch } from "react-redux";
-import { setLocation } from "./../../app/store/reducers/locationSlice";
+import { setLocation, setLocationLoading } from "./../../app/store/reducers/locationSlice";
 
 //this will be two components, one for the province and one for the location
 //after the user selects the province, the location will be filtered by the province
@@ -17,12 +17,14 @@ export default function LocationSelector({ displayProvinces }) {
     const [selectedLocation, setSelectedLocation] = useState("");
 
     useEffect(() => {
+        dispatch(setLocationLoading(true));
         User.getProvinces().then((provinces) => {
             setProvinces(provinces);
         });
     }, []);
 
     useEffect(() => {
+        dispatch(setLocationLoading(true));
         if (localStorage.getItem("location")) {
             const location = JSON.parse(localStorage.getItem("location"));
             setSelectedLocation(location.name);
@@ -31,6 +33,7 @@ export default function LocationSelector({ displayProvinces }) {
     }, [provinces]);
 
     useEffect(() => {
+        dispatch(setLocationLoading(true));
         const province = localStorage.getItem("province");
         if (province) {
             setSelectedProvince(province);
@@ -50,6 +53,7 @@ export default function LocationSelector({ displayProvinces }) {
     }, []);
 
     useEffect(() => {
+        dispatch(setLocationLoading(true));
         if (selectedProvince) {
             User.getLocationsByProvince(selectedProvince).then((locations) => {
                 setLocations(locations);

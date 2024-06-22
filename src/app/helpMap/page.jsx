@@ -103,9 +103,15 @@ export default function HelpMap() {
                         )}
                     </Map>
                 ) : (
-                    <div className="flex justify-center items-center bg-slate-400 animate-pulse rounded-lg h-full">
-                        <h2 className="text-2xl font-bold text-white">Cargando Mapa...</h2>
-                    </div>
+                    locations &&
+                        !locations.loading ?
+                        <div className="flex justify-center items-center bg-slate-400 animate-pulse rounded-lg h-full">
+                            <h2 className="text-2xl font-bold text-white">Cargando Mapa...</h2>
+                        </div>
+                        :
+                        <div className="flex justify-center items-center bg-slate-400 rounded-lg h-full">
+                            <h2 className="text-2xl font-bold text-white">Selecciona tu ciudad en la barra superior</h2>
+                        </div>
                 )}
             </div>
         </div >
