@@ -2,6 +2,8 @@
 import { useState } from "react";
 import Loader from "../../components/Loader";
 import { signIn } from "next-auth/react";
+import Metadata from "@/components/Metadata/page";
+import { defaultMetadata } from "@/utils/metadata";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -54,8 +56,15 @@ const Login = () => {
     setIsLoading(false);
   };
 
+  const metadata = {
+    ...defaultMetadata,
+    title: "Iniciar Sesión" + defaultMetadata.title.end,
+    description: "Inicia sesión en PetSearch para poder desbloquear todas las funcionalidades",
+  };
+
   return (
     <div className="flex flex-1 justify-center items-center">
+      <Metadata {...metadata} />
       <form
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-[600px] md:w-2/3 w-full mx-2 md:mx-0"
         onSubmit={handleSubmit}

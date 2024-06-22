@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import User from "@/classes/User";
 import { toast } from "react-hot-toast";
+import Metadata from "@/components/Metadata/page";
+import { defaultMetadata } from "@/utils/metadata";
 
 const Register = () => {
   const router = useRouter();
@@ -82,8 +84,15 @@ const Register = () => {
 
   };
 
+  const metadata = {
+    ...defaultMetadata,
+    title: "Registro de usuario o rescatista" + defaultMetadata.title.end,
+    description: "Unite a la comunidad de PetSearch y ayuda a los animales perdidos y abandonados. Registrate ahora!",
+  };
+
   return (
     <div className="flex flex-1 justify-center items-center">
+      <Metadata {...metadata} />
       <form
         className="bg-white shadow-md rounded p-8 md:mb-4 md:max-w-[600px] md:w-2/3 w-full mx-2 md:mx-0"
         onSubmit={handleSubmit}

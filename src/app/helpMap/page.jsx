@@ -6,6 +6,8 @@ import { PlusSquare } from "lucide-react";
 import HelpFormClass from "@/classes/HelpForm";
 import { formatDateToDDMMYYYY } from "@/utils/dateFunctions";
 import { useSelector } from "react-redux";
+import Metadata from "@/components/Metadata/page";
+import { defaultMetadata } from "@/utils/metadata";
 
 export default function HelpMap() {
     const locations = useSelector((state) => state.location);
@@ -45,8 +47,16 @@ export default function HelpMap() {
         }, 200)
     }
 
+    const metadata = {
+        ...defaultMetadata,
+        title: "Mapa de Mascotas Perdidas y Encontradas en Argentina"
+            + defaultMetadata.title.end,
+        description: "Mapa de mascotas perdidas y encontradas en Argentina. Publica un anuncio si perdiste o encontraste un animalito",
+    };
+
     return (
         <div className="flex flex-col justify-center items-center">
+            <Metadata {...metadata} />
             <div className="flex justify-around items-center my-2 gap-2">
                 <p className="text-sm text-wrap text-gray-500 ">
                     Si perdiste o encontraste un animalito, puedes publicar un anuncio

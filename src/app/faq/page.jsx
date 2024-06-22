@@ -1,6 +1,8 @@
 "use client";
 import React, { useReducer } from "react";
 import faqs from "@utils/faq";
+import Metadata from "@/components/Metadata/page";
+import { defaultMetadata } from "@/utils/metadata";
 
 const faqReducer = (state, action) => {
     switch (action.type) {
@@ -18,8 +20,15 @@ export default function Faq() {
         dispatch({ type: "TOGGLE_FAQ", index });
     };
 
+    const metadata = {
+        ...defaultMetadata,
+        title: "Preguntas Frecuentes" + defaultMetadata.title.end,
+        description: "Preguntas frecuentes de PetSearch. Conocé más sobre nuestra plataforma y cómo funciona",
+    };
+
     return (
         <div className="container mx-auto flex flex-col justify-center items-center">
+            <Metadata {...metadata} />
             <h1 className="text-4xl font-bold text-center my-8">Preguntas Frecuentes</h1>
             <div className="grid grid-cols-1 md:w-[800px]">
                 {faqs.map((faq, index) => {

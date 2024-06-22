@@ -12,6 +12,8 @@ import {
 import { useForm } from "react-hook-form";
 import Pet from "@/classes/Pet";
 import AdBanner from "@/components/GoogleAdsense/AdBanner";
+import Metadata from "@/components/Metadata/page";
+import { defaultMetadata } from "@/utils/metadata";
 
 export default function Page() {
   const { register, handleSubmit, setValue } = useForm();
@@ -57,8 +59,15 @@ export default function Page() {
     setCurrentPage(1);
   };
 
+  const metadata = {
+    ...defaultMetadata,
+    title: "Mascotas para adoptar en Argentina" + defaultMetadata.title.end,
+    description: "Buscador de mascotas para adoptar en Argentina de manera rápida y sencilla. Encontrá tu mascota ideal en PetSearch",
+  };
+
   return (
     <div className="flex flex-col flex-1">
+      <Metadata {...metadata} />
       <div className="flex flex-col items-center md:items-stretch md:flex-row justify-center flex-1">
         <div className="md:w-1/6 w-full bg-gray-100 p-4 flex flex-col text-center">
           <h2 className="text-lg font-semibold mb-4 border-b border-black pb-2">

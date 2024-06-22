@@ -4,15 +4,14 @@ import PetsRandom from "../components/PetsRandom/page";
 import { Store, MapPinned, PersonStanding } from "lucide-react";
 import FunnyButton from "@/components/FunnyButtom/page";
 import Sponsors from "@/components/Sponsors/page";
-
-export const metadata = {
-  title: "PetSearch",
-  description: "PetSearch es una aplicación para encontrar tu mascota ideal",
-};
+import Metadata from "@/components/Metadata/page";
+import { defaultMetadata } from "@/utils/metadata";
 
 export default async function HomePage() {
+  const metadata = { ...defaultMetadata, title: "PetSearch" };
   return (
     <div className="flex flex-col flex-1">
+      <Metadata {...metadata} />
       <div className="flex flex-col flex-1 items-center justify-end bg-[url('../../public/images/dog.webp')] bg-cover md:bg-center bg-right min-h-[550px] text-white">
         <div className="flex flex-col justify-start">
           <div className="text-3xl text-center md:text-8xl md:text-left font-[meows] font-medium z-10">
