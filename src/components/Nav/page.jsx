@@ -9,7 +9,9 @@ export default function Nav() {
 
   const handleLogout = async () => {
     try {
-      await signOut();
+      await signOut().then(() => {
+        window.location.href = "/";
+      });
     } catch (error) {
       console.log(error);
     }
@@ -23,20 +25,30 @@ export default function Nav() {
         <span className="text-sm text-white font-normal"> hi</span>
       </p>
       <LocationSelector displayProvinces={true} />
-      {session && (session.user.role === "rescuer" || session.user.role === "user") && (
+      {session && session.user.role && (
         <ul className="flex-1 justify-end gap-4 border-l-2 px-2 md:px-8 hidden md:flex">
-          <li className="text-white font-bold hover:underline">
-            <Link href="/myadoptions" className="gap-2 flex">
-              <FileHeart />
-              <span>Mis adopciones</span>
-            </Link>
-          </li>
           {
-            session && session.user.role === "rescuer" &&
+            (session.user.role === "user" || session.user.role === "rescuer") &&
+            <li className="text-white font-bold hover:underline">
+              <Link href="/myadoptions" className="gap-2 flex">
+                <FileHeart />
+                <span>Mis adopciones</span>
+              </Link>
+            </li>
+          }
+          {
+            session.user.role === "rescuer" &&
             <li className="text-white font-bold hover:underline">
               <Link href="/mypets" className="gap-2 flex">
                 <Cat />
                 <span>Mis Mascotas</span>
+              </Link>
+            </li>
+          }
+          {session.user.role === "admin" &&
+            <li className="text-white font-bold hover:underline bg-green-600 p-2 rounded-lg">
+              <Link href="/adminDashboard" className="gap-2 flex">
+                <span>Administrar</span>
               </Link>
             </li>
           }
