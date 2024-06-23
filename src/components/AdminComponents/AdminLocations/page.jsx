@@ -61,10 +61,6 @@ export default function LocationsManager() {
                     className="w-full p-2 border border-gray-300 text-inherit bg-inherit rounded-md"
                 />
             </div>
-            <div className="flex w-1/2 space-x-4 mb-4">
-                <AddProvinceForm />
-                <AddLocationForm />
-            </div>
             <h2 className="text-xl font-semibold mb-2">Provinces</h2>
             <table className="min-w-full border border-gray-200 rounded-md mb-6">
                 <thead>
@@ -164,6 +160,10 @@ export default function LocationsManager() {
                 >
                     Next
                 </button>
+            </div>
+            <div className="flex w-1/2 gap-x-2 mt-4">
+                <AddProvinceForm />
+                <AddLocationForm />
             </div>
         </div>
     );
