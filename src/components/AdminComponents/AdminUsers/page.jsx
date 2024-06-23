@@ -43,9 +43,9 @@ export default function AdminUsersPage() {
         }
     }
     return (
-        <div className="p-6">
+        <div className="flex flex-1 flex-col p-6 bg-slate-700 text-white">
             <h1 className="text-2xl font-bold mb-4">Manage Users</h1>
-            <div className="flex gap-2 py-2">
+            <div className="flex gap-2 py-2 text-black">
                 <input
                     type="text"
                     placeholder="Search Users"
@@ -97,6 +97,7 @@ export default function AdminUsersPage() {
                                     {editRole.edit && editRole.id === user._id ?
                                         <select
                                             value={user.role}
+                                            className="text-black rounded-sm p-1"
                                             onChange={(e) => {
                                                 e.preventDefault();
                                                 // User.updateUserRole(user.id, e.target.value).then(() => {
@@ -120,6 +121,7 @@ export default function AdminUsersPage() {
                             <div className="min-w-[300px]">
                                 <ConfirmButton
                                     text="Delete"
+                                    bgColor="bg-red-500"
                                     onConfirm={() => {
                                         User.deleteUser(user.id).then(() => {
                                             User.getUsers().then((users) => {

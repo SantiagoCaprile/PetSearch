@@ -44,7 +44,7 @@ export default function LocationsManager() {
     const totalProvincePages = Math.ceil(provinces?.length / itemsPerPage);
 
     return (
-        <div className="p-6">
+        <div className="p-6 bg-slate-700 text-white">
             <h1 className="text-2xl font-bold mb-4">Manage Locations</h1>
             <div className="mb-4">
                 <input
@@ -52,15 +52,15 @@ export default function LocationsManager() {
                     placeholder="Search Locations"
                     value={search}
                     onChange={handleSearchChange}
-                    className="w-full p-2 border border-gray-300 rounded-md"
+                    className="w-full p-2 border border-gray-300 text-inherit bg-inherit rounded-md"
                 />
             </div>
-            <div className="flex space-x-4 mb-4">
-                <AddLocationForm />
+            <div className="flex w-1/2 space-x-4 mb-4">
                 <AddProvinceForm />
+                <AddLocationForm />
             </div>
             <h2 className="text-xl font-semibold mb-2">Provinces</h2>
-            <table className="min-w-full bg-white border border-gray-200 rounded-md mb-6">
+            <table className="min-w-full border border-gray-200 rounded-md mb-6">
                 <thead>
                     <tr>
                         <th className="px-4 py-2 border-b text-center">Code</th>
@@ -92,7 +92,7 @@ export default function LocationsManager() {
             <div className="flex justify-center mb-6">
                 <button
                     onClick={() => setProvincePage((prev) => Math.max(prev - 1, 1))}
-                    className="px-4 py-2 mx-1 bg-gray-300 rounded-md"
+                    className="px-4 py-2 mx-1 bg-slate-700 text-white rounded-md"
                     disabled={provincePage === 1}
                 >
                     Previous
@@ -100,14 +100,14 @@ export default function LocationsManager() {
                 <span className="px-4 py-2 mx-1">Page {provincePage} of {totalProvincePages}</span>
                 <button
                     onClick={() => setProvincePage((prev) => Math.min(prev + 1, totalProvincePages))}
-                    className="px-4 py-2 mx-1 bg-gray-300 rounded-md"
+                    className="px-4 py-2 mx-1 bg-slate-700 text-white rounded-md"
                     disabled={provincePage === totalProvincePages}
                 >
                     Next
                 </button>
             </div>
             <h2 className="text-xl font-semibold mb-2">Locations</h2>
-            <table className="min-w-full bg-white border border-gray-200 rounded-md">
+            <table className="min-w-full bg-slate-700 text-white border border-gray-200 rounded-md">
                 <thead>
                     <tr>
                         <th className="px-4 py-2 border-b text-center">Province</th>

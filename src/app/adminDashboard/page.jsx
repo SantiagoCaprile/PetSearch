@@ -26,7 +26,7 @@ const routes = [
 
 export default function AdminDashboard() {
     return (
-        <div className="flex flex-1 bg-slate-50 items-center flex-col gap-4">
+        <div className="flex flex-1 bg-slate-700 items-center flex-col gap-4 text-white">
             <h1 className="text-2xl font-bold">Admin Dashboard</h1>
             <div className="flex flex-col gap-4">
                 {routes.map((route, index) => (

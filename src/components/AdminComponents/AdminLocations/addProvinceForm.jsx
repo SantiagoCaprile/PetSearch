@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function AddProvinceForm() {
+export default function AddProvinceForm({ color = "bg-slate-100 text-black" }) {
     const [name, setName] = useState("");
     const [cod, setCod] = useState("");
 
@@ -12,21 +12,21 @@ export default function AddProvinceForm() {
     };
 
     return (
-        <div className="bg-gray-100 p-4 rounded-md shadow-md">
+        <div className="p-4 rounded-md border border-gray-300">
             <h3 className="text-lg font-bold mb-2">Add New Province</h3>
             <input
                 type="text"
                 placeholder="Code"
                 value={cod}
                 onChange={(e) => setCod(e.target.value)}
-                className="w-full p-2 mb-2 border border-gray-300 rounded-md"
+                className={`w-full p-2 mb-2 border border-gray-300 rounded-md ${color}`}
             />
             <input
                 type="text"
                 placeholder="Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full p-2 mb-2 border border-gray-300 rounded-md"
+                className={`w-full p-2 mb-2 border border-gray-300 rounded-md ${color}`}
             />
             <button onClick={handleAddProvince} className="bg-blue-500 text-white px-4 py-2 rounded-md">
                 Add Province
