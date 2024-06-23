@@ -20,10 +20,9 @@ export default function LocationsManager() {
     useEffect(() => {
         if (!session) return;
         User.adminGetProvinces(session.jwtApiToken, session.user.role).then((provinces) => {
-            console.log(provinces);
             setProvinces(provinces);
         });
-        User.getLocations().then((locations) => {
+        User.adminGetLocations(session.jwtApiToken, session.user.role).then((locations) => {
             setLocations(locations);
         });
     }, [session]);
@@ -116,6 +115,7 @@ export default function LocationsManager() {
                     <tr>
                         <th className="px-4 py-2 border-b text-center">Province</th>
                         <th className="px-4 py-2 border-b text-center">Location</th>
+                        <th className="px-4 py-2 border-b text-center">Status</th>
                         <th className="px-4 py-2 border-b text-center" style={{ width: "200px" }}>Actions</th>
                     </tr>
                 </thead>
@@ -124,6 +124,10 @@ export default function LocationsManager() {
                         <tr key={location._id}>
                             <td className="px-4 py-2 border-b text-center">{location.admin}</td>
                             <td className="px-4 py-2 border-b text-center">{location.name}</td>
+                            <td className="px-4 py-2 border-b text-center items-center">{location.active ?
+                                <span className="flex gap-1 justify-center"> <Circle className="animate-pulse" color="lightgreen" fill="green" /> Active</span> :
+                                <span className="flex gap-1 justify-center"> <Circle color="darkred" fill="darkred" />Inactive</span>}</td>
+
                             <td className="px-4 py-2 border-b flex justify-center">
                                 <div className="w-full min-w-80 flex space-x-2 justify-center">
                                     <ConfirmButton

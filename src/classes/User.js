@@ -215,7 +215,7 @@ class User {
         }
     }
 
-    static async adminGetLocations(token) {
+    static async adminGetLocations(token, role) {
         try {
             const response = await fetch(`${User.#URL_ADMIN}/locations`, {
                 method: "GET",
@@ -223,6 +223,7 @@ class User {
                     "Content-Type": "application/json",
                     "x-api-key": process.env.API_KEY,
                     authorization: `Bearer ${token}`,
+                    "role": role,
                 },
             });
 
@@ -238,7 +239,7 @@ class User {
         }
     }
 
-    static async adminPostLocation(token, location) {
+    static async adminPostLocation(token, role, location) {
         try {
             const response = await fetch(`${User.#URL_ADMIN}/locations`, {
                 method: "POST",
@@ -246,6 +247,7 @@ class User {
                     "Content-Type": "application/json",
                     "x-api-key": process.env.API_KEY,
                     authorization: `Bearer ${token}`,
+                    "role": role,
                 },
                 body: JSON.stringify(location),
             });
@@ -262,7 +264,7 @@ class User {
         }
     }
 
-    static async adminPutActivateProvince(token, provinceId) {
+    static async adminPutActivateProvince(token, role, provinceId) {
         try {
             const response = await fetch(`${User.#URL_ADMIN}/provinces/${provinceId}`, {
                 method: "PUT",
@@ -270,6 +272,7 @@ class User {
                     "Content-Type": "application/json",
                     "x-api-key": process.env.API_KEY,
                     authorization: `Bearer ${token}`,
+                    "role": role,
                 },
             });
 
@@ -285,7 +288,7 @@ class User {
         }
     }
 
-    static async adminPutEditLocation(token, location) {
+    static async adminPutEditLocation(token, role, location) {
         try {
             const response = await fetch(`${User.#URL_ADMIN}/locations/${location._id}`, {
                 method: "PUT",
@@ -293,6 +296,7 @@ class User {
                     "Content-Type": "application/json",
                     "x-api-key": process.env.API_KEY,
                     authorization: `Bearer ${token}`,
+                    "role": role,
                 },
                 body: JSON.stringify(location),
             });
