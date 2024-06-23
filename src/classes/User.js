@@ -1,6 +1,7 @@
 class User {
     static URL = `${process.env.API_URL || "http://localhost:4000"}/users`;
     static #URL_LOCATIONS = `${process.env.API_URL || "http://localhost:4000"}/locations`;
+    static #URL_ADMIN = `${process.env.API_URL || "http://localhost:4000"}/admin`;
     constructor(name, role) {
         this.name = name;
         this.role = role;
@@ -122,6 +123,7 @@ class User {
         }
     }
 
+    //this is only for active provinces
     static async getProvinces() {
         try {
             const response = await fetch(`${User.#URL_LOCATIONS}/provinces`, {
@@ -146,7 +148,6 @@ class User {
 
     static async getLocations() {
         try {
-            console.log("Getting locations")
             const response = await fetch(`${User.#URL_LOCATIONS}`, {
                 method: "GET",
                 headers: {
@@ -186,6 +187,125 @@ class User {
         } catch (error) {
             console.error("An error occurred:", error);
             return null;
+        }
+    }
+
+    //the following are only for admin
+    static async adminGetProvinces(token, role) {
+        try {
+            const response = await fetch(`${User.#URL_ADMIN}/provinces`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-api-key": process.env.API_KEY,
+                    authorization: `Bearer ${token}`,
+                    'role': role,
+                },
+            });
+
+            if (response.ok) {
+                return response.json();
+            } else {
+                console.log("Failed to get provinces");
+                return null;
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return null;
+        }
+    }
+
+    static async adminGetLocations(token) {
+        try {
+            const response = await fetch(`${User.#URL_ADMIN}/locations`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-api-key": process.env.API_KEY,
+                    authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response.ok) {
+                return response.json();
+            } else {
+                console.log("Failed to get locations");
+                return null;
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return null;
+        }
+    }
+
+    static async adminPostLocation(token, location) {
+        try {
+            const response = await fetch(`${User.#URL_ADMIN}/locations`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-api-key": process.env.API_KEY,
+                    authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(location),
+            });
+
+            if (response.ok) {
+                return true;
+            } else {
+                console.log("Failed to create location");
+                return false;
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return false;
+        }
+    }
+
+    static async adminPutActivateProvince(token, provinceId) {
+        try {
+            const response = await fetch(`${User.#URL_ADMIN}/provinces/${provinceId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-api-key": process.env.API_KEY,
+                    authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response.ok) {
+                return true;
+            } else {
+                console.log("Failed to activate province");
+                return false;
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return false;
+        }
+    }
+
+    static async adminPutEditLocation(token, location) {
+        try {
+            const response = await fetch(`${User.#URL_ADMIN}/locations/${location._id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-api-key": process.env.API_KEY,
+                    authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(location),
+            });
+
+            if (response.ok) {
+                return true;
+            } else {
+                console.log("Failed to edit location");
+                return false;
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return false;
         }
     }
 }

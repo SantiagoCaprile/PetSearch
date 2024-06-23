@@ -3,45 +3,51 @@ import User from "@/classes/User";
 import ConfirmButton from "@/components/ConfirmButton/page";
 import AddProvinceForm from "./addProvinceForm";
 import AddLocationForm from "./addLocationForm";
+import { useSession } from "next-auth/react";
+import { Circle } from "lucide-react";
 
 export default function LocationsManager() {
+    const { data: session } = useSession();
     const [locations, setLocations] = useState([]);
     const [provinces, setProvinces] = useState([]);
     const [search, setSearch] = useState("");
     const [locationPage, setLocationPage] = useState(1);
     const [provincePage, setProvincePage] = useState(1);
 
-    const itemsPerPage = 20;
+    const itemsPerPage = 10;
+    const provincesPerPage = 5;
 
     useEffect(() => {
-        User.getProvinces().then((provinces) => {
+        if (!session) return;
+        User.adminGetProvinces(session.jwtApiToken, session.user.role).then((provinces) => {
+            console.log(provinces);
             setProvinces(provinces);
         });
         User.getLocations().then((locations) => {
             setLocations(locations);
         });
-    }, []);
+    }, [session]);
 
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
     };
 
-    const filteredLocations = locations.filter((location) =>
+    const filteredLocations = locations ? locations.filter((location) =>
         location.name.toLowerCase().includes(search.toLowerCase())
-    );
+    ) : [];
 
-    const currentLocations = filteredLocations.slice(
+    const currentLocations = filteredLocations?.slice(
         (locationPage - 1) * itemsPerPage,
         locationPage * itemsPerPage
     );
 
-    const currentProvinces = provinces.slice(
-        (provincePage - 1) * itemsPerPage,
-        provincePage * itemsPerPage
-    );
+    const currentProvinces = provinces ? provinces.slice(
+        (provincePage - 1) * provincesPerPage,
+        provincePage * provincesPerPage
+    ) : [];
 
     const totalLocationPages = Math.ceil(filteredLocations?.length / itemsPerPage);
-    const totalProvincePages = Math.ceil(provinces?.length / itemsPerPage);
+    const totalProvincePages = Math.ceil(provinces?.length / provincesPerPage);
 
     return (
         <div className="p-6 bg-slate-700 text-white">
@@ -74,14 +80,16 @@ export default function LocationsManager() {
                         <tr key={province._id}>
                             <td className="px-4 py-2 border-b text-center">{province.cod}</td>
                             <td className="px-4 py-2 border-b text-center">{province.name}</td>
-                            <td className="px-4 py-2 border-b text-center">{province.active ? "Active" : "Inactive"}</td>
+                            <td className="px-4 py-2 border-b text-center items-center">{province.active ?
+                                <span className="flex gap-1 justify-center"> <Circle className="animate-pulse" color="lightgreen" fill="green" /> Active</span> :
+                                <span className="flex gap-1 justify-center"> <Circle color="darkred" fill="darkred" />Inactive</span>}</td>
                             <td className="px-4 py-2 border-b flex justify-center">
                                 <div className="w-full flex min-w-80 space-x-2 justify-center">
                                     <ConfirmButton
                                         click={() => console.log("Activate/Deactivate Province", province._id)}
                                         text={province.active ? "Deactivate" : "Activate"}
                                         finalText={province.active ? "Confirm Deactivation" : "Confirm Activation"}
-                                        bgColor="bg-red-500"
+                                        bgColor={province.active ? "bg-red-500" : "bg-green-500"}
                                     />
                                 </div>
                             </td>
@@ -92,7 +100,7 @@ export default function LocationsManager() {
             <div className="flex justify-center mb-6">
                 <button
                     onClick={() => setProvincePage((prev) => Math.max(prev - 1, 1))}
-                    className="px-4 py-2 mx-1 bg-slate-700 text-white rounded-md"
+                    className={"px-4 py-2 mx-1 bg-slate-400 text-white rounded-md" + (provincePage === 1 ? " disabled:opacity-50" : "")}
                     disabled={provincePage === 1}
                 >
                     Previous
@@ -100,7 +108,7 @@ export default function LocationsManager() {
                 <span className="px-4 py-2 mx-1">Page {provincePage} of {totalProvincePages}</span>
                 <button
                     onClick={() => setProvincePage((prev) => Math.min(prev + 1, totalProvincePages))}
-                    className="px-4 py-2 mx-1 bg-slate-700 text-white rounded-md"
+                    className={"px-4 py-2 mx-1 bg-slate-400 text-white rounded-md" + (provincePage === totalProvincePages ? " disabled:opacity-50" : "")}
                     disabled={provincePage === totalProvincePages}
                 >
                     Next
@@ -143,7 +151,7 @@ export default function LocationsManager() {
             <div className="flex justify-center mt-6">
                 <button
                     onClick={() => setLocationPage((prev) => Math.max(prev - 1, 1))}
-                    className="px-4 py-2 mx-1 bg-gray-300 rounded-md"
+                    className={"px-4 py-2 mx-1 bg-slate-400 rounded-md" + (locationPage === 1 ? " disabled:opacity-50" : "")}
                     disabled={locationPage === 1}
                 >
                     Previous
@@ -151,7 +159,7 @@ export default function LocationsManager() {
                 <span className="px-4 py-2 mx-1">Page {locationPage} of {totalLocationPages}</span>
                 <button
                     onClick={() => setLocationPage((prev) => Math.min(prev + 1, totalLocationPages))}
-                    className="px-4 py-2 mx-1 bg-gray-300 rounded-md"
+                    className={"px-4 py-2 mx-1 bg-slate-400 rounded-md" + (locationPage === totalLocationPages ? " disabled:opacity-50" : "")}
                     disabled={locationPage === totalLocationPages}
                 >
                     Next
