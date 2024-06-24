@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function Sponsors() {
     return (
         <div className="flex flex-col items-center justify-center p-2 mt-4">
-            <h1 className="text-4xl text-center font-bold text-slate-100 drop-shadow-md">Nuestros Patrocinadores</h1>
+            <h2 className="text-4xl text-center font-bold text-slate-100 drop-shadow-md">Nuestros Patrocinadores</h2>
             <div className="flex flex-wrap justify-center items-center gap-12 pt-4">
                 {SPONSORS.map((sponsor, index) => (
                     <Link key={index} href={sponsor.link} target="_blank" rel="noreferrer">

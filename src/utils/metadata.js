@@ -6,7 +6,7 @@ export const defaultMetadata = {
     separator: " | ",
     openGraph: {
         description: "PetSearch es una aplicación para encontrar tu mascota ideal",
-        image: "/images/thumbnail.webp",
+        image: "https://firebasestorage.googleapis.com/v0/b/petsearch-e0abe.appspot.com/o/thumbnail%20(4).webp?alt=media&token=2bf6c32f-2355-4cf9-b5e1-804f6cc133d1",
         title: "PetSearch",
     },
     twitter: {
@@ -15,7 +15,7 @@ export const defaultMetadata = {
         creator: "@PetSearch",
         title: "PetSearch",
         description: "PetSearch es una aplicación para encontrar tu mascota ideal",
-        image: "/images/thumbnail.webp",
+        image: "https://firebasestorage.googleapis.com/v0/b/petsearch-e0abe.appspot.com/o/thumbnail%20(4).webp?alt=media&token=2bf6c32f-2355-4cf9-b5e1-804f6cc133d1",
     }
 };
 

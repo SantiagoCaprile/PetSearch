@@ -15,7 +15,7 @@ export default async function HomePage() {
       <div className="flex flex-col flex-1 items-center justify-end bg-[url('../../public/images/dog.webp')] bg-cover md:bg-center bg-right min-h-[550px] text-white">
         <div className="flex flex-col justify-start">
           <div className="text-3xl text-center md:text-8xl md:text-left font-[meows] font-medium z-10">
-            <p>Somos PetSearch</p>
+            <h1>Somos PetSearch</h1>
             <p>Tenemos un amigo para vos</p>
           </div>
           <div>
