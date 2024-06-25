@@ -20,7 +20,7 @@ export default function HelpMap() {
             window.localStorage.getItem("location")
                 && (locations ? locations.location : window.localStorage.getItem("location"))
             setMap(true)
-            HelpFormClass.getHelpFormByCity(locations.location.name)
+            HelpFormClass.getHelpFormByCity(locations.location.location?.name)
                 .then((data) => {
                     setLostAndFoundPets(data)
                 })
@@ -34,14 +34,15 @@ export default function HelpMap() {
     const handleSetCity = (e) => {
         setMap(false)
         setCity(locations.location.location) //redux slice.location object.city
-        HelpFormClass.getHelpFormByCity(locations.location)
-            .then((data) => {
-                setLostAndFoundPets(data)
-            })
-            .catch((err) => {
-                console.log(err)
-            }
-            )
+        city &&
+            HelpFormClass.getHelpFormByCity(city.name)
+                .then((data) => {
+                    setLostAndFoundPets(data)
+                })
+                .catch((err) => {
+                    console.log(err)
+                }
+                )
         setTimeout(() => {
             setMap(true)
         }, 200)
