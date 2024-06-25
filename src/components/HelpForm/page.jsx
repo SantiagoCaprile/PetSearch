@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Map from "@/components/Map";
-import LOCATIONS from "@utils/ar.json";
 import { MapPin, Save } from "lucide-react"
 import { Dog, TriangleAlert } from "lucide-react";
 import Image from "next/image";
@@ -10,10 +9,11 @@ import HelpFormClass from "@/classes/HelpForm";
 import { useSession } from "next-auth/react";
 import { toast } from 'react-hot-toast';
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 import { convertImageToBase64 } from "@/utils/imgFunctions";
 
-
 export default function HelpForm() {
+    const locationSelector = useSelector(state => state.location);
     const [map, setMap] = useState(false);
     const [location, setLocation] = useState({});
     const [image, setImage] = useState([]);
@@ -35,13 +35,8 @@ export default function HelpForm() {
     }
 
     useEffect(() => {
-        if (typeof window !== "undefined") {
-            window.localStorage.getItem("location")
-                && setLocation(LOCATIONS.find(city => city.city == JSON.parse(window.localStorage.getItem("location")).name))
-            document.getElementById("localidad").value = LOCATIONS.findIndex(city => city.city == JSON.parse(window.localStorage.getItem("location")).name)
-            setMap(true)
-        }
-    }, [])
+        updateMap();
+    }, [locationSelector.location.location?.name])
 
     const onSubmit = async (data) => {
         if (location.lat === undefined || location.lng === undefined) {
@@ -53,7 +48,7 @@ export default function HelpForm() {
             location: {
                 lat: location.lat,
                 lng: location.lng,
-                city: LOCATIONS[getValues("localidad")].city,
+                city: locationSelector.location.location?.name,
             },
             image: file ? await convertImageToBase64(file) : null,
             user: session.user._id,
@@ -73,15 +68,12 @@ export default function HelpForm() {
 
     const updateMap = (e = null) => {
         setMap(false);
-        if (e) {
+        const city = locationSelector.location.location;
+
+        if (city) {
             setLocation({
-                lat: LOCATIONS[e.target.value].lat,
-                lng: LOCATIONS[e.target.value].lng,
-            });
-        } else {
-            setLocation({
-                lat: LOCATIONS[getValues("localidad")].lat,
-                lng: LOCATIONS[getValues("localidad")].lng,
+                lat: city.lat,
+                lng: city.lng,
             });
         }
         setTimeout(() => {
@@ -99,7 +91,7 @@ export default function HelpForm() {
                 return false;
             }
             //if the difference between the selected location and the city is greater than 0.2, alert the user
-            if ((Math.abs(position.coords.latitude) - Math.abs(LOCATIONS[getValues("localidad")].lat)) > 0.2 || (Math.abs(position.coords.longitude) - Math.abs(LOCATIONS[getValues("localidad")].lng)) > 0.2) {
+            if ((Math.abs(position.coords.latitude) - Math.abs(locationSelector.location.location?.lat)) > 0.2 || (Math.abs(position.coords.longitude) - Math.abs(locationSelector.location.location.lng)) > 0.2) {
                 // toast.dismiss(toastId);
                 toast.error("Parece que no se encuentra en la localidad seleccionada. Favor verifique", {
                     icon: <TriangleAlert size={32} color="red" />
@@ -228,50 +220,19 @@ export default function HelpForm() {
                             <label htmlFor="localidad" className={styles.label}>
                                 Localidad *
                             </label>
-                            <select
-                                name="localidad"
-                                id="localidad"
-                                className={
-                                    styles.inputs + (errors.localidad && styles.inputError)
-                                }
-                                {...register("localidad", {
-                                    required: {
-                                        value: true,
-                                        message: "Localidad es requerida",
-                                    },
-                                })}
-                                onChange={(e) => {
-                                    e.preventDefault();
-                                    updateMap(e);
-                                }}
-                            >
-                                {
-                                    LOCATIONS &&
-                                    Object.values(LOCATIONS).map((city, index) => (
-                                        <option key={index} value={index}>
-                                            {city.city}
-                                        </option>
-                                    ))
-                                }
-                            </select>
+                            <p className="text-sm text-gray-500 mt-2">
+                                Actualmente seleccionada: <b>{locationSelector.location.location?.name}</b>
+                                <br />
+                                Este anuncio se guardará en la localidad seleccionada en la barra superior
+                            </p>
                         </fieldset>
                         <span className={styles.errors}>
                             {errors.localidad && errors.localidad.message}
                         </span>
                         <p className="text-sm text-pretty text-gray-500">
-                            {"->"} Seleccione la localidad para visualizar en el mapa
-                            y arrastre el marcador para ajustar la ubicación
+                            {"->"} Si la localidad es correcta puede usar Mi Ubicación para obtenerla automáticamente
                         </p>
                     </div>
-                    <button
-                        className={styles.button}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            updateMap();
-                        }}
-                    >
-                        1- Cambiar <MapPin size={24} />
-                    </button>
                     <button
                         className={styles.button}
                         onClick={(e) => {
@@ -279,7 +240,7 @@ export default function HelpForm() {
                             getLocation();
                         }}
                     >
-                        2- Mi Ubicación <MapPin size={24} />
+                        Mi Ubicación <MapPin size={24} />
                     </button>
                     <button className={styles.button} type="submit">
                         Guardar <Save size={24} />
