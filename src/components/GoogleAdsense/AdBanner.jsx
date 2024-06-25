@@ -2,10 +2,10 @@
 
 import React, { useEffect } from "react";
 
-const AdBanner = ({ dataAdSlot, dataAdFormat, dataFullWidthResponsive, }) => {
+const AdBanner = ({ dataAdSlot, dataAdFormat, dataFullWidthResponsive }) => {
     useEffect(() => {
         try {
-            ((window).adsbygoogle = (window).adsbygoogle || []).push({});
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
         } catch (error) {
             console.log(error.message);
         }
@@ -13,7 +13,7 @@ const AdBanner = ({ dataAdSlot, dataAdFormat, dataFullWidthResponsive, }) => {
 
     return (
         <ins
-            className="adsbygoogle"
+            className="adsbygoogle bg-white"
             style={{ display: "block" }}
             data-ad-client="ca-pub-9956234514200358"
             data-ad-slot={dataAdSlot}

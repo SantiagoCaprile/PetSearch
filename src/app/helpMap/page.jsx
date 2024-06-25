@@ -8,6 +8,7 @@ import { formatDateToDDMMYYYY } from "@/utils/dateFunctions";
 import { useSelector } from "react-redux";
 import Metadata from "@/components/Metadata/page";
 import { defaultMetadata } from "@/utils/metadata";
+import AdBanner from "@/components/GoogleAdsense/AdBanner";
 
 export default function HelpMap() {
     const locations = useSelector((state) => state.location);
@@ -46,24 +47,31 @@ export default function HelpMap() {
     };
 
     return (
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col md:flex-row justify-center items-center">
             <Metadata {...metadata} />
-            <div className="flex justify-around items-center my-2 gap-2">
-                <p className="text-sm text-wrap text-gray-500 ">
-                    Si perdiste o encontraste un animalito, puedes publicar un anuncio
-                    <br />
-                    (Selecciona tu ciudad arriba)
-                </p>
-                <Link href="/helpMap/create" className="flex gap-1 text-nowrap bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                    Crear Anuncio
-                    <PlusSquare />
-                </Link>
+            <div className="md:w-1/6 bg-gray-100 p-4 md:block hidden">
+                <AdBanner
+                    dataAdSlot="6430493933"
+                    dataAdFormat="auto"
+                    dataFullWidthResponsive={true}
+                />
             </div>
-            <div className="md:w-2/3 md:h-[600px] h-svh w-full rounded-md overflow-hidden">
+            <div className="md:w-2/3 md:h-[600px] w-full rounded-md overflow-hidden" style={{ height: "80svh" }}>
+                <div className="flex justify-around items-center my-2 gap-2">
+                    <p className="text-sm text-gray-500 ">
+                        Si perdiste o encontraste un animalito, puedes publicar un anuncio
+                        <br />
+                        (Selecciona tu ciudad arriba)
+                    </p>
+                    <Link href="/helpMap/create" className="flex gap-1 text-nowrap bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                        Crear Anuncio
+                        <PlusSquare />
+                    </Link>
+                </div>
                 {city && city.lat && map ? (
                     <Map
                         center={[city.lat, city.lng]}
-                        zoom={city.admin == "CABA" ? 15 : 13}
+                        zoom={city.admin === "CABA" ? 15 : 13}
                     >
                         {({ TileLayer, Marker, Popup }) => (
                             <>
@@ -103,6 +111,13 @@ export default function HelpMap() {
                         </div>
                     )
                 )}
+            </div>
+            <div className="md:w-1/6 bg-gray-100 p-4 md:block hidden">
+                <AdBanner
+                    dataAdSlot="6430493933"
+                    dataAdFormat="auto"
+                    dataFullWidthResponsive={true}
+                />
             </div>
         </div>
     );

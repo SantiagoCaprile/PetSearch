@@ -5,6 +5,7 @@ import { Store, MapPinned, PersonStanding } from "lucide-react";
 import FunnyButton from "@/components/FunnyButtom/page";
 import Sponsors from "@/components/Sponsors/page";
 import Metadata from "@/components/Metadata/page";
+import AdBanner from "@/components/GoogleAdsense/AdBanner";
 import { defaultMetadata } from "@/utils/metadata";
 
 export default async function HomePage() {
@@ -51,6 +52,13 @@ export default async function HomePage() {
       </div>
       <div className="flex flex-col items-center justify-center pt-1 pb-2 px-5 from-transparent to-green-900 bg-gradient-to-t md:min-h-80 min-h-[300px]">
         <PetsRandom />
+        <div className="md:w-full bg-gray-100 p-4 md:block hidden mt-2">
+          <AdBanner
+            dataAdSlot="6430493933"
+            dataAdFormat="auto"
+            dataFullWidthResponsive={true}
+          />
+        </div>
         <Sponsors />
       </div>
     </div>
