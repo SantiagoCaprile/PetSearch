@@ -43,6 +43,18 @@ export default async function sitemap() {
             changeFrequency: 'yearly',
             priority: 0.2,
         },
+        {
+            url: baseUrl + '/faq/PrivacyPolicy',
+            lastModified: new Date(),
+            changeFrequency: 'yearly',
+            priority: 0.2,
+        },
+        {
+            url: baseUrl + '/faq/TermsOfService',
+            lastModified: new Date(),
+            changeFrequency: 'yearly',
+            priority: 0.2,
+        },
         ...petsUrl
     ]
 }
