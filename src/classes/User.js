@@ -264,28 +264,31 @@ class User {
         }
     }
 
-    static async adminPutActivateProvince(token, role, provinceId) {
-        try {
-            const response = await fetch(`${User.#URL_ADMIN}/provinces/${provinceId}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "x-api-key": process.env.API_KEY,
-                    authorization: `Bearer ${token}`,
-                    "role": role,
-                },
-            });
+    static async adminPutActivateProvince(token, role, provinceId, newStatus) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const response = await fetch(`${User.#URL_ADMIN}/provinces/${provinceId}/activate`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-api-key": process.env.API_KEY,
+                        authorization: `Bearer ${token}`,
+                        "role": role,
+                    },
+                    body: JSON.stringify({ active: newStatus }),
+                });
 
-            if (response.ok) {
-                return true;
-            } else {
-                console.log("Failed to activate province");
-                return false;
+                if (response.ok) {
+                    resolve(response);
+                } else {
+                    throw new Error("Failed to activate province");
+                }
+            } catch (error) {
+                console.error("An error occurred:", error);
+                reject(error);
             }
-        } catch (error) {
-            console.error("An error occurred:", error);
-            return false;
         }
+        );
     }
 
     static async adminPutEditLocation(token, role, location) {
@@ -311,6 +314,33 @@ class User {
             console.error("An error occurred:", error);
             return false;
         }
+    }
+
+    static adminPutActivateLocation(token, role, locationId, newStatus) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const response = await fetch(`${User.#URL_ADMIN}/locations/${locationId}/activate`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-api-key": process.env.API_KEY,
+                        authorization: `Bearer ${token}`,
+                        "role": role,
+                    },
+                    body: JSON.stringify({ active: newStatus }),
+                });
+
+                if (response.ok) {
+                    resolve(response);
+                } else {
+                    console.log("Failed to activate location");
+                    reject(response);
+                }
+            } catch (error) {
+                reject(error);
+                console.error("An error occurred:", error);
+            }
+        });
     }
 }
 

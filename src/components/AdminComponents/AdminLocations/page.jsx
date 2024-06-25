@@ -46,6 +46,35 @@ export default function LocationsManager() {
         provincePage * provincesPerPage
     );
 
+    const handleActivateDeactivate = (id, IsProvince, newStatus) => {
+        if (IsProvince) {
+            const promise = User.adminPutActivateProvince(session.jwtApiToken, session.user.role, id, newStatus)
+            promise.then((res) => {
+                if (res.ok) {
+                    setProvinces((prev) => {
+                        const updatedProvinces = prev.map((province) =>
+                            province._id === id ? { ...province, active: newStatus } : province
+                        );
+                        return updatedProvinces;
+                    });
+                }
+            });
+
+        } else {
+            const promise = User.adminPutActivateLocation(session.jwtApiToken, session.user.role, id, newStatus);
+            promise.then((res) => {
+                if (res.ok) {
+                    setLocations((prev) => {
+                        const updatedLocations = prev.map((location) =>
+                            location._id === id ? { ...location, active: newStatus } : location
+                        );
+                        return updatedLocations;
+                    });
+                }
+            });
+        }
+    };
+
     const totalLocationPages = Math.ceil(filteredLocations?.length / itemsPerPage);
     const totalProvincePages = Math.ceil(provinces?.length / provincesPerPage);
 
@@ -82,7 +111,7 @@ export default function LocationsManager() {
                             <td className="px-4 py-2 border-b flex justify-center">
                                 <div className="w-full flex min-w-80 space-x-2 justify-center">
                                     <ConfirmButton
-                                        click={() => console.log("Activate/Deactivate Province", province._id)}
+                                        click={() => handleActivateDeactivate(province._id, true, !province.active)}
                                         text={province.active ? "Deactivate" : "Activate"}
                                         finalText={province.active ? "Confirm Deactivation" : "Confirm Activation"}
                                         bgColor={province.active ? "bg-red-500" : "bg-green-500"}
@@ -137,7 +166,7 @@ export default function LocationsManager() {
                                         Edit
                                     </button>
                                     <ConfirmButton
-                                        click={() => console.log("Activate/Deactivate Location", location._id)}
+                                        click={() => handleActivateDeactivate(location._id, false, !location.active)}
                                         text={location.active ? "Deactivate" : "Activate"}
                                         finalText={location.active ? "Confirm Deactivation" : "Confirm Activation"}
                                         bgColor="bg-red-500"
