@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import User from "@/classes/User";
 import ConfirmButton from "@/components/ConfirmButton/page";
-import AddProvinceForm from "./addProvinceForm";
-import AddLocationForm from "./addLocationForm";
+import ProvinceForm from "./addProvinceForm";
+import LocationForm from "./addLocationForm";
 import { useSession } from "next-auth/react";
 import { Circle } from "lucide-react";
 
@@ -13,6 +13,7 @@ export default function LocationsManager() {
     const [search, setSearch] = useState("");
     const [locationPage, setLocationPage] = useState(1);
     const [provincePage, setProvincePage] = useState(1);
+    const [editLocation, setEditLocation] = useState(null);
 
     const itemsPerPage = 10;
     const provincesPerPage = 5;
@@ -31,19 +32,19 @@ export default function LocationsManager() {
         setSearch(e.target.value);
     };
 
-    const filteredLocations = locations ? locations.filter((location) =>
+    const filteredLocations = locations?.filter((location) =>
         location.name.toLowerCase().includes(search.toLowerCase())
-    ) : [];
+    );
 
     const currentLocations = filteredLocations?.slice(
         (locationPage - 1) * itemsPerPage,
         locationPage * itemsPerPage
     );
 
-    const currentProvinces = provinces ? provinces.slice(
+    const currentProvinces = provinces?.slice(
         (provincePage - 1) * provincesPerPage,
         provincePage * provincesPerPage
-    ) : [];
+    );
 
     const totalLocationPages = Math.ceil(filteredLocations?.length / itemsPerPage);
     const totalProvincePages = Math.ceil(provinces?.length / provincesPerPage);
@@ -71,7 +72,7 @@ export default function LocationsManager() {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentProvinces.map((province) => (
+                    {currentProvinces?.map((province) => (
                         <tr key={province._id}>
                             <td className="px-4 py-2 border-b text-center">{province.cod}</td>
                             <td className="px-4 py-2 border-b text-center">{province.name}</td>
@@ -120,22 +121,21 @@ export default function LocationsManager() {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentLocations.map((location) => (
+                    {currentLocations?.map((location) => (
                         <tr key={location._id}>
                             <td className="px-4 py-2 border-b text-center">{location.admin}</td>
                             <td className="px-4 py-2 border-b text-center">{location.name}</td>
                             <td className="px-4 py-2 border-b text-center items-center">{location.active ?
                                 <span className="flex gap-1 justify-center"> <Circle className="animate-pulse" color="lightgreen" fill="green" /> Active</span> :
                                 <span className="flex gap-1 justify-center"> <Circle color="darkred" fill="darkred" />Inactive</span>}</td>
-
                             <td className="px-4 py-2 border-b flex justify-center">
                                 <div className="w-full min-w-80 flex space-x-2 justify-center">
-                                    <ConfirmButton
-                                        click={() => console.log("Edit Location", location._id)}
-                                        text="Edit"
-                                        finalText="Confirm Edit"
-                                        bgColor="bg-yellow-500"
-                                    />
+                                    <button
+                                        onClick={() => setEditLocation(location)}
+                                        className="px-4 py-2 bg-yellow-500 text-white rounded-md cursor-pointer"
+                                    >
+                                        Edit
+                                    </button>
                                     <ConfirmButton
                                         click={() => console.log("Activate/Deactivate Location", location._id)}
                                         text={location.active ? "Deactivate" : "Activate"}
@@ -165,9 +165,16 @@ export default function LocationsManager() {
                     Next
                 </button>
             </div>
-            <div className="flex w-1/2 gap-x-2 mt-4">
-                <AddProvinceForm />
-                <AddLocationForm />
+            <div className="grid grid-cols-2 w-1/2 gap-x-2 mt-4 mx-auto justify-items-center">
+                <p className="col-span-2 text-slate-200 text-sm">Para visualizar los cambios puede que necesite refrescar</p>
+                <ProvinceForm />
+                <LocationForm session={session} provinces={provinces} editLocation={editLocation} />
+                <button onClick={() => { }} className="px-4 py-2 bg-red-500 text-white rounded-md cursor-pointer hover:translate-y-1">
+                    Reset Province Form
+                </button>
+                <button onClick={() => setEditLocation(null)} className="px-4 py-2 bg-red-500 text-white rounded-md cursor-pointer hover:translate-y-1">
+                    Reset Location Form
+                </button>
             </div>
         </div>
     );

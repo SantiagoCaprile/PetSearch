@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function AddProvinceForm({ color = "bg-slate-100 text-black" }) {
+export default function ProvinceForm({ color = "bg-slate-100 text-black" }) {
     const [name, setName] = useState("");
     const [cod, setCod] = useState("");
 
