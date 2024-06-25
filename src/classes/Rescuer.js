@@ -74,6 +74,26 @@ class Rescuer {
             return null;
         }
     }
+
+    static async getMetrics() {
+        try {
+            const response = await fetch(`${Rescuer.#URL}-metrics`, {
+                headers: {
+                    "x-api-key": process.env.API_KEY,
+                },
+            });
+            if (response.ok) {
+                const metrics = await response.json();
+                return metrics;
+            } else {
+                console.log("Failed to get metrics");
+                return null;
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+            return null;
+        }
+    }
 }
 
 export default Rescuer;

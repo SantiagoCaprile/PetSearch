@@ -8,6 +8,7 @@ import { Edit, Save, XCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { convertImageToBase64 } from "@/utils/imgFunctions";
 import { toast } from "react-hot-toast"
+import Metrics from "@/components/Metrics/page";
 
 export default function RescuerPublicProfile({ params }) {
     const { data: session } = useSession();
@@ -210,6 +211,7 @@ export default function RescuerPublicProfile({ params }) {
                     </p>
                 </div>
             </div>
+            <Metrics />
         </div>
     );
 }
