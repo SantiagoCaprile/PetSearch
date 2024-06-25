@@ -1,4 +1,13 @@
-// now we make the optimization of the image on the backend
+/**
+ * Converts a batch of image files to base64
+ * @async 
+ * @param {File[]} files - The image files to convert
+ * @returns {Promise<string[]>} - The images as base64 strings
+ * 
+ * @example
+ * const files = document.querySelector('input[type="file"]').files;
+ * convertBatchImagesToBase64(files)
+ */
 export async function convertBatchImagesToBase64(files) {
     const base64Images = await Promise.all(files.map(file => {
         return new Promise((resolve, reject) => {
@@ -11,6 +20,16 @@ export async function convertBatchImagesToBase64(files) {
     return base64Images;
 }
 
+
+/**
+ * Converts an image file to base64 and optimizes it
+ * @param {File} file - The image file to convert
+ * @returns {Promise<string>} - The optimized image as a base64 string
+ * 
+ * @example
+ * const file = document.querySelector('input[type="file"]').files[0];
+ * convertImageToBase64(file)
+ */
 export function convertImageToBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
