@@ -56,7 +56,7 @@ export default function HelpMap() {
                     dataFullWidthResponsive={true}
                 />
             </div>
-            <div className="md:w-2/3 md:h-[600px] w-full rounded-md overflow-hidden" style={{ height: "80svh" }}>
+            <div className="md:w-2/3 md:h-[600px] w-full rounded-md" style={{ height: "80svh" }}>
                 <div className="flex justify-around items-center my-2 gap-2">
                     <p className="text-sm text-gray-500 ">
                         Si perdiste o encontraste un animalito, puedes publicar un anuncio
