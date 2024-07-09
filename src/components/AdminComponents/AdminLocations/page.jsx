@@ -81,6 +81,13 @@ export default function LocationsManager() {
     return (
         <div className="p-6 bg-slate-700 text-white">
             <h1 className="text-2xl font-bold mb-4">Manage Locations</h1>
+            {
+                provinces && locations &&
+                <div className="flex justify-around">
+                    <p className="font-bold text-lg text-green-500"> Active Provinces: {provinces.map((province) => province.active).filter((active) => active).length}/{provinces.length} </p>
+                    <p className="font-bold text-lg text-green-500"> Active Locations: {locations.filter((location) => location.active).length}/{locations.length} </p>
+                </div>
+            }
             <div className="mb-4">
                 <input
                     type="text"
