@@ -45,6 +45,15 @@ export default function AdminUsersPage() {
     return (
         <div className="flex flex-1 flex-col p-6 bg-slate-700 text-white">
             <h1 className="text-2xl font-bold mb-4">Manage Users</h1>
+            {
+                usersOriginal &&
+                <div className="flex justify-around">
+                    <p className="font-bold text-lg text-green-500"> Admins: {usersOriginal.filter((user) => user.role === "admin").length}</p>
+                    <p className="font-bold text-lg text-green-500"> Users: {usersOriginal.filter((user) => user.role === "user").length}</p>
+                    <p className="font-bold text-lg text-green-500"> Rescuers: {usersOriginal.filter((user) => user.role === "rescuer").length}</p>
+                    <p className="font-bold text-lg text-green-500"> Total: {usersOriginal.length}</p>
+                </div>
+            }
             <div className="flex gap-2 py-2 text-black">
                 <input
                     type="text"
