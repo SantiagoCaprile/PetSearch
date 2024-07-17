@@ -121,7 +121,7 @@ export default function AdminTagsComponent() {
                                 </button>
                             </td>
                             <td className="border px-4 py-2">
-                                <input type="checkbox" name="selectedTags" value={tag._id}
+                                <input type="checkbox" name="selectedTags" className="size-6" value={tag._id}
                                     onChange={(e) => {
                                         if (e.target.checked) {
                                             setSelectedTags([...selectedTags, tag._id]);
