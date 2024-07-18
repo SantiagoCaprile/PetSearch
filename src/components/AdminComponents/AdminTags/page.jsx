@@ -159,7 +159,7 @@ export default function AdminTagsComponent() {
             <button className="bg-blue-500 text-white font-semibold rounded-md p-2 hover:bg-slate-600 transition-all duration-200"
                 onClick={handleGetBatchOfQR}
             >
-                Generate PDF with the QR of the selected tags
+                Download ZIP with the QR of the selected tags
             </button>
         </div>
     );
