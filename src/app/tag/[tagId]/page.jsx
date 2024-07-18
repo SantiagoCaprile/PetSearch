@@ -159,6 +159,8 @@ function TagComponent({ tagId, session, tagData: tag, newTag, refetch }) {
                             style={{ objectFit: "cover" }}
                         />
                     }
+                    {!editMode && !tag.image &&
+                        <Cat size={48} color="white" />}
                 </div>
                 <input type="file" id="image" className="hidden" {...register("image")} accept="image/*"
                     onChange={handleImageChange}
@@ -247,7 +249,7 @@ function TagComponent({ tagId, session, tagData: tag, newTag, refetch }) {
                 <label className="font-semibold">
                     Responsable
                 </label>
-                <p>{tag.user.name}</p>
+                <p>{tag.user?.name || session.user.name}</p>
                 <label htmlFor="ownerPhone" className="font-semibold">
                     Teléfono
                 </label>
