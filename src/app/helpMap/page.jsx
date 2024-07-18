@@ -92,7 +92,7 @@ export default function HelpMap() {
                                             shadowSize: [20, 30],
                                         })}
                                     >
-                                        <Popup>
+                                        <Popup maxWidth={400}>
                                             <PopupData pet={pet} />
                                         </Popup>
                                     </Marker>
@@ -119,7 +119,7 @@ export default function HelpMap() {
                     dataFullWidthResponsive={true}
                 />
             </div>
-        </div>
+        </div >
     );
 }
 
@@ -133,10 +133,10 @@ function PopupData({ pet }) {
     };
 
     return (
-        <div className={"w-36 flex-col items-center justify-center max-h-80 overflow-scroll"}>
+        <div className={"w-44 flex-col items-center justify-center"}>
             <Image src={pet.image} alt="dog" className="aspect-square object-cover overflow-hidden rounded-md" width={200} height={200} />
             <div className={"text-center rounded-lg " + (pet.type === HelpFormClass.TYPE.LOST ? " bg-red-200" : "bg-green-100")}>
-                <p>
+                <p onClick={handleShowMore}>
                     <b className="text-lg">{pet.type === HelpFormClass.TYPE.LOST ? "Perdido " : "Encontrado "}</b>
                     <br />
                     {formatDateToDDMMYYYY(pet.date)}
