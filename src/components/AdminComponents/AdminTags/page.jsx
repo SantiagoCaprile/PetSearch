@@ -1,4 +1,3 @@
-//tags component
 import React, { useState, useEffect } from "react";
 import Tag from "@classes/Tag";
 import { useSession } from "next-auth/react";
@@ -35,6 +34,7 @@ export default function AdminTagsComponent() {
         }
         const qrCode = await QRCode.toDataURL(`https://www.petsearch.com.ar/tag/${data.tagId}`);
         setQrCode(qrCode);
+        triggerRefetch(false);
     }
 
     //this function will get the selected tags and download a zip file with the qr codes of the selected tags
@@ -65,16 +65,24 @@ export default function AdminTagsComponent() {
             });
     }
 
-    const triggerRefetch = () => {
-        const toastid = toast.loading("Refetching tags...");
-        const fetchTags = async () => {
-            const data = await Tag.getTagsList();
-            setTags(data);
-            toast.success("Tags refetched!");
-        };
-        fetchTags().then(() => {
-            toast.dismiss(toastid);
-        });
+    const triggerRefetch = (showToast = true) => {
+        if (showToast) {
+            const toastid = toast.loading("Refetching tags...");
+            const fetchTags = async () => {
+                const data = await Tag.getTagsList();
+                setTags(data);
+                toast.success("Tags refetched!");
+            };
+            fetchTags().then(() => {
+                toast.dismiss(toastid);
+            });
+        } else {
+            const fetchTags = async () => {
+                const data = await Tag.getTagsList();
+                setTags(data);
+            };
+            fetchTags();
+        }
     }
 
     return (
@@ -108,7 +116,6 @@ export default function AdminTagsComponent() {
                     </button>
                 </div>
                 <div className="flex flex-col gap-2">
-                    <h3 className="text-xl font-semibold">QR Code</h3>
                     <img src={qrCode} />
                 </div>
             </div>
