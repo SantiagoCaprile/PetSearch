@@ -106,4 +106,15 @@ export default class Tag {
         }
     }
 
+    static getUserTags = async (userId) => {
+        try {
+            const response = await fetch(`${Tag.#URL}/user/${userId}`);
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error en getUserTags:", error);
+            return { error: error.message };
+        }
+    }
+
 }
