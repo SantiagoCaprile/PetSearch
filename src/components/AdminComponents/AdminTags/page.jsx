@@ -3,8 +3,9 @@ import React, { useState, useEffect } from "react";
 import Tag from "@classes/Tag";
 import { useSession } from "next-auth/react";
 import QRCode from 'qrcode';
-import { Circle, QrCode } from "lucide-react";
+import { Circle, QrCode, RefreshCcw } from "lucide-react";
 import JSZip from "jszip";
+import toast from "react-hot-toast";
 
 //this component will show an indicator of -> active tags/tags number
 //also will have a button to create a new tag
@@ -64,6 +65,17 @@ export default function AdminTagsComponent() {
             });
     }
 
+    const triggerRefetch = () => {
+        const toastid = toast.loading("Refetching tags...");
+        const fetchTags = async () => {
+            const data = await Tag.getTagsList();
+            setTags(data);
+            toast.success("Tags refetched!");
+        };
+        fetchTags().then(() => {
+            toast.dismiss(toastid);
+        });
+    }
 
     return (
         <div className="flex flex-col gap-4 items-center">
@@ -80,10 +92,19 @@ export default function AdminTagsComponent() {
                 <div className="flex flex-col gap-2">
                     <h3 className="text-xl font-semibold">Total Tags</h3>
                     <p>{tags.length}</p>
-                    <button className="bg-blue-500 text-white font-semibold rounded-md p-2 hover:bg-slate-600 transition-all duration-200"
+                </div>
+                <div className="flex flex-col gap-2">
+                    <button className="bg-blue-400 text-white font-semibold rounded-md p-2 hover:bg-slate-600 transition-all duration-200"
                         onClick={handleCreateTag}
                     >
                         Create Tag and generate QR Code
+                    </button>
+
+                    <button className="text-center bg-blue-500 text-white font-semibold rounded-md p-2 hover:bg-slate-600 transition-all duration-200"
+                        onClick={triggerRefetch}
+                    >
+                        Refrescar
+                        <RefreshCcw size={24} className="inline ml-2" />
                     </button>
                 </div>
                 <div className="flex flex-col gap-2">
@@ -106,8 +127,8 @@ export default function AdminTagsComponent() {
                         <tr key={index}>
                             <td className="border px-4 py-2">{index}</td>
                             <td className="border px-4 py-2">{tag._id}</td>
-                            <td className="border px-4 py-2">{tag.registered ?
-                                <div className="flex gap-2 justify-center"><Circle size={24} color="green" /> Yes</div> :
+                            <td className="border px-4 py-2">{tag.user ?
+                                <div className="flex gap-2 justify-center"><Circle size={24} color="green" fill="green" className="animate-pulse" /> Yes</div> :
                                 <div className="flex gap-2 justify-center"><Circle size={24} color="red" /> No</div>
                             }</td>
                             <td className="border px-4 py-2">
