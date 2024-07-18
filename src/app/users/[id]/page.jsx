@@ -2,9 +2,12 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import User from "@/classes/User";
+import Tag from "@/classes/Tag";
 import userImage from "@public/images/userProfile.svg";
 import { useSession } from "next-auth/react";
 import { Edit, Save, XCircle } from "lucide-react";
+import { Dog, Cat, TagIcon } from "lucide-react";
+import Link from "next/link";
 
 export default function UserPublicProfile({ params }) {
     const { data: session } = useSession();
@@ -125,7 +128,47 @@ export default function UserPublicProfile({ params }) {
                         }
                     </p>
                 </div>
+                <MyTags userId={user?._id} />
             </div>
+        </div>
+    );
+}
+
+
+function MyTags({ userId }) {
+    const [tags, setTags] = useState([]);
+    useEffect(() => {
+        Tag.getUserTags(userId)
+            .then((res) => {
+                if (res.error) {
+                    throw new Error(res.error);
+                }
+                setTags(res);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [userId]);
+    if (!tags) {
+        return <div>Loading...</div>;
+    }
+    return (
+        <div>
+            <h2 className="font-bold">Mis tags</h2>
+            <p className="text-opacity-80 text-sm">Podrás modificarlos ingresando en cada uno</p>
+            <div className="flex flex-wrap gap-2 mt-2">
+                {tags && tags.length !== 0 && tags.map((tag) => (
+                    <a key={tag._id} className="text-white flex items-center gap-2 p-4 rounded-sm bg-green-500 hover:bg-green-600 active:bg-green-700"
+                        href={`/tag/${tag._id}`}
+                    >
+                        {tag.specie === "dog" ? <Dog size={24} />
+                            : tag.specie === "cat" ? <Cat size={24} />
+                                : tag.specie === "tag" && <TagIcon size={24} />}
+                        {tag.name}
+                    </a>
+                ))}
+            </div>
+            <p className="mt-2">Conseguí nuevos tags a traves de nuestras redes sociales y conocé mas como funcionan haciendo <Link href={"/faq"} className="text-blue-500">clic aquí</Link></p>
         </div>
     );
 }

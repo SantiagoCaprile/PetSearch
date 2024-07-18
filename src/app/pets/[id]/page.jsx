@@ -11,6 +11,7 @@ import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Adoption from "@classes/Adoption";
+import Image from "next/image";
 
 import {
   addPet,
@@ -90,10 +91,15 @@ export default function PetProfile({ params }) {
       <div className="flex flex-col md:flex-row border-b border-black pb-2 items-center">
         <div className="w-full md:w-3/5">
           <div className="relative square-image-wrapper">
-            <div className="flex flex-1 items-center">
-              <Carousel slides={pet.images} options={{
-                "loop": true,
-              }} />
+            <div className="flex flex-1 items-center justify-center">
+              {
+                pet.images.length === 0 ?
+                  <Image src="/images/pet.svg" alt="Imagen Mascota" width={300} height={300} />
+                  :
+                  <Carousel slides={pet.images} options={{
+                    "loop": true,
+                  }} />
+              }
             </div>
           </div>
         </div>

@@ -11,8 +11,8 @@ const routes = [
         url: "/adminDashboard/locations",
     },
     {
-        name: "Pets",
-        url: "/adminDashboard/pets",
+        name: "Tags",
+        url: "/adminDashboard/tags",
     },
     {
         name: "Users",
