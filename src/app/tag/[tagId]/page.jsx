@@ -4,7 +4,7 @@ import Tag from "@classes/Tag";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { Upload } from "lucide-react";
+import { Cat, Upload } from "lucide-react";
 import Image from "next/image";
 import { convertImageToBase64 } from "@utils/imgFunctions";
 import { Pencil, Unlink } from "lucide-react";
@@ -30,21 +30,17 @@ export default function TagPage({ params }) {
                 return;
             }
             setTagData(data);
-            console.log(data);
         };
         fetchTag();
     }, []);
 
-    const triggerRefetch = () => {
-        const fetchTag = async () => {
-            const data = await Tag.getTagData(tagId);
-            if (data.error) {
-                console.error(data.error);
-                return;
-            }
-            setTagData(data);
-        };
-        fetchTag();
+    const triggerRefetch = async () => {
+        const data = await Tag.getTagData(tagId);
+        if (data.error) {
+            console.error(data.error);
+            return;
+        }
+        setTagData(data);
     }
 
     return (
@@ -95,7 +91,6 @@ function TagComponent({ tagId, session, tagData: tag, newTag, refetch }) {
     const [image, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
     const [editMode, setEditMode] = useState(newTag);
-    const router = useRouter();
 
     const onSubmit = async (data) => {
         const tagData = {
@@ -109,8 +104,12 @@ function TagComponent({ tagId, session, tagData: tag, newTag, refetch }) {
             console.error(response.error);
             return;
         }
-        refetch();
-        setEditMode(false);
+        if (response.updateCount) {
+            refetch();
+            setPreview(null);
+            setImage(null);
+            setEditMode(false);
+        }
     }
 
     async function handleImageChange(e) {
@@ -134,10 +133,10 @@ function TagComponent({ tagId, session, tagData: tag, newTag, refetch }) {
     return (
         <div className="flex flex-col items-center gap-2 pb-2">
             <form className="grid grid-cols-2 md:grid-cols-2 gap-y-4 gap-x-2 px-2 items-center p-2">
-                <label htmlFor="image" className="text-white font-semibold">
-                    <div className="w-[150px] h-[150px] bg-slate-500 rounded-md flex justify-center items-center cursor-pointer">
-                        {
-                            preview ? <Image
+                <div className="w-[150px] h-[150px] bg-slate-500 rounded-md flex justify-center items-center">
+                    {editMode &&
+                        <label htmlFor="image" className="text-white font-semibold cursor-pointer flex flex-1 h-full w-full justify-center items-center">
+                            {preview ? <Image
                                 src={preview || ""}
                                 alt={"pet image"}
                                 width={200}
@@ -146,13 +145,24 @@ function TagComponent({ tagId, session, tagData: tag, newTag, refetch }) {
                                 style={{ objectFit: "cover" }}
                             />
                                 :
-                                <Upload size={48} />
-                        }
-                    </div>
-                    <input type="file" id="image" className="hidden" {...register("image")} accept="image/*"
-                        onChange={handleImageChange}
-                    />
-                </label>
+                                <Upload size={48} />}
+                        </label>
+                    }
+                    {!editMode &&
+                        tag.image && <Image
+                            src={tag.image || ""}
+                            alt={"pet image"}
+                            width={200}
+                            height={200}
+                            priority={true}
+                            className="rounded-lg aspect-square "
+                            style={{ objectFit: "cover" }}
+                        />
+                    }
+                </div>
+                <input type="file" id="image" className="hidden" {...register("image")} accept="image/*"
+                    onChange={handleImageChange}
+                />
                 {
                     editMode ?
                         <div className="flex flex-col">
@@ -286,22 +296,23 @@ function TagComponent({ tagId, session, tagData: tag, newTag, refetch }) {
                     Guardar tag
                 </button>
             }
-            <button
-                className="bg-blue-500 text-white font-semibold rounded-full p-4 hover:bg-slate-600 transition-all duration-200"
-                onClick={() => setEditMode(!editMode)}
-                aria-label={editMode ? "Cancelar edición" : "Editar tag"}
-            >
-                <Pencil className="inline-block" size={24} />
-            </button>
-            {
-                tag.user &&
-                <button
-                    className="bg-red-500 text-white font-semibold rounded-full p-4 hover:bg-slate-600 transition-all duration-200"
-                    onClick={handleUnlink}
-                    aria-label="Desvincular tag"
-                >
-                    <Unlink className="inline-block" size={24} />
-                </button>
+            {session && tag.user && session.user && tag.user._id === session.user._id &&
+                <>
+                    <button
+                        className="bg-blue-500 text-white font-semibold rounded-full p-4 hover:bg-slate-600 transition-all duration-200"
+                        onClick={() => setEditMode(!editMode)}
+                        aria-label={editMode ? "Cancelar edición" : "Editar tag"}
+                    >
+                        <Pencil className="inline-block" size={24} />
+                    </button>
+                    <button
+                        className="bg-red-500 text-white font-semibold rounded-full p-4 hover:bg-slate-600 transition-all duration-200"
+                        onClick={handleUnlink}
+                        aria-label="Desvincular tag"
+                    >
+                        <Unlink className="inline-block" size={24} />
+                    </button>
+                </>
             }
         </div>
     );
