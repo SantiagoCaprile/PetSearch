@@ -193,7 +193,7 @@ function TagComponent({ tagId, session, tagData: tag, newTag, refetch }) {
                             defaultValue={tag.weight}
                         />
                         :
-                        <p>{tag.weight} kg</p>
+                        <p>{tag.weight ? tag.weight + " kg" : "No registrado"}</p>
                 }
                 <label htmlFor="breed" className="font-semibold">
                     Raza
@@ -234,6 +234,35 @@ function TagComponent({ tagId, session, tagData: tag, newTag, refetch }) {
                         :
                         <p>{tag.sterilized ? "Si" : "No"}</p>
                 }
+                <label className="font-semibold">
+                    Responsable
+                </label>
+                <p>{tag.user.name}</p>
+                <label htmlFor="ownerPhone" className="font-semibold">
+                    Teléfono
+                </label>
+                {
+                    editMode ?
+                        <input type="text" {...register("ownerPhone")}
+                            className="rounded-md p-2"
+                            defaultValue={tag.ownerPhone}
+                        />
+                        :
+                        <p>{tag.ownerPhone}</p>
+                }
+                <label htmlFor="address" className="font-semibold">
+                    Dirección
+                </label>
+                {
+                    editMode ?
+                        <input type="text" {...register("address")}
+                            className="rounded-md p-2"
+                            defaultValue={tag.address}
+                        />
+                        :
+                        <p>{tag.address}</p>
+                }
+
                 <label htmlFor="description" className="font-semibold">
                     Descripción
                 </label>
