@@ -4,7 +4,7 @@ export default class Tag {
     //una ruta para ver si el tag esta registrado (todos) [GET]
     static isRegistered = async (tagId) => {
         try {
-            const response = await fetch(`${Tag.#URL}/${tagId}`);
+            const response = await fetch(`${Tag.#URL}/check/${tagId}`);
             const data = await response.json();
             return data;
         } catch (error) {
@@ -29,15 +29,15 @@ export default class Tag {
     }
 
     // //una ruta para registrar un usuario a un tag (debe estar loggueado) [PUT]
-    static linkUserToTag = async (token, role, tagId, userId) => {
-        const response = await fetch(`${Tag.#URL}/${tagId}`, {
+    static linkUserToTag = async (token, role, tagData, userId) => {
+        const response = await fetch(`${Tag.#URL}/${tagData._id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
                 "role": role,
             },
-            body: JSON.stringify({ userId }),
+            body: JSON.stringify({ userId: userId, data: tagData }),
         });
         const data = await response.json();
         return data;
@@ -58,7 +58,7 @@ export default class Tag {
     // //una ruta para editar la data de la mascota (solo user) [PUT]
     static editTagData = async (token, role, tagId, data) => {
         try {
-            const response = await fetch(`${Tag.#URL}/${tagId}`, {
+            const response = await fetch(`${Tag.#URL}/edit/${tagId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -78,7 +78,7 @@ export default class Tag {
     // //una ruta para desvincular el tag de la mascota. (solo user) [PUT]
     static unlinkUserToTag = async (token, role, tagId) => {
         try {
-            const response = await fetch(`${Tag.#URL}/${tagId}`, {
+            const response = await fetch(`${Tag.#URL}/unlink/${tagId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -88,7 +88,7 @@ export default class Tag {
                 body: JSON.stringify({ userId: null }),
             });
             const data = await response.json();
-            res.json(data);
+            return data;
         } catch (error) {
             console.error("Error en unlinkUserToTag:", error);
             return { error: error.message };
