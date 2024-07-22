@@ -27,6 +27,9 @@ export default function TagPage({ params }) {
             const data = await Tag.getTagData(tagId);
             if (data.error) {
                 console.error(data.error);
+                if (data.error) {
+                    router.push("/not-found");
+                }
                 return;
             }
             setTagData(data);

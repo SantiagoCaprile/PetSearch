@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Tag from "@classes/Tag";
 import { useSession } from "next-auth/react";
 import QRCode from 'qrcode';
-import { Circle, QrCode, RefreshCcw } from "lucide-react";
+import { Circle, QrCode, RefreshCcw, Link } from "lucide-react";
 import JSZip from "jszip";
 import toast from "react-hot-toast";
 
@@ -146,6 +146,13 @@ export default function AdminTagsComponent() {
                                     }}
                                 >
                                     <QrCode size={24} />
+                                </button>
+                                <button className="ml-1 bg-blue-500 text-white font-semibold rounded-md p-2 hover:bg-slate-600 transition-all duration-200"
+                                    onClick={() => {
+                                        window.open(`https://www.petsearch.com.ar/tag/${tag._id}`);
+                                    }}
+                                >
+                                    <Link size={24} />
                                 </button>
                             </td>
                             <td className="border px-4 py-2">
