@@ -44,7 +44,7 @@ export default function AdminTagsComponent() {
         }
         const qrCodes = [];
         for (const tagId of selectedTags) {
-            const qrCode = await QRCode.toDataURL(`https://www.petseearch.com.ar/tag/${tagId}`);
+            const qrCode = await QRCode.toDataURL(`https://www.petsearch.com.ar/tag/${tagId}`);
             qrCodes.push(qrCode);
         }
 
