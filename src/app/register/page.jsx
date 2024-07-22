@@ -133,7 +133,7 @@ const Register = () => {
             id="email"
             type="email"
             name="email"
-            placeholder="eg. pet@gmail.com"
+            placeholder="ej. pet@gmail.com"
             onChange={handleFieldChange}
             value={formData.email}
           />
@@ -151,7 +151,7 @@ const Register = () => {
             type="text"
             name="name"
             placeholder={
-              isCreatingUser() ? "eg. Juan Pérez" : "eg. Fundación Patitas"
+              isCreatingUser() ? "ej. Juan Pérez" : "ej. Fundación Patitas"
             }
             onChange={handleFieldChange}
             value={formData.name}
