@@ -119,6 +119,54 @@ export default function AdminTagsComponent() {
                     <img src={qrCode} />
                 </div>
             </div>
+            <div className="flex gap-2 justify-center items-center">
+                <label>Select FROM-TO index:</label>
+                <input type="number"
+                    name="fromIndex"
+                    className="p-2 rounded-sm w-12 text-black"
+                    defaultValue={0}
+                    min={0} />
+                <input type="number"
+                    name="toIndex"
+                    className="p-2 rounded-sm w-12 text-black"
+                    defaultValue={tags?.length || 0}
+                    min={0}
+                    max={tags?.length} />
+                <p>Selected tags: {selectedTags.length}</p>
+                <button className="bg-blue-500 text-white font-semibold rounded-md p-2 hover:bg-slate-600 transition-all duration-200"
+                    onClick={() => {
+                        const fromIndex = document.querySelector("input[name=fromIndex]").value;
+                        const toIndex = document.querySelector("input[name=toIndex]").value;
+                        const selected = tags.tags.slice(fromIndex, toIndex).map((tag) => tag._id);
+                        document.querySelectorAll("input[name=selectedTags]").forEach((input) => {
+                            if (selected.includes(input.value)) {
+                                input.checked = true;
+                            } else {
+                                input.checked = false;
+                            }
+                        });
+                        setSelectedTags(selected);
+                    }
+                    }
+                >
+                    Select range
+                </button>
+                <button className="bg-rose-300 text-white font-semibold rounded-md p-2 hover:bg-slate-600 transition-all duration-200"
+                    onClick={() => {
+                        setSelectedTags([]);
+                        document.querySelectorAll("input[name=selectedTags]").forEach((input) => {
+                            input.checked = false;
+                        });
+                    }}
+                >
+                    Clear selection
+                </button>
+            </div>
+            <button className="bg-blue-500 text-white font-semibold rounded-md p-2 hover:bg-slate-600 transition-all duration-200"
+                onClick={handleGetBatchOfQR}
+            >
+                Download ZIP with the QR of the selected tags
+            </button>
             <table className="table-auto text-center w-1/2">
                 <thead>
                     <tr>
@@ -130,7 +178,7 @@ export default function AdminTagsComponent() {
                     </tr>
                 </thead>
                 <tbody>
-                    {tags.tags.map((tag, index) => (
+                    {tags.tags?.map((tag, index) => (
                         <tr key={index}>
                             <td className="border px-4 py-2">{index}</td>
                             <td className="border px-4 py-2">{tag._id}</td>
@@ -170,11 +218,6 @@ export default function AdminTagsComponent() {
                     ))}
                 </tbody>
             </table>
-            <button className="bg-blue-500 text-white font-semibold rounded-md p-2 hover:bg-slate-600 transition-all duration-200"
-                onClick={handleGetBatchOfQR}
-            >
-                Download ZIP with the QR of the selected tags
-            </button>
         </div>
     );
 }
