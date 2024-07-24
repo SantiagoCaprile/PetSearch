@@ -1,5 +1,5 @@
 "use client";
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 import faqs from "@utils/faq";
 import Metadata from "@/components/Metadata/page";
 import { defaultMetadata } from "@/utils/metadata";
@@ -29,7 +29,19 @@ export default function Faq() {
     return (
         <div className="container mx-auto flex flex-col justify-center items-center">
             <Metadata {...metadata} />
-            <h1 className="text-4xl font-bold text-center my-8">Preguntas Frecuentes</h1>
+            <h1 className="text-4xl font-bold text-center my-8">
+                PetSearch y el Marketing Sustentable
+            </h1>
+            <iframe
+                className="bg-black p-1 rounded-sm w-full h-[280px] md:w-[780px] md:h-[450px]"
+                src="https://www.youtube.com/embed/OdxBDAq9kwU?si=9ezNSMqxYZCa8LUX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen="true"
+            >
+            </iframe>
+
+
+            <h2 className="text-4xl font-bold text-center my-8">Preguntas Frecuentes</h2>
             <div className="grid grid-cols-1 md:w-[800px]">
                 {faqs.map((faq, index) => {
                     const isFaqSelected = index === selectedFaq;
