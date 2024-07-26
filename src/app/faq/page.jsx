@@ -30,7 +30,7 @@ export default function Faq() {
         <div className="container mx-auto flex flex-col justify-center items-center">
             <Metadata {...metadata} />
             <h1 className="text-4xl font-bold text-center my-8">
-                PetSearch y el Marketing Sustentable
+                PetSearch y la responsabilidad social
             </h1>
             <iframe
                 className="bg-black p-1 rounded-sm w-full h-[280px] md:w-[780px] md:h-[450px]"

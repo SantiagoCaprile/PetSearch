@@ -1,26 +1,34 @@
 [
     {
         "Q": "¿Quienes somos?",
-        "A": "Somos PetSearch, una plataforma que busca ayudar a los animales sin hogar a encontrar una familia que los quiera y cuide. Desde la ciudad de Buenos Aires, Argentina, trabajamos para que cada animalito tenga una oportunidad de ser feliz."
+        "A": "Somos PetSearch, una empresa comprometida con el bienestar animal. Vendemos placas para Creamos una plataforma que busca ayudar a los animales sin hogar a encontrar una familia que los quiera y cuide. Desde la ciudad de Rosario, Argentina, trabajamos para que cada animalito tenga una oportunidad de ser feliz."
     },
     {
-        "Q": "¿Debo pagar algo por adoptar?",
-        "A": "No, la adopción es gratuita. Solo debes cumplir con los requisitos que te solicita el rescatista y estar dispuesto a darle una oportunidad a un animalito que necesita un hogar."
+        "Q": "¿Que son las placas inteligentes?",
+        "A": "Las placas inteligentes son un producto que desarrollamos para ayudar a los animales a volver a casa en caso de que se pierdan. Son placas que se colocan en el collar de tu mascota y que contienen un código QR que al ser escaneado por un celular, muestra tus datos de contacto para que puedan comunicarse contigo y devolverte a tu mascota. Además, posee un sistema de localización GPS pasiva, ficha médica y muchas funciones más. Todo en un solo lugar sin costo de mantenimiento."
     },
     {
         "Q": "¿Como funciona la plataforma?",
-        "A": "Es muy sencillo. Solo debes registrarte, buscar el animalito que te roba el corazón y contactar al rescatista para coordinar una visita. Si todo sale bien, el rescatista se pondrá en contacto con vos y podrás llevarte a tu nuevo amigo a casa."
+        "A": "Es muy sencillo. Solo debes registrarte, buscar el animalito que te roba el corazón y completar la solicitud de adopción. El rescatista a cargo la evaluará y si está de acuerdo se pondrá en contacto con vos para coordinar los detalles finales y que puedas llevarte a tu nuevo amigo a casa."
+    },
+    {
+        "Q": "¿Que es Pet GPS?",
+        "A": "Pet GPS es una sección de la plataforma que permite a todos los usuarios reportar animales perdidos o encontrados. De esta forma, si perdiste a tu mascota, podrás publicarla y si encontraste a un animalito, podrás hacer lo mismo. Así, todos podremos ayudar a que los animales perdidos vuelvan a casa."
+    },
+    {
+        "Q": "¿Debo pagar algo por adoptar?",
+        "A": "No, la adopción es gratuita. Solo debes cumplir con los requisitos que te solicita el rescatista y estar dispuesto a darle una oportunidad a un animalito que necesita un hogar. Quizás debas pagar una pequeña suma por la castración o vacunación del animalito al inicio, pero eso ya depende de cada rescatista."
     },
     {
         "Q": "¿Debo crearme una cuenta para adoptar?",
-        "A": "Sí, es necesario que te registres para poder adoptar. De esta forma, podras hacer un seguimiento de tu solicitud de adopción, contactar a los rescatistas y coordinar una visita para conocer a tu nuevo amigo."
+        "A": "Sí, es necesario que te registres para poder adoptar. De esta forma, podras hacer un seguimiento de tu solicitud de adopción, contactar a los rescatistas y coordinar los detalles para adoptar a tu nueva mascota."
     },
     {
         "Q": "¿Como puedo ayudar?",
-        "A": "Adoptando, donando, siendo voluntario, difundiendo, siendo padrino o madrina, entre otras cosas. Siempre hay algo que puedes hacer, no importa cuánto tiempo o dinero tengas."
+        "A": "Adoptando, donando, siendo voluntario, difundiendo, siendo padrino o madrina, entre otras cosas. Siempre hay algo que puedes hacer, no importa cuánto tiempo o dinero tengas. Podes hacerlo a través de nuestra plataforma o contactando directamente a los rescatistas."
     },
     {
         "Q": "Soy rescatista, ¿Debo pagar algo por adoptar?",
-        "A": "No, la plataforma está pensada para apoyar la labor de todos los rescatistas, para que puedan tener un espacio en cual visibilizar a sus animalitos y poder ayudarlos"
+        "A": "No, la plataforma está pensada para apoyar la labor de todos los rescatistas, para que puedan tener un espacio en cual visibilizar a sus animalitos y así poder ayudarlos"
     }
 ]
