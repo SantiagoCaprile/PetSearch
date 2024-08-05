@@ -59,7 +59,6 @@ export default async function HomePage() {
             dataFullWidthResponsive={true}
           />
         </div>
-        <Sponsors />
       </div>
     </div>
   );
