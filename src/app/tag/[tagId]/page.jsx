@@ -292,7 +292,12 @@ function TagComponent({ tagId, session, tagData: tag, newTag, refetch }) {
                         <p className="col-span-2 row-span-4">{tag.description}</p>
                 }
             </form>
-            <HealthHistory tagId={tagId} healthHistory={tag.healthHistory} triggerRefetch={refetch} />
+            <HealthHistory
+                tagId={tagId}
+                healthHistory={tag.healthHistory}
+                triggerRefetch={refetch}
+                owner={tag.user?._id === session?.user?._id}
+            />
             {
                 editMode &&
                 <button

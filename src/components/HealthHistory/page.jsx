@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Tag from '@/classes/Tag';
 import toast from 'react-hot-toast';
 
-const HealthHistory = ({ tagId, healthHistory, triggerRefetch }) => {
+const HealthHistory = ({ tagId, healthHistory, triggerRefetch, owner }) => {
     const [showForm, setShowForm] = useState(false);
     const [newEntry, setNewEntry] = useState({
         medicine: '',
-        dateApplied: '',
+        dateApplied: new Date().toISOString().split('T')[0],
         details: '',
         nextApplication: ''
     });
@@ -21,7 +21,7 @@ const HealthHistory = ({ tagId, healthHistory, triggerRefetch }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        Tag.addHistoryEntry(tagId, newEntry).then((data) => {
+        Tag.addHistoryEntry(tagId, newEntry).then(() => {
             setNewEntry({
                 medicine: '',
                 dateApplied: '',
@@ -36,17 +36,17 @@ const HealthHistory = ({ tagId, healthHistory, triggerRefetch }) => {
     };
 
     return (
-        <div className='p-4'>
-            <div className='flex justify-between pb-2'>
+        <div className='p-2'>
+            <div className='flex justify-between pb-2 gap-2'>
                 <h2 className='font-bold'>Ficha Veterinaria</h2>
-                {
+                {owner && (
                     showForm
                         ? <button onClick={() => setShowForm(false)} className='bg-red-500 text-white rounded-md p-1'>Ocultar formulario</button>
                         : <button onClick={() => setShowForm(true)} className='bg-green-500 text-white rounded-md p-1'>Agregar nuevo registro</button>
-                }
+                )}
             </div>
             {showForm &&
-                <form onSubmit={handleSubmit} className='flex flex-col gap-2'>
+                <form onSubmit={handleSubmit} className='flex flex-col gap-2 mb-4'>
                     <fieldset className={styles.fieldset}>
                         <label htmlFor="medicine">
                             Medicación
@@ -57,7 +57,7 @@ const HealthHistory = ({ tagId, healthHistory, triggerRefetch }) => {
                             name="medicine"
                             value={newEntry.medicine}
                             onChange={handleChange}
-                            placeholder="Medicine"
+                            placeholder="ej. Triple felina"
                         />
                     </fieldset>
                     <fieldset className={styles.fieldset}>
@@ -70,7 +70,7 @@ const HealthHistory = ({ tagId, healthHistory, triggerRefetch }) => {
                             name="details"
                             value={newEntry.details}
                             onChange={handleChange}
-                            placeholder="Details"
+                            placeholder="ej. motivo de la visita"
                         />
                     </fieldset>
                     <fieldset className={styles.fieldset}>
@@ -100,10 +100,12 @@ const HealthHistory = ({ tagId, healthHistory, triggerRefetch }) => {
                     <button type="submit" className='bg-blue-500 text-white rounded-md p-1'>Agregar</button>
                 </form>
             }
-            <p className='text-sm text-gray-500'>
-                Puede borrarlos haciendo clic en la fila
-            </p>
-            <table className='table-auto w-full text-center'>
+            {owner &&
+                <p className='text-sm text-gray-500'>
+                    Puede borrarlos haciendo clic en la fila
+                </p>
+            }
+            <table className='table-auto w-full text-center mt-2'>
                 <thead className='bg-gray-200'>
                     <tr>
                         <th>Fecha</th>
@@ -116,6 +118,7 @@ const HealthHistory = ({ tagId, healthHistory, triggerRefetch }) => {
                         healthHistory.map((entry, index) => (
                             <tr key={index} className='border-b border-gray-300 text-sm active:bg-gray-200'
                                 onClick={() => {
+                                    if (!owner) return;
                                     toast.dismiss()
                                     toast((t) => (
                                         <div>
