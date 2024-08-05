@@ -9,6 +9,7 @@ import Image from "next/image";
 import { convertImageToBase64 } from "@utils/imgFunctions";
 import { Pencil, Unlink } from "lucide-react";
 import { formatDateToDDMMYYYY } from "@utils/dateFunctions";
+import HealthHistory from "@components/HealthHistory/page";
 
 
 export default function TagPage({ params }) {
@@ -291,6 +292,7 @@ function TagComponent({ tagId, session, tagData: tag, newTag, refetch }) {
                         <p className="col-span-2 row-span-4">{tag.description}</p>
                 }
             </form>
+            <HealthHistory tagId={tagId} healthHistory={tag.healthHistory} triggerRefetch={refetch} />
             {
                 editMode &&
                 <button

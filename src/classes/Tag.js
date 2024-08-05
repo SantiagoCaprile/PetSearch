@@ -117,4 +117,33 @@ export default class Tag {
         }
     }
 
+    static addHistoryEntry = async (tagId, newEntry) => {
+        try {
+            const response = await fetch(`${Tag.#URL}/${tagId}/healthHistory`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newEntry),
+            });
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error en addHistoryEntry:", error);
+            return { error: error.message };
+        }
+    }
+
+    static deleteHistoryEntry = async (tagId, entryId) => {
+        try {
+            const response = await fetch(`${Tag.#URL}/${tagId}/healthHistory/${entryId}`, {
+                method: "DELETE",
+            });
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error en deleteHistoryEntry:", error);
+            return { error: error.message };
+        }
+    }
 }
